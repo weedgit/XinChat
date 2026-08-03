@@ -9,7 +9,6 @@ import { copyTextToClipboard } from "@/lib/clipboard";
 import { useLocale } from "@/lib/locale";
 import { useMe } from "@/lib/MeContext";
 import { useNavShell } from "@/lib/navShell";
-import { useTheme } from "@/lib/theme";
 import { useDesktopIdleStatus } from "@/lib/useDesktopIdleStatus";
 import { unregisterWebPush } from "@/lib/webPush";
 
@@ -32,8 +31,6 @@ function NavIcon({ d }: { d: string }) {
 }
 
 const ICONS = {
-  messages:
-    "M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8v.5z",
   profile:
     "M4 5h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z M9 12a2 2 0 1 0 0-4 2 2 0 0 0 0 4z M5.5 16.5c.6-1.6 1.9-2.5 3.5-2.5s2.9.9 3.5 2.5 M15 10h4 M15 14h3",
   user: "M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z",
@@ -41,9 +38,6 @@ const ICONS = {
     "M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z M23 21v-2a4 4 0 0 0-3-3.9 M16 3.1a4 4 0 0 1 0 7.8",
   settings:
     "M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 5 15.4a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z",
-  theme: "M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z",
-  themeSun:
-    "M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10z M12 1v2 M12 21v2 M4.22 4.22l1.42 1.42 M18.36 18.36l1.42 1.42 M1 12h2 M21 12h2 M4.22 19.78l1.42-1.42 M18.36 5.64l1.42-1.42",
   language:
     "M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z M2 12h20 M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10A15.3 15.3 0 0 1 12 2z",
   status:
@@ -55,7 +49,6 @@ const ICONS = {
 };
 
 const MAIN_LINKS = [
-  { href: "/", labelKey: "nav.messages" as const, icon: ICONS.messages, match: (p: string) => p === "/" },
   { href: "/profile", labelKey: "nav.profile" as const, icon: ICONS.profile, match: (p: string) => p.startsWith("/profile") },
   { href: "/friends", labelKey: "menu.contacts" as const, icon: ICONS.user, match: (p: string) => p.startsWith("/friends"), badge: true },
   { href: "/groups", labelKey: "menu.groups" as const, icon: ICONS.users, match: (p: string) => p.startsWith("/groups") },
@@ -84,9 +77,8 @@ export function MenubarShowButton({ className }: { className?: string }) {
 export default function NavSidebar() {
   const pathname = usePathname();
   const router = useRouter();
-  const { t, locale, setLocale, labelLocale, labelTheme } = useLocale();
+  const { t, locale, setLocale, labelLocale } = useLocale();
   const { me, refreshMe } = useMe();
-  const { theme, setTheme } = useTheme();
   const { pendingFriendCount } = useNavShell();
   const [menuCopiedField, setMenuCopiedField] = useState<"username" | "phone" | null>(null);
   const [myStatus, setMyStatus] = useState<"online" | "away" | "dnd" | "offline">("online");
@@ -198,23 +190,6 @@ export default function NavSidebar() {
             </Link>
           );
         })}
-
-        <button
-          type="button"
-          className="app-nav-link app-nav-link-btn"
-          onClick={() => {
-            const order = ["dark", "light", "system"] as const;
-            const i = order.indexOf(theme);
-            setTheme(order[(i + 1) % order.length]);
-          }}
-        >
-          <span className="app-nav-link-icon">
-            <NavIcon d={theme === "light" ? ICONS.themeSun : ICONS.theme} />
-          </span>
-          <span className="app-nav-link-label">
-            {t("menu.theme")}: {labelTheme(theme)}
-          </span>
-        </button>
 
         <button
           type="button"
