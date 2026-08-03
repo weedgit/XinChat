@@ -44,6 +44,7 @@ import {
 } from "@/lib/types";
 import { useTheme } from "@/lib/theme";
 import { useLocale } from "@/lib/locale";
+import { useNavShell } from "@/lib/navShell";
 import {
   localizeChatLabel,
   isDefaultImageCaption,
@@ -1033,6 +1034,7 @@ export default function ChatPageInner() {
       chat.conversations.find((c) => c.id === conversationId)?.avatarUrl,
   });
   const { theme, setTheme } = useTheme();
+  const { navOpen, setNavOpen } = useNavShell();
   const { locale, setLocale, t, labelLocale, labelTheme, resolved } = useLocale();
   const [myStatus, setMyStatus] = useState<"online" | "away" | "dnd" | "offline">("online");
   const { noteManualStatusChange } = useDesktopIdleStatus(myStatus, setMyStatus);
@@ -2855,7 +2857,7 @@ export default function ChatPageInner() {
 
   return (
     <AppShell
-      rail={false}
+      rail
       mobilePane={mobilePane}
       sidebarCollapsed={!narrowLayout && sidebarCollapsed}
     >
@@ -2885,6 +2887,17 @@ export default function ChatPageInner() {
       ) : null}
       <aside className="sidebar">
         <div className="sidebar-header">
+          {!narrowLayout && !navOpen ? (
+            <button
+              type="button"
+              className="icon-btn app-nav-open-btn"
+              title={t("nav.showMenu")}
+              aria-label={t("nav.showMenu")}
+              onClick={() => setNavOpen(true)}
+            >
+              <MenuIcon d={ICONS.forwardChevron} />
+            </button>
+          ) : null}
           <button
             type="button"
             className={`icon-btn ${mainMenuOpen ? "active" : ""}`}

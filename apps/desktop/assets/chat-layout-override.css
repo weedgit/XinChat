@@ -80,6 +80,7 @@
     gap: 16px !important;
     box-sizing: border-box !important;
   }
+  .shell[data-ui="arena"] .app-nav,
   .shell[data-ui="arena"] .sidebar,
   .shell[data-ui="arena"] .chat-pane,
   .shell[data-ui="arena"] .details-panel {
@@ -90,6 +91,10 @@
     box-shadow:
       0 8px 32px rgba(0, 0, 0, 0.35),
       0 0 0 1px rgba(255, 255, 255, 0.04) inset !important;
+  }
+  .shell[data-ui="arena"] .app-nav {
+    background: #001529 !important;
+    border-right: none !important;
   }
   .shell[data-ui="arena"] .sidebar {
     border-right: none !important;
