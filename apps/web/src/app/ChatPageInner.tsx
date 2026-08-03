@@ -715,6 +715,13 @@ function Bubble({
             </button>
           </div>
         )}
+        {!msg.mine && avatarName && (
+          <div className="msg-sender-line">
+            <span className="msg-sender-name">{avatarName}</span>
+            <span className="msg-sender-sep"> • </span>
+            <span className="msg-sender-time">{formatConversationTime(msg.createdAt, resolved)}</span>
+          </div>
+        )}
         <div className={bubbleClass}>
           {!msg.mine && isGroup && msg.senderName && (
             <div className="sender">{msg.senderName}</div>

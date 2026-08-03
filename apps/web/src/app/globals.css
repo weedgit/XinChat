@@ -1309,6 +1309,9 @@ input.search-input:not([type="checkbox"]):not([type="radio"]) {
   align-items: center;
   transition: padding-left 0.15s ease;
 }
+.msg-sender-line {
+  display: none;
+}
 .msg-row.mine {
   /* Normal (narrow): own bubbles on the right — Telegram two-side layout. */
   justify-content: flex-end;
@@ -6211,12 +6214,28 @@ html:has(.dl-page) body {
 .shell[data-ui="arena"] {
   background: linear-gradient(135deg, #581c87 0%, #1e3a8a 48%, #312e81 100%);
   color: #fff;
+  box-sizing: border-box;
+}
+/* Desktop: separated floating glass cards with visible gradient gaps. */
+@media (min-width: 769px) {
+  .shell[data-ui="arena"] {
+    padding: 16px;
+    gap: 16px;
+  }
+  .shell[data-ui="arena"] .sidebar,
+  .shell[data-ui="arena"] .chat-pane,
+  .shell[data-ui="arena"] .details-panel {
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    overflow: hidden;
+    min-height: 0;
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.35),
+      0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+  }
 }
 .shell[data-ui="arena"] .nav-rail {
-  background: rgba(0, 0, 0, 0.35);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  display: none;
 }
 .shell[data-ui="arena"] .nav-item {
   color: rgba(255, 255, 255, 0.75);
@@ -6232,12 +6251,16 @@ html:has(.dl-page) body {
   background: rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  border-right: none;
   color: #fff;
 }
 .shell[data-ui="arena"] .sidebar-header {
   background: transparent;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 16px;
+}
+.shell[data-ui="arena"] .conv-list {
+  padding: 8px;
 }
 .shell[data-ui="arena"] .search-wrap {
   background: rgba(255, 255, 255, 0.08);
@@ -6279,9 +6302,20 @@ html:has(.dl-page) body {
 }
 
 .shell[data-ui="arena"] .chat-pane {
-  background: rgba(0, 0, 0, 0.22);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  flex: 1;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+.shell[data-ui="arena"] .details-panel {
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  min-height: 0;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
 }
 .shell[data-ui="arena"] .chat-header {
   background: rgba(0, 0, 0, 0.25);
@@ -6297,9 +6331,50 @@ html:has(.dl-page) body {
 }
 .shell[data-ui="arena"] .msg-scroll {
   background: transparent;
+  gap: 12px;
 }
 
-.shell[data-ui="arena"] .bubble,
+/* Figma-style chat: others left, yours right (override Telegram wide layout). */
+.shell[data-ui="arena"] .msg-row:not(.mine) {
+  justify-content: flex-start !important;
+}
+.shell[data-ui="arena"] .msg-row.mine {
+  justify-content: flex-end !important;
+}
+.shell[data-ui="arena"] .msg-row.mine .msg-avatar {
+  order: 1 !important;
+}
+.shell[data-ui="arena"] .msg-row.mine .bubble-wrap {
+  align-items: flex-end !important;
+  padding-left: 0 !important;
+  margin-left: 0 !important;
+  padding-right: 0 !important;
+  margin-right: 0 !important;
+  max-width: 80% !important;
+}
+.shell[data-ui="arena"] .msg-row:not(.mine) .bubble-wrap {
+  align-items: flex-start !important;
+  max-width: 80% !important;
+}
+.shell[data-ui="arena"] .msg-avatar {
+  display: none;
+}
+.shell[data-ui="arena"] .msg-sender-line {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 4px;
+  padding-left: 2px;
+}
+.shell[data-ui="arena"] .msg-row.mine .msg-sender-line {
+  display: none;
+}
+.shell[data-ui="arena"] .bubble .sender {
+  display: none;
+}
+
 .shell[data-ui="arena"] .msg-row:not(.mine) .bubble {
   background: rgba(255, 255, 255, 0.1) !important;
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -6368,8 +6443,7 @@ html:has(.dl-page) body {
 
 .shell[data-ui="arena"] .popup-menu,
 .shell[data-ui="arena"] .ctx-menu,
-.shell[data-ui="arena"] .mention-menu,
-.shell[data-ui="arena"] .details-panel {
+.shell[data-ui="arena"] .mention-menu {
   background: rgba(20, 16, 48, 0.92);
   backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.12);
@@ -6390,5 +6464,21 @@ body:has(.auth-wrap) {
   border: 1px solid rgba(255, 255, 255, 0.12) !important;
   border-radius: 16px;
   color: #fff;
+}
+
+/* Arena: mobile — full-bleed panels, hide nav rail (hamburger menu in sidebar). */
+@media (max-width: 768px) {
+  .shell[data-ui="arena"] {
+    padding: 0;
+    gap: 0;
+  }
+  .shell[data-ui="arena"] .nav-rail {
+    display: none;
+  }
+  .shell[data-ui="arena"] .sidebar,
+  .shell[data-ui="arena"] .chat-pane {
+    border-radius: 0;
+    border: none;
+  }
 }
 

@@ -72,3 +72,53 @@
 .shell[data-ui="arena"] .msg-row:not(.mine) .bubble {
   background: rgba(255, 255, 255, 0.1) !important;
 }
+
+/* Arena separated card layout — desktop only. */
+@media (min-width: 769px) {
+  .shell[data-ui="arena"] {
+    padding: 16px !important;
+    gap: 16px !important;
+    box-sizing: border-box !important;
+  }
+  .shell[data-ui="arena"] .sidebar,
+  .shell[data-ui="arena"] .chat-pane,
+  .shell[data-ui="arena"] .details-panel {
+    border-radius: 16px !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    overflow: hidden !important;
+    min-height: 0 !important;
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.35),
+      0 0 0 1px rgba(255, 255, 255, 0.04) inset !important;
+  }
+  .shell[data-ui="arena"] .sidebar {
+    border-right: none !important;
+    background: rgba(0, 0, 0, 0.3) !important;
+    backdrop-filter: blur(14px) !important;
+    -webkit-backdrop-filter: blur(14px) !important;
+  }
+  .shell[data-ui="arena"] .chat-pane {
+    flex: 1 !important;
+    background: rgba(0, 0, 0, 0.3) !important;
+    backdrop-filter: blur(14px) !important;
+    -webkit-backdrop-filter: blur(14px) !important;
+  }
+  .shell[data-ui="arena"] .details-panel {
+    background: rgba(0, 0, 0, 0.3) !important;
+    backdrop-filter: blur(14px) !important;
+    -webkit-backdrop-filter: blur(14px) !important;
+  }
+  /* Figma message alignment in desktop Electron shell. */
+  .shell[data-ui="arena"] .msg-row:not(.mine) {
+    justify-content: flex-start !important;
+  }
+  .shell[data-ui="arena"] .msg-row.mine {
+    justify-content: flex-end !important;
+  }
+  .shell[data-ui="arena"] .msg-row:not(.mine) .bubble {
+    background: rgba(255, 255, 255, 0.1) !important;
+  }
+  .shell[data-ui="arena"] .msg-row.mine .bubble {
+    background: linear-gradient(90deg, #a855f7, #3b82f6) !important;
+  }
+}
