@@ -44,6 +44,7 @@ import {
 } from "@/lib/types";
 import { useTheme } from "@/lib/theme";
 import { useLocale } from "@/lib/locale";
+import { MenubarShowButton } from "@/components/NavSidebar";
 import { useNavShell } from "@/lib/navShell";
 import {
   localizeChatLabel,
@@ -1034,14 +1035,12 @@ export default function ChatPageInner() {
       chat.conversations.find((c) => c.id === conversationId)?.avatarUrl,
   });
   const { theme, setTheme } = useTheme();
-  const { navOpen, setNavOpen } = useNavShell();
+  const { setPendingFriendCount: setNavPendingFriendCount } = useNavShell();
   const { locale, setLocale, t, labelLocale, labelTheme, resolved } = useLocale();
   const [myStatus, setMyStatus] = useState<"online" | "away" | "dnd" | "offline">("online");
   const { noteManualStatusChange } = useDesktopIdleStatus(myStatus, setMyStatus);
   const { openConversation } = chat;
   const router = useRouter();
-  const [mainMenuOpen, setMainMenuOpen] = useState(false);
-  const [menuCopiedField, setMenuCopiedField] = useState<"username" | "phone" | null>(null);
   const [menuScanOpen, setMenuScanOpen] = useState(false);
   const [menuScanBusy, setMenuScanBusy] = useState(false);
   const [menuScanError, setMenuScanError] = useState<string | null>(null);
@@ -1135,6 +1134,9 @@ export default function ChatPageInner() {
   const [groupCallInvite, setGroupCallInvite] = useState<"voice" | "video" | "mid" | null>(null);
   const [groupCallInviteBusy, setGroupCallInviteBusy] = useState(false);
   const [pendingFriendCount, setPendingFriendCount] = useState(0);
+  useEffect(() => {
+    setNavPendingFriendCount(pendingFriendCount);
+  }, [pendingFriendCount, setNavPendingFriendCount]);
   const [friendRequestToast, setFriendRequestToast] = useState<string | null>(null);
   const [muteNowMs, setMuteNowMs] = useState(() => Date.now());
   const [memberMenu, setMemberMenu] = useState<{
@@ -1342,7 +1344,6 @@ export default function ChatPageInner() {
       return;
     }
     setMobileChatOpen(false);
-    setMainMenuOpen(false);
   }
 
   /** Wide only: toggle conversation list. Narrow: back to list (same as web). */
@@ -1389,7 +1390,6 @@ export default function ChatPageInner() {
       setPinsListOpen(false);
       setSelectedIds(new Set());
       setMobileChatOpen(false);
-      setMainMenuOpen(false);
     };
     window.addEventListener("popstate", onPopState);
     return () => window.removeEventListener("popstate", onPopState);
@@ -1848,11 +1848,9 @@ export default function ChatPageInner() {
   }
 
   useEffect(() => {
-    if (!mainMenuOpen && !composeOpen) return;
+    if (!composeOpen) return;
     const close = () => {
-      setMainMenuOpen(false);
       setComposeOpen(false);
-      setMenuCopiedField(null);
     };
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") close();
@@ -1863,19 +1861,7 @@ export default function ChatPageInner() {
       window.removeEventListener("click", close);
       window.removeEventListener("keydown", onKey);
     };
-  }, [mainMenuOpen, composeOpen]);
-
-  function copyMenuField(field: "username" | "phone", value: string) {
-    const text = value.trim();
-    if (!text) return;
-    void copyTextToClipboard(text).then((ok) => {
-      if (!ok) return;
-      setMenuCopiedField(field);
-      window.setTimeout(() => {
-        setMenuCopiedField((cur) => (cur === field ? null : cur));
-      }, 1500);
-    });
-  }
+  }, [composeOpen]);
 
   async function handleMenuScan(raw: string) {
     if (menuScanBusy) return;
@@ -2887,36 +2873,7 @@ export default function ChatPageInner() {
       ) : null}
       <aside className="sidebar">
         <div className="sidebar-header">
-          {!narrowLayout && !navOpen ? (
-            <button
-              type="button"
-              className="icon-btn app-nav-open-btn"
-              title={t("nav.showMenu")}
-              aria-label={t("nav.showMenu")}
-              onClick={() => setNavOpen(true)}
-            >
-              <MenuIcon d={ICONS.forwardChevron} />
-            </button>
-          ) : null}
-          <button
-            type="button"
-            className={`icon-btn ${mainMenuOpen ? "active" : ""}`}
-            title={t("nav.menu")}
-            onClick={(e) => {
-              e.stopPropagation();
-              setComposeOpen(false);
-              setMainMenuOpen((v) => {
-                const next = !v;
-                if (next) void chat.refreshMe();
-                return next;
-              });
-            }}
-          >
-            <MenuIcon d={ICONS.menu} />
-            {pendingFriendCount > 0 ? (
-              <span className="menu-pending-dot" aria-hidden />
-            ) : null}
-          </button>
+          <MenubarShowButton />
           <div className="search-wrap">
             <MenuIcon
               d="M11 5a6 6 0 1 0 0 12 6 6 0 0 0 0-12z M21 21l-4.3-4.3"
@@ -2936,149 +2893,6 @@ export default function ChatPageInner() {
               <span className="spinner" aria-label={t("common.reconnecting")} />
             )}
           </div>
-          {mainMenuOpen && (
-            <div className="popup-menu main-menu" onClick={(e) => e.stopPropagation()}>
-              <div className="main-menu-header">
-                <div className="main-menu-profile">
-                  <Avatar
-                    name={chat.me?.nickname || chat.me?.username || "?"}
-                    url={chat.me?.avatarUrl}
-                    size={72}
-                  />
-                  <span className="main-menu-profile-name">
-                    {chat.me?.nickname || chat.me?.username || t("nav.profile")}
-                  </span>
-                  <div className="main-menu-id-list">
-                    <button
-                      type="button"
-                      className="main-menu-id-row"
-                      title={t("me.copyUsername")}
-                      disabled={!chat.me?.username}
-                      onClick={() => copyMenuField("username", chat.me?.username || "")}
-                    >
-                      <span className="main-menu-id-text">
-                        <span className="main-menu-id-value">
-                          {chat.me?.username ? `@${chat.me.username}` : "—"}
-                        </span>
-                      </span>
-                      <MenuIcon
-                        d={menuCopiedField === "username" ? ICONS.select : ICONS.copy}
-                        className={
-                          menuCopiedField === "username" ? "main-menu-copy-hint is-copied" : "main-menu-copy-hint"
-                        }
-                      />
-                    </button>
-                    <button
-                      type="button"
-                      className="main-menu-id-row"
-                      title={t("me.copyPhone")}
-                      disabled={!chat.me?.phone}
-                      onClick={() => copyMenuField("phone", chat.me?.phone || "")}
-                    >
-                      <span className="main-menu-id-text">
-                        <span className="main-menu-id-value">{chat.me?.phone || "—"}</span>
-                      </span>
-                      <MenuIcon
-                        d={menuCopiedField === "phone" ? ICONS.select : ICONS.copy}
-                        className={
-                          menuCopiedField === "phone" ? "main-menu-copy-hint is-copied" : "main-menu-copy-hint"
-                        }
-                      />
-                    </button>
-                  </div>
-                  <div
-                    className={`main-menu-profile-meta${chat.me?.enterpriseId ? " is-enterprise" : ""}`}
-                  >
-                    {chat.me?.enterpriseId ? (
-                      <>
-                        <MenuIcon d={ICONS.users} className="main-menu-profile-meta-icon" />
-                        <span>
-                          {chat.me.enterpriseName
-                            ? `${t("account.enterprise")} · ${chat.me.enterpriseName}`
-                            : t("account.enterprise")}
-                        </span>
-                      </>
-                    ) : (
-                      t("account.enterprise")
-                    )}
-                  </div>
-                </div>
-              </div>
-              <div className="ctx-sep" />
-              <Link className="ctx-item" href="/profile" onClick={() => setMainMenuOpen(false)}>
-                <MenuIcon d={ICONS.idCard} />
-                {t("nav.profile")}
-              </Link>
-              <Link className="ctx-item" href="/friends" onClick={() => setMainMenuOpen(false)}>
-                <MenuIcon d={ICONS.user} />
-                <span className="ctx-item-label">{t("menu.contacts")}</span>
-                {pendingFriendCount > 0 ? (
-                  <span className="badge ctx-item-badge" title={t("contacts.pendingBadge", { n: pendingFriendCount })}>
-                    {pendingFriendCount > 99 ? "99+" : pendingFriendCount}
-                  </span>
-                ) : null}
-              </Link>
-              <Link className="ctx-item" href="/groups" onClick={() => setMainMenuOpen(false)}>
-                <MenuIcon d={ICONS.users} />
-                {t("menu.groups")}
-              </Link>
-              <Link className="ctx-item" href="/settings" onClick={() => setMainMenuOpen(false)}>
-                <MenuIcon d={ICONS.settings} />
-                {t("menu.settings")}
-              </Link>
-              <button
-                className="ctx-item"
-                onClick={() => {
-                  const order = ["dark", "light", "system"] as const;
-                  const i = order.indexOf(theme);
-                  setTheme(order[(i + 1) % order.length]);
-                }}
-              >
-                <MenuIcon d={theme === "light" ? ICONS.themeSun : ICONS.theme} />
-                {t("menu.theme")}: {labelTheme(theme)}
-              </button>
-              <button
-                className="ctx-item"
-                onClick={() => {
-                  const order = ["en", "zh"] as const;
-                  const i = order.indexOf(locale);
-                  setLocale(order[(i + 1) % order.length]);
-                }}
-              >
-                <MenuIcon d={ICONS.language} />
-                {t("menu.language")}: {labelLocale(locale)}
-              </button>
-              <button
-                className="ctx-item"
-                onClick={() => {
-                  const order = ["online", "away", "dnd", "offline"] as const;
-                  const i = order.indexOf(myStatus);
-                  const next = order[(i + 1) % order.length];
-                  noteManualStatusChange(next);
-                  setMyStatus(next);
-                  api("/v1/me/status", {
-                    method: "PUT",
-                    body: JSON.stringify({ status: next }),
-                  }).catch(() => { });
-                }}
-              >
-                <MenuIcon d={ICONS.status} />
-                {t("status.label")}:{" "}
-                {myStatus === "online"
-                  ? t("status.online")
-                  : myStatus === "away"
-                    ? t("status.away")
-                    : myStatus === "dnd"
-                      ? t("status.dnd")
-                      : t("status.offline")}
-              </button>
-              <div className="ctx-sep" />
-              <button className="ctx-item" onClick={() => { setMainMenuOpen(false); logout(); }}>
-                <MenuIcon d={ICONS.logout} />
-                {t("nav.logOut")}
-              </button>
-            </div>
-          )}
         </div>
         <div className="conv-list">
           {globalSearch.active ? (
@@ -3226,7 +3040,6 @@ export default function ChatPageInner() {
           title={composeOpen ? "Close" : "New message"}
           onClick={(e) => {
             e.stopPropagation();
-            setMainMenuOpen(false);
             setComposeOpen((v) => !v);
           }}
         >

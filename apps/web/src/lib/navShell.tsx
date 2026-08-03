@@ -16,6 +16,8 @@ type NavShellContextValue = {
   navOpen: boolean;
   setNavOpen: (open: boolean) => void;
   toggleNav: () => void;
+  pendingFriendCount: number;
+  setPendingFriendCount: (count: number) => void;
 };
 
 const NavShellContext = createContext<NavShellContextValue | null>(null);
@@ -29,6 +31,7 @@ function readNavOpen(): boolean {
 
 export function NavShellProvider({ children }: { children: ReactNode }) {
   const [navOpen, setNavOpenState] = useState(true);
+  const [pendingFriendCount, setPendingFriendCount] = useState(0);
 
   useEffect(() => {
     setNavOpenState(readNavOpen());
@@ -48,8 +51,8 @@ export function NavShellProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const value = useMemo(
-    () => ({ navOpen, setNavOpen, toggleNav }),
-    [navOpen, setNavOpen, toggleNav]
+    () => ({ navOpen, setNavOpen, toggleNav, pendingFriendCount, setPendingFriendCount }),
+    [navOpen, setNavOpen, toggleNav, pendingFriendCount]
   );
 
   return <NavShellContext.Provider value={value}>{children}</NavShellContext.Provider>;
@@ -62,6 +65,8 @@ export function useNavShell(): NavShellContextValue {
       navOpen: true,
       setNavOpen: () => {},
       toggleNav: () => {},
+      pendingFriendCount: 0,
+      setPendingFriendCount: () => {},
     };
   }
   return ctx;

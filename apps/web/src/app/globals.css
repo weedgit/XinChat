@@ -797,8 +797,8 @@ select:focus {
 
 .app-nav {
   flex: none;
-  width: 220px;
-  min-width: 220px;
+  width: 240px;
+  min-width: 240px;
   background: #001529;
   color: #fff;
   display: flex;
@@ -844,6 +844,56 @@ select:focus {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.app-nav-id-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  padding: 0 4px;
+}
+.app-nav-id-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  padding: 4px 8px;
+  border-radius: 8px;
+  color: #c4b5fd;
+  font-size: 13px;
+  background: transparent;
+}
+.app-nav-id-row:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.06);
+}
+.app-nav-id-row:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+.app-nav-id-value {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.app-nav-profile-meta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #c4b5fd;
+  text-align: center;
+  padding: 0 8px;
+}
+.app-nav-profile-meta.is-enterprise {
+  color: #a78bfa;
+}
+.app-nav-sep {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 8px 10px;
+  flex: none;
+}
 .app-nav-menu {
   display: flex;
   flex-direction: column;
@@ -884,105 +934,34 @@ select:focus {
   flex: none;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding-top: 10px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  gap: 4px;
+  padding: 4px 4px 8px;
 }
-.app-nav-night {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  padding: 8px 10px;
-  color: rgba(255, 255, 255, 0.88);
-  font-size: 14px;
+.app-nav-link-label {
+  flex: 1;
+  min-width: 0;
+  text-align: left;
 }
-.app-nav-night-left {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+.app-nav-link-btn {
+  width: 100%;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
 }
-.app-nav-toggle {
+.app-nav-link-badge {
   flex: none;
-  width: 44px;
-  height: 24px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.2);
+  margin-left: auto;
+}
+.app-nav-logout {
+  color: rgba(255, 255, 255, 0.9);
+}
+.menubar-show-button {
   position: relative;
-  transition: background 0.15s ease;
+  flex: none;
 }
-.app-nav-toggle.on {
-  background: #f5c542;
-}
-.app-nav-toggle-thumb {
-  position: absolute;
-  top: 3px;
-  left: 3px;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: #fff;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
-  transition: transform 0.15s ease;
-}
-.app-nav-toggle.on .app-nav-toggle-thumb {
-  transform: translateX(20px);
-}
-.app-nav-more-btn {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 12px;
-  border-radius: 10px;
-  color: rgba(255, 255, 255, 0.85);
-  font-size: 14px;
-  background: transparent;
-  width: 100%;
-  text-align: left;
-}
-.app-nav-more-btn:hover {
-  background: rgba(255, 255, 255, 0.06);
-}
-.app-nav-more-btn svg {
-  transition: transform 0.15s ease;
-}
-.app-nav-more-btn.open svg {
-  transform: rotate(180deg);
-}
-.app-nav-more-panel {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  padding: 0 4px 4px;
-}
-.app-nav-more-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 9px 12px;
-  border-radius: 8px;
-  color: rgba(255, 255, 255, 0.85);
-  font-size: 14px;
-  background: transparent;
-  width: 100%;
-  text-align: left;
-}
-.app-nav-more-item:hover {
-  background: rgba(255, 255, 255, 0.06);
-}
-.app-nav-collapse {
-  align-self: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: rgba(255, 255, 255, 0.7);
-  margin-top: 4px;
-}
-.app-nav-collapse:hover {
-  background: rgba(255, 255, 255, 0.08);
+.menubar-show-button.active {
+  background: rgba(255, 255, 255, 0.1);
   color: #fff;
 }
 .app-nav-open-btn {

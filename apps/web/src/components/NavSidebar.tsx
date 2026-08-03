@@ -5,17 +5,19 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import Avatar from "@/components/Avatar";
 import { api, clearToken } from "@/lib/api";
+import { copyTextToClipboard } from "@/lib/clipboard";
 import { useLocale } from "@/lib/locale";
 import { useMe } from "@/lib/MeContext";
 import { useNavShell } from "@/lib/navShell";
 import { useTheme } from "@/lib/theme";
+import { useDesktopIdleStatus } from "@/lib/useDesktopIdleStatus";
 import { unregisterWebPush } from "@/lib/webPush";
 
 function NavIcon({ d }: { d: string }) {
   return (
     <svg
-      width="20"
-      height="20"
+      width="18"
+      height="18"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -32,45 +34,79 @@ function NavIcon({ d }: { d: string }) {
 const ICONS = {
   messages:
     "M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8v.5z",
-  groups:
-    "M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z M2 12h20 M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z",
-  contacts:
-    "M4 5h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z M9 12a2 2 0 1 0 0-4 2 2 0 0 0 0 4z M5.5 16.5c.6-1.6 1.9-2.5 3.5-2.5s2.9.9 3.5 2.5 M15 10h4 M15 14h3",
-  calls:
-    "M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.6A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.6a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6.1 6.1l1.5-1.2a2 2 0 0 1 2.1-.5c.8.3 1.7.5 2.6.6A2 2 0 0 1 22 16.9z",
-  settings:
-    "M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1v-9.5z M9 21v-6h6v6",
-  moon: "M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z",
-  chevronDown: "M6 9l6 6 6-6",
-  chevronLeft: "M15 18l-6-6 6-6",
   profile:
-    "M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z",
+    "M4 5h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z M9 12a2 2 0 1 0 0-4 2 2 0 0 0 0 4z M5.5 16.5c.6-1.6 1.9-2.5 3.5-2.5s2.9.9 3.5 2.5 M15 10h4 M15 14h3",
+  user: "M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z",
+  users:
+    "M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z M23 21v-2a4 4 0 0 0-3-3.9 M16 3.1a4 4 0 0 1 0 7.8",
+  settings:
+    "M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 5 15.4a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z",
+  theme: "M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z",
+  themeSun:
+    "M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10z M12 1v2 M12 21v2 M4.22 4.22l1.42 1.42 M18.36 18.36l1.42 1.42 M1 12h2 M21 12h2 M4.22 19.78l1.42-1.42 M18.36 5.64l1.42-1.42",
+  language:
+    "M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z M2 12h20 M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10A15.3 15.3 0 0 1 12 2z",
+  status:
+    "M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z M8 14s1.5 2 4 2 4-2 4-2 M9 9v1.2 M15 9v1.2",
   logout: "M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4 M16 17l5-5-5-5 M21 12H9",
+  copy: "M9 9h10v12H9z M5 15V3h10",
+  select: "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z M8.5 12l2.5 2.5 4.5-4.5",
+  menu: "M3 6h18 M3 12h18 M3 18h18",
 };
 
 const MAIN_LINKS = [
   { href: "/", labelKey: "nav.messages" as const, icon: ICONS.messages, match: (p: string) => p === "/" },
-  { href: "/groups", labelKey: "nav.groups" as const, icon: ICONS.groups, match: (p: string) => p.startsWith("/groups") },
-  { href: "/friends", labelKey: "nav.contacts" as const, icon: ICONS.contacts, match: (p: string) => p.startsWith("/friends") },
-  { href: "/call", labelKey: "nav.calls" as const, icon: ICONS.calls, match: (p: string) => p.startsWith("/call") },
-  { href: "/settings", labelKey: "nav.settings" as const, icon: ICONS.settings, match: (p: string) => p.startsWith("/settings") },
+  { href: "/profile", labelKey: "nav.profile" as const, icon: ICONS.profile, match: (p: string) => p.startsWith("/profile") },
+  { href: "/friends", labelKey: "menu.contacts" as const, icon: ICONS.user, match: (p: string) => p.startsWith("/friends"), badge: true },
+  { href: "/groups", labelKey: "menu.groups" as const, icon: ICONS.users, match: (p: string) => p.startsWith("/groups") },
+  { href: "/settings", labelKey: "menu.settings" as const, icon: ICONS.settings, match: (p: string) => p.startsWith("/settings") },
 ];
+
+export function MenubarShowButton({ className }: { className?: string }) {
+  const { navOpen, toggleNav, pendingFriendCount } = useNavShell();
+  const { t } = useLocale();
+
+  return (
+    <button
+      type="button"
+      className={["icon-btn menubar-show-button", navOpen ? "active" : "", className].filter(Boolean).join(" ")}
+      title={navOpen ? t("nav.hideMenu") : t("nav.showMenu")}
+      aria-label={navOpen ? t("nav.hideMenu") : t("nav.showMenu")}
+      aria-expanded={navOpen}
+      onClick={toggleNav}
+    >
+      <NavIcon d={ICONS.menu} />
+      {!navOpen && pendingFriendCount > 0 ? <span className="menu-pending-dot" aria-hidden /> : null}
+    </button>
+  );
+}
 
 export default function NavSidebar() {
   const pathname = usePathname();
   const router = useRouter();
-  const { t } = useLocale();
-  const { me } = useMe();
+  const { t, locale, setLocale, labelLocale, labelTheme } = useLocale();
+  const { me, refreshMe } = useMe();
   const { theme, setTheme } = useTheme();
-  const { setNavOpen } = useNavShell();
-  const [moreOpen, setMoreOpen] = useState(false);
-  const [nightOn, setNightOn] = useState(true);
+  const { pendingFriendCount } = useNavShell();
+  const [menuCopiedField, setMenuCopiedField] = useState<"username" | "phone" | null>(null);
+  const [myStatus, setMyStatus] = useState<"online" | "away" | "dnd" | "offline">("online");
+  const { noteManualStatusChange } = useDesktopIdleStatus(myStatus, setMyStatus);
 
   useEffect(() => {
-    if (theme === "dark") setNightOn(true);
-    else if (theme === "light") setNightOn(false);
-    else setNightOn(window.matchMedia("(prefers-color-scheme: dark)").matches);
-  }, [theme]);
+    void refreshMe();
+  }, [refreshMe]);
+
+  function copyMenuField(field: "username" | "phone", value: string) {
+    const text = value.trim();
+    if (!text) return;
+    void copyTextToClipboard(text).then((ok) => {
+      if (!ok) return;
+      setMenuCopiedField(field);
+      window.setTimeout(() => {
+        setMenuCopiedField((cur) => (cur === field ? null : cur));
+      }, 1500);
+    });
+  }
 
   async function logout() {
     try {
@@ -83,6 +119,15 @@ export default function NavSidebar() {
     router.replace("/login");
   }
 
+  const statusLabel =
+    myStatus === "online"
+      ? t("status.online")
+      : myStatus === "away"
+        ? t("status.away")
+        : myStatus === "dnd"
+          ? t("status.dnd")
+          : t("status.offline");
+
   return (
     <aside className="app-nav" aria-label={t("nav.menu")}>
       <div className="app-nav-brand">
@@ -94,82 +139,132 @@ export default function NavSidebar() {
       </div>
 
       <div className="app-nav-profile">
-        <Avatar
-          name={me?.nickname || me?.username || "?"}
-          url={me?.avatarUrl}
-          size={72}
-        />
+        <Avatar name={me?.nickname || me?.username || "?"} url={me?.avatarUrl} size={72} />
         <div className="app-nav-profile-name">{me?.nickname || me?.username || t("nav.profile")}</div>
+        <div className="app-nav-id-list">
+          <button
+            type="button"
+            className="app-nav-id-row"
+            title={t("me.copyUsername")}
+            disabled={!me?.username}
+            onClick={() => copyMenuField("username", me?.username || "")}
+          >
+            <span className="app-nav-id-value">{me?.username ? `@${me.username}` : "—"}</span>
+            <NavIcon d={menuCopiedField === "username" ? ICONS.select : ICONS.copy} />
+          </button>
+          <button
+            type="button"
+            className="app-nav-id-row"
+            title={t("me.copyPhone")}
+            disabled={!me?.phone}
+            onClick={() => copyMenuField("phone", me?.phone || "")}
+          >
+            <span className="app-nav-id-value">{me?.phone || "—"}</span>
+            <NavIcon d={menuCopiedField === "phone" ? ICONS.select : ICONS.copy} />
+          </button>
+        </div>
+        <div className={`app-nav-profile-meta${me?.enterpriseId ? " is-enterprise" : ""}`}>
+          {me?.enterpriseId ? (
+            <>
+              <NavIcon d={ICONS.users} />
+              <span>
+                {me.enterpriseName
+                  ? `${t("account.enterprise")} · ${me.enterpriseName}`
+                  : t("account.enterprise")}
+              </span>
+            </>
+          ) : (
+            t("account.enterprise")
+          )}
+        </div>
       </div>
+
+      <div className="app-nav-sep" />
 
       <nav className="app-nav-menu">
         {MAIN_LINKS.map((item) => {
           const active = item.match(pathname);
           return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`app-nav-link${active ? " active" : ""}`}
-              onClick={() => setMoreOpen(false)}
-            >
+            <Link key={item.href} href={item.href} className={`app-nav-link${active ? " active" : ""}`}>
               <span className="app-nav-link-icon">
                 <NavIcon d={item.icon} />
               </span>
               <span className="app-nav-link-label">{t(item.labelKey)}</span>
+              {item.badge && pendingFriendCount > 0 ? (
+                <span className="badge app-nav-link-badge">
+                  {pendingFriendCount > 99 ? "99+" : pendingFriendCount}
+                </span>
+              ) : null}
             </Link>
           );
         })}
-      </nav>
-
-      <div className="app-nav-footer">
-        <div className="app-nav-night">
-          <span className="app-nav-night-left">
-            <NavIcon d={ICONS.moon} />
-            <span>{t("nav.nightMode")}</span>
-          </span>
-          <button
-            type="button"
-            className={`app-nav-toggle${nightOn ? " on" : ""}`}
-            role="switch"
-            aria-checked={nightOn}
-            aria-label={t("nav.nightMode")}
-            onClick={() => setTheme(nightOn ? "light" : "dark")}
-          >
-            <span className="app-nav-toggle-thumb" />
-          </button>
-        </div>
 
         <button
           type="button"
-          className={`app-nav-more-btn${moreOpen ? " open" : ""}`}
-          aria-expanded={moreOpen}
-          onClick={() => setMoreOpen((v) => !v)}
+          className="app-nav-link app-nav-link-btn"
+          onClick={() => {
+            const order = ["dark", "light", "system"] as const;
+            const i = order.indexOf(theme);
+            setTheme(order[(i + 1) % order.length]);
+          }}
         >
-          <NavIcon d={ICONS.chevronDown} />
-          <span>{t("nav.more")}</span>
+          <span className="app-nav-link-icon">
+            <NavIcon d={theme === "light" ? ICONS.themeSun : ICONS.theme} />
+          </span>
+          <span className="app-nav-link-label">
+            {t("menu.theme")}: {labelTheme(theme)}
+          </span>
         </button>
 
-        {moreOpen ? (
-          <div className="app-nav-more-panel">
-            <Link href="/profile" className="app-nav-more-item" onClick={() => setMoreOpen(false)}>
-              <NavIcon d={ICONS.profile} />
-              <span>{t("nav.profile")}</span>
-            </Link>
-            <button type="button" className="app-nav-more-item" onClick={() => void logout()}>
-              <NavIcon d={ICONS.logout} />
-              <span>{t("nav.logOut")}</span>
-            </button>
-          </div>
-        ) : null}
+        <button
+          type="button"
+          className="app-nav-link app-nav-link-btn"
+          onClick={() => {
+            const order = ["en", "zh"] as const;
+            const i = order.indexOf(locale);
+            setLocale(order[(i + 1) % order.length]);
+          }}
+        >
+          <span className="app-nav-link-icon">
+            <NavIcon d={ICONS.language} />
+          </span>
+          <span className="app-nav-link-label">
+            {t("menu.language")}: {labelLocale(locale)}
+          </span>
+        </button>
 
         <button
           type="button"
-          className="app-nav-collapse"
-          title={t("nav.hideMenu")}
-          aria-label={t("nav.hideMenu")}
-          onClick={() => setNavOpen(false)}
+          className="app-nav-link app-nav-link-btn"
+          onClick={() => {
+            const order = ["online", "away", "dnd", "offline"] as const;
+            const i = order.indexOf(myStatus);
+            const next = order[(i + 1) % order.length];
+            noteManualStatusChange(next);
+            setMyStatus(next);
+            api("/v1/me/status", {
+              method: "PUT",
+              body: JSON.stringify({ status: next }),
+            }).catch(() => {});
+          }}
         >
-          <NavIcon d={ICONS.chevronLeft} />
+          <span className="app-nav-link-icon">
+            <NavIcon d={ICONS.status} />
+          </span>
+          <span className="app-nav-link-label">
+            {t("status.label")}: {statusLabel}
+          </span>
+        </button>
+      </nav>
+
+      <div className="app-nav-sep" />
+
+      <div className="app-nav-footer">
+        <button type="button" className="app-nav-link app-nav-link-btn app-nav-logout" onClick={() => void logout()}>
+          <span className="app-nav-link-icon">
+            <NavIcon d={ICONS.logout} />
+          </span>
+          <span className="app-nav-link-label">{t("nav.logOut")}</span>
         </button>
       </div>
     </aside>
