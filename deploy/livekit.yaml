@@ -1,0 +1,6 @@
+# LiveKit / coturn configs are generated per machine — do not hand-edit IPs here.
+# Run: ./deploy/render-media-config.sh
+# Or:  ./deploy/up-media.sh
+#
+# Templates: livekit.yaml.template, coturn.conf.template
+# Output:    generated/livekit.yaml, generated/coturn.conf, generated/media.env

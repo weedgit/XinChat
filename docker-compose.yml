@@ -1,0 +1,82 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: qchat
+      POSTGRES_PASSWORD: qchat
+      POSTGRES_DB: qchat
+    ports:
+      - "5432:5432"
+    volumes:
+      - qchat_pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U qchat"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  minio:
+    image: minio/minio:latest
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: qchatminio
+      MINIO_ROOT_PASSWORD: qchatminio123
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - qchat_minio:/data
+
+  nats:
+    image: nats:2-alpine
+    command: ["-js", "-m", "8222"]
+    ports:
+      - "4222:4222"
+      - "8222:8222"
+
+  # LiveKit SFU for 1:1 voice/video (Phase 6). Coturn provides remote TURN for NAT.
+  # v1.9.12+ exposes /rtc/v1 (required by livekit-client 2.20 without legacy fallback).
+  # Generate host-specific YAML first: ./deploy/render-media-config.sh (or ./deploy/up-media.sh).
+  livekit:
+    image: livekit/livekit-server:v1.9.12
+    # LIVEKIT_NODE_IP = browser-reachable address for this machine (auto-set by render script).
+    # 127.0.0.1 only works when the browser runs on the same machine as Docker.
+    command:
+      [
+        "--config",
+        "/etc/livekit.yaml",
+        "--node-ip",
+        "${LIVEKIT_NODE_IP:?Run ./deploy/render-media-config.sh first (or set LIVEKIT_NODE_IP)}",
+      ]
+    volumes:
+      - ./deploy/generated/livekit.yaml:/etc/livekit.yaml:ro
+    ports:
+      - "7880:7880"
+      - "7881:7881"
+      - "50000-50100:50000-50100/udp"
+    depends_on:
+      - coturn
+
+  coturn:
+    image: coturn/coturn:4.6.2
+    volumes:
+      - ./deploy/generated/coturn.conf:/etc/coturn/turnserver.conf:ro
+    command: ["-c", "/etc/coturn/turnserver.conf"]
+    ports:
+      - "3478:3478"
+      - "3478:3478/udp"
+      - "49160-49200:49160-49200/udp"
+
+volumes:
+  qchat_pg:
+  qchat_minio:

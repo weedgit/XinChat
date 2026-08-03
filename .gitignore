@@ -1,0 +1,37 @@
+node_modules/
+.next/
+dist/
+build/
+data/
+backups/
+*.log
+.env
+.DS_Store
+services/api/data/
+services/api/bin/
+apps/desktop/node_modules/
+apps/mobile/.dart_tool/
+apps/mobile/build/
+apps/mobile/android/
+apps/mobile/ios/
+# Local APK builds (too large for GitHub; keep on disk / distribute elsewhere)
+apps/mobile/*.apk
+*.apk
+# Local deploy secrets (create via example + rotate-jwt-secret.sh)
+deploy/qchat-api.env
+# Backup encryption passphrase (keep off-host copy)
+deploy/backup.passphrase
+# Per-machine LiveKit/coturn output from render-media-config.sh
+deploy/generated/*
+!deploy/generated/.gitkeep
+# Self-signed / local TLS material
+deploy/certs/
+.cursor/
+
+# Built client installers (keep manifest + images + README in git)
+apps/web/public/downloads/*
+!apps/web/public/downloads/.gitkeep
+!apps/web/public/downloads/README.md
+!apps/web/public/downloads/manifest.json
+!apps/web/public/downloads/images/
+!apps/web/public/downloads/images/**
