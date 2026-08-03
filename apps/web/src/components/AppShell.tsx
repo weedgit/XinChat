@@ -59,6 +59,7 @@ export default function AppShell({
   return (
     <div
       className={["shell", className].filter(Boolean).join(" ")}
+      data-ui="arena"
       data-mobile-pane={mobilePane}
       data-sidebar-collapsed={sidebarCollapsed ? "true" : undefined}
     >

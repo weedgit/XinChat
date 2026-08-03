@@ -2,8 +2,8 @@ const { nativeTheme, BrowserWindow } = require("electron");
 const { IPC } = require("../../shared/ipc/channels");
 
 const BG = {
-  dark: "#0E1621",
-  light: "#e8eef3",
+  dark: "#312e81",
+  light: "#581c87",
 };
 
 /**

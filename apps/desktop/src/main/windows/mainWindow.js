@@ -304,7 +304,7 @@ function createMainWindow(opts) {
     autoHideMenuBar: false,
     title: APP_TITLE,
     ...(icon ? { icon } : {}),
-    backgroundColor: "#0E1621",
+    backgroundColor: "#581c87",
     webPreferences: {
       preload: getPreloadPath(),
       contextIsolation: true,

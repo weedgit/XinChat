@@ -25,13 +25,13 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0d1724",
+  themeColor: "#581c87",
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
 };
 
-const themeBoot = `(function(){try{var t=localStorage.getItem('xinchat.theme')||'dark';var r=t==='system'?(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'):t;document.documentElement.setAttribute('data-theme',r);document.documentElement.style.colorScheme=r;}catch(e){}})();`;
+const themeBoot = `(function(){try{if(localStorage.getItem('xinchat.uiThemeV')!=='arena1'){localStorage.setItem('xinchat.theme','dark');localStorage.setItem('xinchat.uiThemeV','arena1');}var t=localStorage.getItem('xinchat.theme')||'dark';var r=t==='system'?(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'):t;document.documentElement.setAttribute('data-theme',r);document.documentElement.style.colorScheme=r;}catch(e){}})();`;
 
 const localeBoot = `(function(){try{var l=localStorage.getItem('xinchat.locale')||'zh';var r=(l==='en')?'en':'zh';document.documentElement.lang=r==='zh'?'zh-CN':'en';}catch(e){}})();`;
 
