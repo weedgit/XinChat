@@ -1,6 +1,6 @@
 const APP_TITLE = "XinChat Desktop";
 /** Must match package.json build.appId — required for Windows toast notifications. */
-const APP_ID = "com.qchat.desktop";
+const APP_ID = "com.xinchat.desktop";
 /**
  * Stable Toast Activator CLSID for Windows Action Center.
  * Must be fixed across runs and baked into the Start Menu .lnk via
@@ -13,7 +13,7 @@ const DEFAULT_WINDOW = { width: 1280, height: 800 };
 const DEFAULT_DEV_URL = "http://localhost:3000";
 const DEFAULT_PROD_URL = "https://135.181.224.36";
 /** Custom URL scheme for OS deep links (SHELL-28). */
-const APP_PROTOCOL = "qchat";
+const APP_PROTOCOL = "xinchat";
 
 module.exports = {
   APP_TITLE,

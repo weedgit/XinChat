@@ -15,18 +15,18 @@ const profile = (
 
 const isProduction = profile === "production";
 const isDevelopment = profile === "development" || profile === "dev";
-const trustCert = !isProduction && process.env.QCHAT_TRUST_CERT !== "0";
+const trustCert = !isProduction && process.env.XINCHAT_TRUST_CERT !== "0";
 const allowCleartext =
-  !isProduction && process.env.QCHAT_ALLOW_CLEARTEXT !== "0";
+  !isProduction && process.env.XINCHAT_ALLOW_CLEARTEXT !== "0";
 
 /** @type {import('expo/config').ExpoConfig} */
 module.exports = {
   name: "XinChat",
-  slug: "qchat",
+  slug: "xinchat",
   version: "1.0.0",
   orientation: "portrait",
   icon: "./assets/icon.png",
-  scheme: "qchat",
+  scheme: "xinchat",
   userInterfaceStyle: "light",
   newArchEnabled: true,
   splash: {
@@ -36,7 +36,7 @@ module.exports = {
   },
   ios: {
     supportsTablet: true,
-    bundleIdentifier: "com.qchat.mobile",
+    bundleIdentifier: "com.xinchat.mobile",
     buildNumber: "1",
   },
   android: {
@@ -44,7 +44,7 @@ module.exports = {
       backgroundColor: "#2463dc",
       foregroundImage: "./assets/adaptive-icon.png",
     },
-    package: "com.qchat.mobile",
+    package: "com.xinchat.mobile",
     versionCode: 1,
     predictiveBackGestureEnabled: false,
   },
@@ -74,7 +74,7 @@ module.exports = {
         },
       },
     ],
-    ...(trustCert ? ["./plugins/withTrustedQchatCert.js"] : []),
+    ...(trustCert ? ["./plugins/withTrustedXinChatCert.js"] : []),
     [
       "expo-audio",
       {

@@ -155,7 +155,7 @@ function attachContextMenu(browserWindow) {
               webContents.downloadURL(params.srcURL);
             } catch (err) {
               console.warn(
-                "[qchat-desktop] save image failed:",
+                "[xinchat-desktop] save image failed:",
                 err?.message || err
               );
             }

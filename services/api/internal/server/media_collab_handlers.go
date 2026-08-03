@@ -13,8 +13,8 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/qchat/qchat/services/api/internal/auth"
-	"github.com/qchat/qchat/services/api/internal/blobstore"
+	"github.com/xinchat/xinchat/services/api/internal/auth"
+	"github.com/xinchat/xinchat/services/api/internal/blobstore"
 )
 
 var (
@@ -126,7 +126,7 @@ func (s *Server) handleMediaUpload(w http.ResponseWriter, r *http.Request) {
 
 	// Buffer through a temp file so we know the exact size for S3 PutObject and
 	// can hash without holding the full body in memory twice.
-	tmp, err := os.CreateTemp("", "qchat-upload-*")
+	tmp, err := os.CreateTemp("", "xinchat-upload-*")
 	if err != nil {
 		writeErr(w, 500, "store failed")
 		return

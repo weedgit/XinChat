@@ -3,7 +3,7 @@ listening-port=3478
 fingerprint
 lt-cred-mech
 user=__TURN_USER__:__TURN_PASS__
-realm=qchat.local
+realm=xinchat.local
 no-cli
 no-tls
 no-dtls
@@ -12,6 +12,6 @@ min-port=49160
 max-port=49200
 listening-ip=0.0.0.0
 relay-ip=0.0.0.0
-external-ip=__QCHAT_HOST__
+external-ip=__XINCHAT_HOST__
 log-file=stdout
 simple-log

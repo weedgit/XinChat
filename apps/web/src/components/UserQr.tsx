@@ -10,7 +10,7 @@ type Props = {
   className?: string;
 };
 
-/** Renders a QR for a user profile (`qchat://user/{username}`). */
+/** Renders a QR for a user profile (`xinchat://user/{username}`). */
 export default function UserQr({ username, size = 160, className }: Props) {
   const [dataUrl, setDataUrl] = useState<string | null>(null);
   const payload = encodeUserPayload(username);

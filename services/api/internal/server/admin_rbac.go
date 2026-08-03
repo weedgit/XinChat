@@ -3,7 +3,7 @@ package server
 import (
 	"net/http"
 
-	"github.com/qchat/qchat/services/api/internal/auth"
+	"github.com/xinchat/xinchat/services/api/internal/auth"
 )
 
 // Console / admin-console roles (requirements-en §5 recommended RBAC).

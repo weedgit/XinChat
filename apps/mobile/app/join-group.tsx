@@ -1,7 +1,7 @@
 /**
  * Scan / paste a QR payload to join a group or add a contact.
- * - qchat://join/{publicId} → group join request
- * - qchat://user/{username} → open profile (Add contact)
+ * - xinchat://join/{publicId} → group join request
+ * - xinchat://user/{username} → open profile (Add contact)
  */
 import { useCallback, useRef, useState } from "react";
 import {
@@ -51,7 +51,7 @@ export default function JoinGroupScreen() {
   const submitPublicId = useCallback(
     async (publicId: string) => {
       if (!publicId) {
-        Alert.alert("Join group", "Enter a group invite ID or scan a qchat://join/… QR code.");
+        Alert.alert("Join group", "Enter a group invite ID or scan a xinchat://join/… QR code.");
         return;
       }
       setBusy(true);
@@ -88,7 +88,7 @@ export default function JoinGroupScreen() {
       if (!trimmed) {
         Alert.alert(
           "Scan QR",
-          "Scan a group invite (qchat://join/…) or a profile QR (qchat://user/…)."
+          "Scan a group invite (xinchat://join/…) or a profile QR (xinchat://user/…)."
         );
         return;
       }
@@ -197,7 +197,7 @@ export default function JoinGroupScreen() {
       <View style={styles.root}>
         <Text style={styles.title}>Join group or add contact</Text>
         <Text style={styles.hint}>
-          Scan a group invite QR (qchat://join/…) or a profile QR (qchat://user/…). You can also
+          Scan a group invite QR (xinchat://join/…) or a profile QR (xinchat://user/…). You can also
           paste the payload or type a group invite ID (G…).
         </Text>
         <Pressable
@@ -211,7 +211,7 @@ export default function JoinGroupScreen() {
           style={styles.input}
           value={raw}
           onChangeText={setRaw}
-          placeholder="qchat://join/… or qchat://user/…"
+          placeholder="xinchat://join/… or xinchat://user/…"
           placeholderTextColor={colors.textMuted}
           autoCapitalize="none"
           autoCorrect={false}

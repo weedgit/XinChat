@@ -1,6 +1,7 @@
-/** User profile QR payload helpers (`qchat://user/{username}`). */
+/** User profile QR payload helpers (`xinchat://user/{username}`). */
 
-const USER_PREFIX = "qchat://user/";
+const USER_PREFIX = "xinchat://user/";
+const LEGACY_USER_PREFIX = "qchat://user/";
 
 /** Encode a username into a scannable profile payload. */
 export function encodeUserPayload(username: string): string {
@@ -11,18 +12,23 @@ export function encodeUserPayload(username: string): string {
 
 /**
  * Extract a username from typed/pasted/scanned text.
- * Accepts `@name`, raw usernames, or `qchat://user/…` payloads.
+ * Accepts `@name`, raw usernames, or `xinchat://user/…` (also legacy `qchat://user/…`).
  */
 export function parseUserPayload(raw: string): string | null {
   const text = raw.trim();
   if (!text) return null;
-  if (text.startsWith(USER_PREFIX)) {
-    const u = decodeURIComponent(text.slice(USER_PREFIX.length).trim());
-    return u || null;
+  for (const prefix of [USER_PREFIX, LEGACY_USER_PREFIX]) {
+    if (text.startsWith(prefix)) {
+      const u = decodeURIComponent(text.slice(prefix.length).trim());
+      return u || null;
+    }
   }
   try {
     const url = new URL(text);
-    if (url.protocol === "qchat:" && url.hostname === "user") {
+    if (
+      (url.protocol === "xinchat:" || url.protocol === "qchat:") &&
+      url.hostname === "user"
+    ) {
       const u = decodeURIComponent(url.pathname.replace(/^\//, "").trim());
       return u || null;
     }

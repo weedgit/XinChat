@@ -33,7 +33,7 @@ function readJsonUpdateUrl(filePath) {
   try {
     if (!fs.existsSync(filePath)) return "";
     const raw = JSON.parse(fs.readFileSync(filePath, "utf8"));
-    return String(raw?.updateUrl || raw?.QCHAT_UPDATE_URL || "")
+    return String(raw?.updateUrl || raw?.XINCHAT_UPDATE_URL || "")
       .trim()
       .replace(/\/$/, "");
   } catch {
@@ -43,7 +43,7 @@ function readJsonUpdateUrl(filePath) {
 
 /**
  * Update feed base URL (generic provider). Empty = auto-update disabled.
- * Precedence: QCHAT_UPDATE_URL → userData/config.json → production.json
+ * Precedence: XINCHAT_UPDATE_URL → userData/config.json → production.json
  */
 function resolveUpdateUrl() {
   try {
@@ -52,7 +52,7 @@ function resolveUpdateUrl() {
     /* ignore */
   }
 
-  const fromEnv = String(process.env.QCHAT_UPDATE_URL || "")
+  const fromEnv = String(process.env.XINCHAT_UPDATE_URL || "")
     .trim()
     .replace(/\/$/, "");
   if (fromEnv) return fromEnv;

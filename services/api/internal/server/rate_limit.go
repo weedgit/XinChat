@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-// In-process limits mirror deploy/nginx-qchat.conf zones so direct-to-API
+// In-process limits mirror deploy/nginx-xinchat.conf zones so direct-to-API
 // deployments still throttle. Per-process only unless Redis is attached for
 // multi-instance fan-out (Phase 6).
 

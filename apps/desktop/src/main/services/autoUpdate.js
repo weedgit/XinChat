@@ -46,7 +46,7 @@ function registerAutoUpdater(deps) {
             title: APP_TITLE,
             message: "Auto-update is not configured.",
             detail:
-              "Set updateUrl in production.json or userData/config.json, or QCHAT_UPDATE_URL, then rebuild.",
+              "Set updateUrl in production.json or userData/config.json, or XINCHAT_UPDATE_URL, then rebuild.",
             buttons: ["OK"],
           });
         }
@@ -54,7 +54,7 @@ function registerAutoUpdater(deps) {
       },
     };
     console.log(
-      "[qchat-desktop] auto-update skipped (no updateUrl / QCHAT_UPDATE_URL)"
+      "[xinchat-desktop] auto-update skipped (no updateUrl / XINCHAT_UPDATE_URL)"
     );
     return api;
   }
@@ -65,7 +65,7 @@ function registerAutoUpdater(deps) {
     ({ autoUpdater } = require("electron-updater"));
   } catch (err) {
     console.warn(
-      "[qchat-desktop] electron-updater unavailable:",
+      "[xinchat-desktop] electron-updater unavailable:",
       err?.message || err
     );
     api = {
@@ -80,14 +80,14 @@ function registerAutoUpdater(deps) {
     autoUpdater.setFeedURL({ provider: "generic", url: updateUrl });
   } catch (err) {
     console.warn(
-      "[qchat-desktop] setFeedURL failed:",
+      "[xinchat-desktop] setFeedURL failed:",
       err?.message || err
     );
   }
 
   autoUpdater.on("error", (err) => {
     console.warn(
-      "[qchat-desktop] auto-update error:",
+      "[xinchat-desktop] auto-update error:",
       err?.message || err
     );
   });
@@ -108,7 +108,7 @@ function registerAutoUpdater(deps) {
         await autoUpdater.downloadUpdate();
       } catch (err) {
         console.warn(
-          "[qchat-desktop] downloadUpdate failed:",
+          "[xinchat-desktop] downloadUpdate failed:",
           err?.message || err
         );
       }
@@ -159,7 +159,7 @@ function registerAutoUpdater(deps) {
       return { ok: true };
     } catch (err) {
       console.warn(
-        "[qchat-desktop] checkForUpdates failed:",
+        "[xinchat-desktop] checkForUpdates failed:",
         err?.message || err
       );
       if (manual) {
@@ -182,7 +182,7 @@ function registerAutoUpdater(deps) {
     checkForUpdates({ manual: false }).catch(() => {});
   }, 15_000);
 
-  console.log(`[qchat-desktop] auto-update feed: ${updateUrl}`);
+  console.log(`[xinchat-desktop] auto-update feed: ${updateUrl}`);
   return api;
 }
 

@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { formatApiError } from "@qchat/i18n";
+import { formatApiError } from "@xinchat/i18n";
 import Avatar from "@/components/Avatar";
 import MenuModal from "@/components/MenuModal";
 import { api, asList, ApiError } from "@/lib/api";
@@ -62,8 +62,8 @@ export default function FriendsPage() {
     const onFriend = () => {
       void load();
     };
-    window.addEventListener("qchat:friend-request", onFriend);
-    return () => window.removeEventListener("qchat:friend-request", onFriend);
+    window.addEventListener("xinchat:friend-request", onFriend);
+    return () => window.removeEventListener("xinchat:friend-request", onFriend);
   }, [load]);
 
   useEffect(() => {

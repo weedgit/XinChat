@@ -312,7 +312,7 @@ const en = {
   "groups.join": "Join by ID or QR",
   "groups.joinPlaceholder": "Gxxxxxxxx",
   "groups.joinHint":
-    "Scan a group or profile QR, paste qchat://join/… or qchat://user/…, or type a group invite ID.",
+    "Scan a group or profile QR, paste xinchat://join/… or xinchat://user/…, or type a group invite ID.",
   "groups.joinButton": "Request",
   "groups.scanUnrecognized": "Unrecognized QR. Use a group invite or profile QR from XinChat.",
   "groups.yours": "Your groups",
@@ -425,7 +425,7 @@ const en = {
   "gifs.empty": "No GIFs found.",
   "gifs.sendFailed": "Could not send GIF",
   "gifs.loading": "Loading GIFs…",
-  "gifs.notConfigured": "GIF search needs a free Giphy key (QCHAT_GIPHY_API_KEY).",
+  "gifs.notConfigured": "GIF search needs a free Giphy key (XINCHAT_GIPHY_API_KEY).",
   "chat.searchInConversation": "Search in conversation",
   "chat.searchInChat": "Search in chat",
   "chat.searchConversations": "Search conversations",
@@ -906,7 +906,7 @@ const zh: Record<MessageKey, string> = {
   "groups.cancel": "取消",
   "groups.join": "通过 ID 或二维码加入",
   "groups.joinPlaceholder": "Gxxxxxxxx",
-  "groups.joinHint": "扫描群或个人二维码，粘贴 qchat://join/… 或 qchat://user/…，或输入群邀请 ID。",
+  "groups.joinHint": "扫描群或个人二维码，粘贴 xinchat://join/… 或 xinchat://user/…，或输入群邀请 ID。",
   "groups.joinButton": "申请",
   "groups.scanUnrecognized": "无法识别的二维码。请使用 XinChat 的群邀请或个人二维码。",
   "groups.yours": "我的群组",
@@ -1019,7 +1019,7 @@ const zh: Record<MessageKey, string> = {
   "gifs.empty": "未找到 GIF。",
   "gifs.sendFailed": "GIF 发送失败",
   "gifs.loading": "正在加载 GIF…",
-  "gifs.notConfigured": "GIF 搜索需要免费 Giphy 密钥（QCHAT_GIPHY_API_KEY）。",
+  "gifs.notConfigured": "GIF 搜索需要免费 Giphy 密钥（XINCHAT_GIPHY_API_KEY）。",
   "chat.searchInConversation": "在会话中搜索",
   "chat.searchInChat": "在聊天中搜索",
   "chat.searchConversations": "搜索会话",
@@ -1201,7 +1201,7 @@ export const catalogs: Record<ResolvedLocale, Record<MessageKey, string>> = {
   zh,
 };
 
-export const LOCALE_KEY = "qchat.locale";
+export const LOCALE_KEY = "xinchat.locale";
 
 export const DEFAULT_LOCALE: LocaleMode = "zh";
 

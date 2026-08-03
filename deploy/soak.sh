@@ -10,8 +10,8 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 API_DIR="$ROOT/services/api"
-BASE="${QCHAT_SOAK_BASE:-http://127.0.0.1:8080}"
-BASE2="${QCHAT_SOAK_BASE2:-}"
+BASE="${XINCHAT_SOAK_BASE:-http://127.0.0.1:8080}"
+BASE2="${XINCHAT_SOAK_BASE2:-}"
 MODE="single"
 EXTRA=()
 
@@ -26,7 +26,7 @@ Usage:
   ./deploy/soak.sh -- [ws_soak flags...]
 
 Environment:
-  QCHAT_SOAK_BASE / QCHAT_SOAK_BASE2
+  XINCHAT_SOAK_BASE / XINCHAT_SOAK_BASE2
 EOF
   exit "${1:-0}"
 }

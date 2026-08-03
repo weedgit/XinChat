@@ -8,7 +8,7 @@ const APP_ROOT = path.resolve(__dirname, "..");
  * Unpackaged launcher only. Packaged installers never go through this file.
  *
  * --no-sandbox is opt-in for Linux VMs (PACK-07): argv `--no-sandbox` or
- * QCHAT_DESKTOP_NO_SANDBOX=1. Never implied for normal start / start:server.
+ * XINCHAT_DESKTOP_NO_SANDBOX=1. Never implied for normal start / start:server.
  */
 function launchElectron(argumentsList = process.argv.slice(2), options = {}) {
   // Electron 42+: drop linker-signed flag so the app can boot cleanly.
@@ -18,12 +18,12 @@ function launchElectron(argumentsList = process.argv.slice(2), options = {}) {
     const signed = signDevElectron();
     if (!signed.ok) {
       console.warn(
-        "[qchat-desktop] Electron.app signing skipped:",
+        "[xinchat-desktop] Electron.app signing skipped:",
         signed.reason
       );
     } else if (!signed.skipped) {
       console.log(
-        `[qchat-desktop] Electron.app signed (${signed.identity})`
+        `[xinchat-desktop] Electron.app signed (${signed.identity})`
       );
     }
   }
@@ -64,14 +64,14 @@ function launchElectron(argumentsList = process.argv.slice(2), options = {}) {
 
   const wantsNoSandbox =
     electronArguments.includes("--no-sandbox") ||
-    environment.QCHAT_DESKTOP_NO_SANDBOX === "1";
+    environment.XINCHAT_DESKTOP_NO_SANDBOX === "1";
 
   if (wantsNoSandbox && process.platform === "linux") {
     if (!electronArguments.includes("--no-sandbox")) {
       electronArguments.push("--no-sandbox");
     }
     console.warn(
-      "[qchat-desktop] Chromium --no-sandbox enabled (dev/VM only). Do not use for packaged releases."
+      "[xinchat-desktop] Chromium --no-sandbox enabled (dev/VM only). Do not use for packaged releases."
     );
   }
 

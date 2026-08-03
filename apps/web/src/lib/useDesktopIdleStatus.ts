@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { api } from "@/lib/api";
-import { isQchatDesktop } from "@/lib/device";
+import { isXinChatDesktop } from "@/lib/device";
 
 export type PresenceStatus = "online" | "away" | "dnd" | "offline";
 
@@ -21,8 +21,8 @@ export function useDesktopIdleStatus(
   const autoAwayRef = useRef(false);
 
   useEffect(() => {
-    if (!isQchatDesktop()) return;
-    const desk = window.qchatDesktop;
+    if (!isXinChatDesktop()) return;
+    const desk = window.xinchatDesktop;
     if (!desk?.onUserActivity) return;
 
     const detach = desk.onUserActivity((payload) => {

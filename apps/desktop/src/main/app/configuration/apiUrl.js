@@ -2,7 +2,7 @@
  * Resolve the API origin for main-process fetches (captcha, token refresh).
  *
  * Precedence:
- *   1. QCHAT_API_URL env
+ *   1. XINCHAT_API_URL env
  *   2. Web on :3000/:3001 (Next) → same host :8080
  *   3. Otherwise same origin as web (nginx / packaged HTTPS)
  *
@@ -10,7 +10,7 @@
  * @returns {string}
  */
 function resolveApiOrigin(webUrl) {
-  const fromEnv = String(process.env.QCHAT_API_URL || "")
+  const fromEnv = String(process.env.XINCHAT_API_URL || "")
     .trim()
     .replace(/\/$/, "");
   if (fromEnv) return fromEnv;

@@ -9,7 +9,7 @@ import React, {
 } from "react";
 import { AppState, type AppStateStatus } from "react-native";
 import { router } from "expo-router";
-import { formatApiErrorLocale, formatSystemNotice } from "@qchat/i18n";
+import { formatApiErrorLocale, formatSystemNotice } from "@xinchat/i18n";
 import { api, asList, ensureAccessToken, getToken, uploadMedia, wsUrl } from "../lib/api";
 import { notificationPort } from "../lib/notifyPort";
 import { loadLocalNotifyProps, getNotifyProps, shouldNotify, saveLocalNotifyProps, normalizeNotifyProps } from "../lib/notifyProps";

@@ -1,6 +1,6 @@
-# Qchat brand icon
+# XinChat brand icon
 
-`qchat-icon-512.png` is the canonical icon source for every Qchat client.
+`xinchat-icon-512.png` is the canonical icon source for every XinChat client.
 
 After replacing it, regenerate checked-in platform assets:
 

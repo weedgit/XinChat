@@ -10,7 +10,7 @@ import (
 	"github.com/redis/go-redis/v9"
 )
 
-const redisWSChannel = "qchat:ws"
+const redisWSChannel = "xinchat:ws"
 
 // clusterEnvelope is published on Redis so peer API processes can deliver WS
 // events to locally connected clients (Mattermost-style publish-then-peers).

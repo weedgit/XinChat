@@ -1,9 +1,9 @@
 import Constants from "expo-constants";
 import * as SecureStore from "expo-secure-store";
 
-const ACCESS_KEY = "qchat.access_token";
-const REFRESH_KEY = "qchat.refresh_token";
-const SESSION_REVOKED_KEY = "qchat.session_revoked";
+const ACCESS_KEY = "xinchat.access_token";
+const REFRESH_KEY = "xinchat.refresh_token";
+const SESSION_REVOKED_KEY = "xinchat.session_revoked";
 
 let accessToken: string | null = null;
 let refreshToken: string | null = null;

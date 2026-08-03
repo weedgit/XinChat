@@ -20,7 +20,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { ResizeMode, Video } from "expo-av";
 import { router, useLocalSearchParams, useNavigation } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { formatSystemNotice } from "@qchat/i18n";
+import { formatSystemNotice } from "@xinchat/i18n";
 import { Avatar } from "../../src/components/Avatar";
 import { ChatComposer, type MentionMember } from "../../src/components/ChatComposer";
 import {

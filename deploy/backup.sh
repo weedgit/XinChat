@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-# Qchat customized backup — Postgres + MinIO + local uploads (+ optional secrets).
+# XinChat customized backup — Postgres + MinIO + local uploads (+ optional secrets).
 # Targets: RPO ≤ 24h (cron), off-site + encryption for server failure.
 #
 # Env:
-#   QCHAT_BACKUP_DIR, QCHAT_BACKUP_PASSPHRASE[_FILE], QCHAT_BACKUP_OFFSITE
-#   QCHAT_BACKUP_KEEP_DAYS (default 14), QCHAT_BACKUP_INCLUDE_SECRETS=1
+#   XINCHAT_BACKUP_DIR, XINCHAT_BACKUP_PASSPHRASE[_FILE], XINCHAT_BACKUP_OFFSITE
+#   XINCHAT_BACKUP_KEEP_DAYS (default 14), XINCHAT_BACKUP_INCLUDE_SECRETS=1
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
@@ -23,9 +23,9 @@ ERRORS=0
 
 echo "Backing up Postgres..."
 if compose exec -T postgres \
-  pg_dump -U qchat -d qchat --format=custom > "$OUT/qchat.dump"; then
+  pg_dump -U xinchat -d xinchat --format=custom > "$OUT/xinchat.dump"; then
   COMPONENTS+=("postgres")
-  echo "  ok: qchat.dump ($(wc -c < "$OUT/qchat.dump") bytes)"
+  echo "  ok: xinchat.dump ($(wc -c < "$OUT/xinchat.dump") bytes)"
 else
   echo "  FAIL: pg_dump" >&2
   ERRORS=$((ERRORS + 1))
@@ -50,7 +50,7 @@ else
 fi
 
 echo "Backing up local uploads..."
-UPLOADS_SRC="${QCHAT_DATA_DIR:-$ROOT/services/api/data}/uploads"
+UPLOADS_SRC="${XINCHAT_DATA_DIR:-$ROOT/services/api/data}/uploads"
 if [[ -d "$UPLOADS_SRC" ]]; then
   tar -C "$(dirname "$UPLOADS_SRC")" -czf "$OUT/uploads.tar.gz" "$(basename "$UPLOADS_SRC")"
   COMPONENTS+=("uploads")
@@ -59,13 +59,13 @@ else
   echo "  skip: no local uploads dir"
 fi
 
-if [[ "${QCHAT_BACKUP_INCLUDE_SECRETS:-0}" == "1" ]]; then
+if [[ "${XINCHAT_BACKUP_INCLUDE_SECRETS:-0}" == "1" ]]; then
   echo "Packing secrets bundle (env + certs)..."
   SECRETS_TMP="$(mktemp -d)"
   mkdir -p "$SECRETS_TMP/secrets"
-  [[ -f "$ROOT/deploy/qchat-api.env" ]] && cp -a "$ROOT/deploy/qchat-api.env" "$SECRETS_TMP/secrets/"
+  [[ -f "$ROOT/deploy/xinchat-api.env" ]] && cp -a "$ROOT/deploy/xinchat-api.env" "$SECRETS_TMP/secrets/"
   [[ -d "$ROOT/deploy/certs" ]] && cp -a "$ROOT/deploy/certs" "$SECRETS_TMP/secrets/"
-  printf '%s\n' "Restore with QCHAT_RESTORE_SECRETS=1. Keep deploy/backup.passphrase off-host." \
+  printf '%s\n' "Restore with XINCHAT_RESTORE_SECRETS=1. Keep deploy/backup.passphrase off-host." \
     > "$SECRETS_TMP/secrets/README.txt"
   tar -C "$SECRETS_TMP" -czf "$OUT/secrets.tar.gz" secrets
   rm -rf "$SECRETS_TMP"
@@ -76,7 +76,7 @@ fi
 ENCRYPTED=false
 if passphrase_available; then
   echo "Encrypting artifacts (AES-256-CBC)..."
-  for f in qchat.dump minio.tar.gz uploads.tar.gz secrets.tar.gz; do
+  for f in xinchat.dump minio.tar.gz uploads.tar.gz secrets.tar.gz; do
     if [[ -f "$OUT/$f" ]]; then
       encrypt_file "$OUT/$f" "$OUT/$f.enc"
       shred_or_rm "$OUT/$f"
@@ -110,7 +110,7 @@ PY
 ln -sfn "$STAMP" "$BACKUP_ROOT/latest"
 write_status_json "$BACKUP_ROOT" "$STAMP" "$OUT" "$ENCRYPTED" "$ERRORS" "${COMPONENTS[@]}"
 
-OFFSITE="${QCHAT_BACKUP_OFFSITE:-}"
+OFFSITE="${XINCHAT_BACKUP_OFFSITE:-}"
 if [[ -n "$OFFSITE" ]]; then
   echo "Off-site sync → $OFFSITE"
   mkdir -p "$OFFSITE" 2>/dev/null || true
@@ -123,10 +123,10 @@ if [[ -n "$OFFSITE" ]]; then
     write_status_json "$BACKUP_ROOT" "$STAMP" "$OUT" "$ENCRYPTED" "$ERRORS" "${COMPONENTS[@]}"
   fi
 else
-  echo "  WARN: QCHAT_BACKUP_OFFSITE unset — not resilient to total host loss"
+  echo "  WARN: XINCHAT_BACKUP_OFFSITE unset — not resilient to total host loss"
 fi
 
-KEEP_DAYS="${QCHAT_BACKUP_KEEP_DAYS:-14}"
+KEEP_DAYS="${XINCHAT_BACKUP_KEEP_DAYS:-14}"
 echo "Pruning local backups older than ${KEEP_DAYS} days..."
 find "$BACKUP_ROOT" -mindepth 1 -maxdepth 1 -type d -name '2*' -mtime "+${KEEP_DAYS}" -print -exec rm -rf {} + 2>/dev/null || true
 

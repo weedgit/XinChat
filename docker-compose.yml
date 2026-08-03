@@ -2,15 +2,15 @@ services:
   postgres:
     image: postgres:16-alpine
     environment:
-      POSTGRES_USER: qchat
-      POSTGRES_PASSWORD: qchat
-      POSTGRES_DB: qchat
+      POSTGRES_USER: xinchat
+      POSTGRES_PASSWORD: xinchat
+      POSTGRES_DB: xinchat
     ports:
       - "5432:5432"
     volumes:
-      - qchat_pg:/var/lib/postgresql/data
+      - xinchat_pg:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U qchat"]
+      test: ["CMD-SHELL", "pg_isready -U xinchat"]
       interval: 5s
       timeout: 3s
       retries: 10
@@ -29,13 +29,13 @@ services:
     image: minio/minio:latest
     command: server /data --console-address ":9001"
     environment:
-      MINIO_ROOT_USER: qchatminio
-      MINIO_ROOT_PASSWORD: qchatminio123
+      MINIO_ROOT_USER: xinchatminio
+      MINIO_ROOT_PASSWORD: xinchatminio123
     ports:
       - "9000:9000"
       - "9001:9001"
     volumes:
-      - qchat_minio:/data
+      - xinchat_minio:/data
 
   nats:
     image: nats:2-alpine
@@ -78,5 +78,5 @@ services:
       - "49160-49200:49160-49200/udp"
 
 volumes:
-  qchat_pg:
-  qchat_minio:
+  xinchat_pg:
+  xinchat_minio:

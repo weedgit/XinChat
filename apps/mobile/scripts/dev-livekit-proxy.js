@@ -8,9 +8,9 @@
 const http = require("http");
 const { URL } = require("url");
 
-const LISTEN = Number(process.env.QCHAT_LIVEKIT_PROXY_PORT || 7444);
+const LISTEN = Number(process.env.XINCHAT_LIVEKIT_PROXY_PORT || 7444);
 const UPSTREAM = (
-  process.env.QCHAT_LIVEKIT_UPSTREAM || "ws://135.181.224.36:7880"
+  process.env.XINCHAT_LIVEKIT_UPSTREAM || "ws://135.181.224.36:7880"
 ).replace(/\/$/, "");
 
 function quietSocket(sock) {
@@ -102,7 +102,7 @@ function forwardUpgrade(req, socket, head) {
 
 const server = http.createServer((_req, res) => {
   res.writeHead(200, { "content-type": "text/plain" });
-  res.end(`qchat livekit proxy → ${UPSTREAM}\n`);
+  res.end(`xinchat livekit proxy → ${UPSTREAM}\n`);
 });
 
 server.on("upgrade", forwardUpgrade);

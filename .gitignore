@@ -18,7 +18,7 @@ apps/mobile/ios/
 apps/mobile/*.apk
 *.apk
 # Local deploy secrets (create via example + rotate-jwt-secret.sh)
-deploy/qchat-api.env
+deploy/xinchat-api.env
 # Backup encryption passphrase (keep off-host copy)
 deploy/backup.passphrase
 # Per-machine LiveKit/coturn output from render-media-config.sh

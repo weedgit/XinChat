@@ -1,14 +1,27 @@
 const { APP_PROTOCOL } = require("../../shared/constants");
 
+/** Former scheme kept for printed QR / bookmarks during rebrand. */
+const LEGACY_PROTOCOLS = ["qchat"];
+
+function protocolNames() {
+  return [APP_PROTOCOL, ...LEGACY_PROTOCOLS];
+}
+
+function matchesAppProtocol(raw) {
+  if (!raw || typeof raw !== "string") return false;
+  const lower = raw.trim().toLowerCase();
+  return protocolNames().some((p) => lower.startsWith(`${p}:`));
+}
+
 /**
- * Parse qchat:// deep links into an action for the main window.
+ * Parse xinchat:// (and legacy qchat://) deep links into an action for the main window.
  *
  * Supported (SHELL-28 / SHELL-29):
- *   qchat://conversation/<id>
- *   qchat://chat/<id>
- *   qchat://c/<id>
- *   qchat://open?conversation=<id>
- *   qchat://open?id=<id>
+ *   xinchat://conversation/<id>
+ *   xinchat://chat/<id>
+ *   xinchat://c/<id>
+ *   xinchat://open?conversation=<id>
+ *   xinchat://open?id=<id>
  *
  * @param {string} raw
  * @returns {{ conversationId: string } | null}
@@ -16,7 +29,7 @@ const { APP_PROTOCOL } = require("../../shared/constants");
 function parseDeepLink(raw) {
   if (!raw || typeof raw !== "string") return null;
   const trimmed = raw.trim();
-  if (!trimmed.toLowerCase().startsWith(`${APP_PROTOCOL}:`)) return null;
+  if (!matchesAppProtocol(trimmed)) return null;
   // Reject path traversal before URL normalization can rewrite segments.
   if (trimmed.includes("..")) return null;
 
@@ -26,7 +39,10 @@ function parseDeepLink(raw) {
   } catch {
     return null;
   }
-  if (u.protocol !== `${APP_PROTOCOL}:`) return null;
+  const proto = String(u.protocol || "")
+    .replace(/:$/, "")
+    .toLowerCase();
+  if (!protocolNames().includes(proto)) return null;
 
   const host = String(u.hostname || "").toLowerCase();
   const parts = String(u.pathname || "")
@@ -62,7 +78,7 @@ function parseDeepLink(raw) {
 }
 
 /**
- * Find a qchat:// URL in Electron / OS argv (Windows + Linux cold start / second-instance).
+ * Find a xinchat:// (or legacy qchat://) URL in Electron / OS argv.
  * @param {string[]} argv
  * @returns {string | null}
  */
@@ -70,7 +86,7 @@ function getDeepLinkFromArgv(argv) {
   if (!Array.isArray(argv)) return null;
   for (let i = argv.length - 1; i >= 0; i--) {
     const a = String(argv[i] || "");
-    if (a.toLowerCase().startsWith(`${APP_PROTOCOL}:`)) {
+    if (matchesAppProtocol(a)) {
       return a;
     }
   }
@@ -79,6 +95,7 @@ function getDeepLinkFromArgv(argv) {
 
 module.exports = {
   APP_PROTOCOL,
+  LEGACY_PROTOCOLS,
   parseDeepLink,
   getDeepLinkFromArgv,
 };

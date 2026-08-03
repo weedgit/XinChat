@@ -144,14 +144,14 @@ func NewS3(ctx context.Context, cfg Config) (*S3, error) {
 	access := cfg.AccessKey
 	secret := cfg.SecretKey
 	if access == "" {
-		access = "qchatminio"
+		access = "xinchatminio"
 	}
 	if secret == "" {
-		secret = "qchatminio123"
+		secret = "xinchatminio123"
 	}
 	bucket := cfg.Bucket
 	if bucket == "" {
-		bucket = "qchat"
+		bucket = "xinchat"
 	}
 	s := &S3{
 		baseURL:   strings.TrimRight(u.String(), "/"),

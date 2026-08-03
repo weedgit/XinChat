@@ -3,7 +3,7 @@
 import { FormEvent, useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { formatApiError } from "@qchat/i18n";
+import { formatApiError } from "@xinchat/i18n";
 import LoadingSplash from "@/components/LoadingSplash";
 import { PasswordInput } from "@/components/PasswordInput";
 import { api, getToken, restoreDesktopSession, setTokens } from "@/lib/api";
@@ -11,7 +11,7 @@ import { validateLoginCredentials } from "@/lib/credentials";
 import { getAuthDevice } from "@/lib/device";
 import { isElectronShell } from "@/lib/downloads";
 import { useLocale } from "@/lib/locale";
-import type { MessageKey } from "@qchat/i18n";
+import type { MessageKey } from "@xinchat/i18n";
 
 interface CaptchaState {
   id: string;
@@ -52,9 +52,9 @@ export default function LoginPage() {
         return;
       }
       try {
-        const reason = sessionStorage.getItem("qchat.session_revoked");
+        const reason = sessionStorage.getItem("xinchat.session_revoked");
         if (reason) {
-          sessionStorage.removeItem("qchat.session_revoked");
+          sessionStorage.removeItem("xinchat.session_revoked");
           setError(
             reason === "banned" ? t("login.errBanned") : t("login.errSignedOut")
           );
@@ -94,10 +94,10 @@ export default function LoginPage() {
           );
         });
 
-      if (typeof window !== "undefined" && window.qchatDesktop?.fetchCaptcha) {
+      if (typeof window !== "undefined" && window.xinchatDesktop?.fetchCaptcha) {
         try {
           data = await withTimeout(
-            window.qchatDesktop.fetchCaptcha(),
+            window.xinchatDesktop.fetchCaptcha(),
             4000,
             "desktop captcha timed out"
           );

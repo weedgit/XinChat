@@ -5,7 +5,7 @@ export type NotifyProps = {
   mentions_only: boolean;
 };
 
-const KEY = "qchat.notify_props";
+const KEY = "xinchat.notify_props";
 
 export const DEFAULT_NOTIFY: NotifyProps = {
   desktop: "all",

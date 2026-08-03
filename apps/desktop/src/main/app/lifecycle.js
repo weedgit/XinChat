@@ -60,7 +60,7 @@ function startApp() {
   // Other origins get SHELL-30 trust/deny UI (persisted in userData/certificate.json).
   allowSelfSignedForWebHost({ webUrl, getMainWindow });
   const isDev =
-    process.env.QCHAT_DESKTOP_DEV === "1" || process.argv.includes("--dev");
+    process.env.XINCHAT_DESKTOP_DEV === "1" || process.argv.includes("--dev");
   const iconPath = getIconPath();
 
   const gotLock = app.requestSingleInstanceLock();
@@ -85,7 +85,7 @@ function startApp() {
     sendConversationToRenderer,
   });
 
-  // SHELL-28: claim qchat:// (packaged + unpackaged).
+  // SHELL-28: claim xinchat:// (packaged + unpackaged).
   registerProtocolClient();
 
   // Cold-start / second-instance argv (Windows + Linux).
@@ -110,7 +110,7 @@ function startApp() {
 
   app.whenReady().then(() => {
     app.setName(APP_TITLE);
-    // Start Menu .lnk + one-time prime toast so Windows lists Qchat under Notifications.
+    // Start Menu .lnk + one-time prime toast so Windows lists XinChat under Notifications.
     registerWindowsNotifications();
     if (process.platform === "linux" && fs.existsSync(iconPath)) {
       app.dock?.setIcon?.(iconPath);
@@ -133,7 +133,7 @@ function startApp() {
     // PACK-06: electron-updater (packaged + updateUrl only).
     registerAutoUpdater({ getMainWindow });
 
-    process.env.QCHAT_WEB_URL_RESOLVED = webUrl;
+    process.env.XINCHAT_WEB_URL_RESOLVED = webUrl;
 
     const rebuildChrome = () => {
       buildAppMenu({

@@ -194,7 +194,7 @@ export default function DownloadPage() {
       <header className="dl-top">
         <Link href="/login" className="dl-brand">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/downloads/images/qchat-icon.png" alt="" width={36} height={36} />
+          <img src="/downloads/images/xinchat-icon.png" alt="" width={36} height={36} />
           <span>XinChat</span>
         </Link>
         <nav className="dl-top-nav">

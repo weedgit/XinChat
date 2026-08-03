@@ -24,7 +24,7 @@ const ELECTRON_APP = path.join(
   "Electron.app"
 );
 const DEFAULT_IDENTITY = "Electron Dev";
-const P12_PASS = "qchat-electron-dev";
+const P12_PASS = "xinchat-electron-dev";
 
 function codesignInfo(appPath) {
   const result = spawnSync("codesign", ["-dv", "--verbose=4", appPath], {
@@ -99,7 +99,7 @@ function ensureElectronDevCertificate(identity = DEFAULT_IDENTITY) {
     };
   }
 
-  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "qchat-electron-dev-"));
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "xinchat-electron-dev-"));
   const cnf = path.join(tmp, "cert.cnf");
   const key = path.join(tmp, "key.pem");
   const cert = path.join(tmp, "cert.pem");
@@ -236,13 +236,13 @@ function ensureElectronDevCertificate(identity = DEFAULT_IDENTITY) {
 
 function pickIdentity() {
   const forced = (
-    process.env.QCHAT_ELECTRON_DEV_IDENTITY ||
+    process.env.XINCHAT_ELECTRON_DEV_IDENTITY ||
     process.env.CSC_NAME ||
     ""
   ).trim();
   if (forced) return forced;
 
-  const preferred = [DEFAULT_IDENTITY, "Qchat Electron Dev"];
+  const preferred = [DEFAULT_IDENTITY, "XinChat Electron Dev"];
   for (const name of preferred) {
     if (hasIdentity(name)) return name;
   }
@@ -275,7 +275,7 @@ function signDevElectron({ force = false, ensureCert = true } = {}) {
 
   let identity =
     (
-      process.env.QCHAT_ELECTRON_DEV_IDENTITY ||
+      process.env.XINCHAT_ELECTRON_DEV_IDENTITY ||
       process.env.CSC_NAME ||
       ""
     ).trim() || null;
@@ -286,7 +286,7 @@ function signDevElectron({ force = false, ensureCert = true } = {}) {
     if (ensured.ok) {
       if (ensured.created) {
         console.log(
-          `[qchat-desktop] created self-signed codesigning identity "${ensured.identity}"`
+          `[xinchat-desktop] created self-signed codesigning identity "${ensured.identity}"`
         );
       }
       identity = ensured.identity;
@@ -375,17 +375,17 @@ if (require.main === module) {
   const force = process.argv.includes("--force");
   const result = signDevElectron({ force, ensureCert: true });
   if (!result.ok) {
-    console.error("[qchat-desktop] sign:dev failed:", result.reason);
+    console.error("[xinchat-desktop] sign:dev failed:", result.reason);
     process.exit(1);
   }
   if (result.skipped) {
-    console.log("[qchat-desktop] sign:dev skipped:", result.reason);
+    console.log("[xinchat-desktop] sign:dev skipped:", result.reason);
   } else {
     console.log(
-      `[qchat-desktop] signed Electron.app for macOS notifications (${result.identity})`
+      `[xinchat-desktop] signed Electron.app for macOS notifications (${result.identity})`
     );
     console.log(
-      "[qchat-desktop] If banners still missing: System Settings → Notifications → Electron → Allow Notifications (Banners)."
+      "[xinchat-desktop] If banners still missing: System Settings → Notifications → Electron → Allow Notifications (Banners)."
     );
   }
 }

@@ -1,12 +1,12 @@
 export {};
 
 declare global {
-  interface QchatDesktopSecureSession {
+  interface XinChatDesktopSecureSession {
     accessToken: string;
     refreshToken: string;
   }
 
-  interface QchatDesktopBridge {
+  interface XinChatDesktopBridge {
     isDesktop: true;
     platform: string;
     /** Friendly OS label e.g. "Windows 11", "Ubuntu 24.04". */
@@ -38,7 +38,7 @@ declare global {
       handler: (payload: { focused: boolean }) => void
     ) => () => void;
     secureSessionAvailable?: () => Promise<{ available: boolean; encryption: boolean }>;
-    getSecureSession?: () => Promise<QchatDesktopSecureSession | null>;
+    getSecureSession?: () => Promise<XinChatDesktopSecureSession | null>;
     setSecureSession?: (tokens: {
       accessToken: string;
       refreshToken?: string;
@@ -82,6 +82,6 @@ declare global {
   }
 
   interface Window {
-    qchatDesktop?: QchatDesktopBridge;
+    xinchatDesktop?: XinChatDesktopBridge;
   }
 }

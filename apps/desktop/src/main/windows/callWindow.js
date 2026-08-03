@@ -121,9 +121,9 @@ function openCallWindow(opts) {
       sandbox: true,
       spellcheck: false,
       additionalArguments: [
-        `--qchat-version=${appVersion}`,
-        `--qchat-web-url=${webUrl}`,
-        "--qchat-call-window=1",
+        `--xinchat-version=${appVersion}`,
+        `--xinchat-web-url=${webUrl}`,
+        "--xinchat-call-window=1",
       ],
     },
   });
@@ -157,7 +157,7 @@ function openCallWindow(opts) {
   });
 
   callWindow.loadURL(target).catch((err) => {
-    console.warn("[qchat-desktop] call window load failed:", err?.message || err);
+    console.warn("[xinchat-desktop] call window load failed:", err?.message || err);
   });
 
   return { ok: true };

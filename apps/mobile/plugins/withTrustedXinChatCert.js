@@ -1,9 +1,9 @@
 /**
- * Trust the Qchat nginx self-signed cert (deploy/certs/qchat.crt) in Android
+ * Trust the XinChat nginx self-signed cert (deploy/certs/xinchat.crt) in Android
  * network security config so HTTPS fetch works outside Expo Go.
  *
  * Dev / preview only. Production profiles must omit this plugin
- * (see app.config.js + QCHAT_TRUST_CERT=0).
+ * (see app.config.js + XINCHAT_TRUST_CERT=0).
  *
  * Mirror: Android network_security_config custom trust-anchors.
  */
@@ -15,16 +15,16 @@ const {
 const fs = require("fs");
 const path = require("path");
 
-const CERT_SRC = "certs/qchat.crt";
-const RAW_NAME = "qchat_cert";
-const API_HOST = process.env.QCHAT_TRUST_HOST || "135.181.224.36";
+const CERT_SRC = "certs/xinchat.crt";
+const RAW_NAME = "xinchat_cert";
+const API_HOST = process.env.XINCHAT_TRUST_HOST || "135.181.224.36";
 
 function networkSecurityXml(host) {
   // Cleartext must be allowed broadly for Metro (LAN IPs like 192.168.x.x /
   // VMware adapters). Android domain-config cannot match IP ranges.
   // API host still uses HTTPS + the embedded self-signed trust anchor.
   return `<?xml version="1.0" encoding="utf-8"?>
-<!-- Dev client: Metro cleartext (any host) + trust Qchat self-signed TLS. -->
+<!-- Dev client: Metro cleartext (any host) + trust XinChat self-signed TLS. -->
 <network-security-config>
   <base-config cleartextTrafficPermitted="true">
     <trust-anchors>
@@ -42,10 +42,10 @@ function networkSecurityXml(host) {
 `;
 }
 
-function withTrustedQchatCert(config) {
-  if (process.env.QCHAT_TRUST_CERT === "0") {
+function withTrustedXinChatCert(config) {
+  if (process.env.XINCHAT_TRUST_CERT === "0") {
     console.warn(
-      "[withTrustedQchatCert] skipped (QCHAT_TRUST_CERT=0) — production/system CA mode"
+      "[withTrustedXinChatCert] skipped (XINCHAT_TRUST_CERT=0) — production/system CA mode"
     );
     return config;
   }
@@ -58,7 +58,7 @@ function withTrustedQchatCert(config) {
       const certPath = path.join(projectRoot, CERT_SRC);
       if (!fs.existsSync(certPath)) {
         throw new Error(
-          `[withTrustedQchatCert] Missing ${CERT_SRC}. Copy deploy/certs/qchat.crt from the server.`
+          `[withTrustedXinChatCert] Missing ${CERT_SRC}. Copy deploy/certs/xinchat.crt from the server.`
         );
       }
 
@@ -81,7 +81,7 @@ function withTrustedQchatCert(config) {
       fs.mkdirSync(rawDir, { recursive: true });
       fs.mkdirSync(xmlDir, { recursive: true });
 
-      // Android raw resources: lowercase a-z0-9_ (no extension → @raw/qchat_cert)
+      // Android raw resources: lowercase a-z0-9_ (no extension → @raw/xinchat_cert)
       fs.copyFileSync(certPath, path.join(rawDir, RAW_NAME));
       fs.writeFileSync(
         path.join(xmlDir, "network_security_config.xml"),
@@ -120,4 +120,4 @@ function withTrustedQchatCert(config) {
   return config;
 }
 
-module.exports = withTrustedQchatCert;
+module.exports = withTrustedXinChatCert;

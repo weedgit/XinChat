@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/qchat/qchat/services/api/internal/ws"
+	"github.com/xinchat/xinchat/services/api/internal/ws"
 )
 
 // handleUpdateStatus PUT /users/{user_id}/status.

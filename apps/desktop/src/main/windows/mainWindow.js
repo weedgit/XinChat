@@ -69,7 +69,7 @@ async function ensureRemoteUiHydrated(win, webOrigin) {
       var deadline = Date.now() + 25000;
       var started = Date.now();
       while (Date.now() < deadline) {
-        if (document.querySelector(".auth-wrap, .auth-card, input[type=password], .chat-shell, [data-qchat-ready]")) {
+        if (document.querySelector(".auth-wrap, .auth-card, input[type=password], .chat-shell, [data-xinchat-ready]")) {
           return { ok: true, reason: "ui-ready" };
         }
         var splash = document.querySelector(".boot-splash");
@@ -100,20 +100,20 @@ async function ensureRemoteUiHydrated(win, webOrigin) {
     result = await win.webContents.executeJavaScript(probe);
   } catch (err) {
     console.warn(
-      "[qchat-desktop] hydration probe failed:",
+      "[xinchat-desktop] hydration probe failed:",
       err?.message || err
     );
     return;
   }
   if (!result || result.ok) {
     if (result?.reason) {
-      console.log("[qchat-desktop] remote UI:", result.reason);
+      console.log("[xinchat-desktop] remote UI:", result.reason);
     }
     return;
   }
 
   console.warn(
-    "[qchat-desktop] remote UI stuck (",
+    "[xinchat-desktop] remote UI stuck (",
     result.reason,
     ") — reloading once"
   );
@@ -123,14 +123,14 @@ async function ensureRemoteUiHydrated(win, webOrigin) {
     result = await win.webContents.executeJavaScript(probe);
   } catch (err) {
     console.warn(
-      "[qchat-desktop] hydration reload failed:",
+      "[xinchat-desktop] hydration reload failed:",
       err?.message || err
     );
     result = { ok: false, reason: "reload-failed" };
   }
 
   if (result && result.ok) {
-    console.log("[qchat-desktop] remote UI recovered:", result.reason);
+    console.log("[xinchat-desktop] remote UI recovered:", result.reason);
     return;
   }
 
@@ -170,7 +170,7 @@ async function loadUrlWithRetry(win, url, attempts = 3) {
       if (/ERR_ABORTED|\(-3\)/.test(msg)) return;
       const last = i === attempts - 1;
       console.warn(
-        `[qchat-desktop] loadURL failed (${i + 1}/${attempts})${last ? "" : ", retrying"}:`,
+        `[xinchat-desktop] loadURL failed (${i + 1}/${attempts})${last ? "" : ", retrying"}:`,
         msg
       );
       if (last || !win || win.isDestroyed()) return;
@@ -312,9 +312,9 @@ function createMainWindow(opts) {
       sandbox: true,
       spellcheck: true,
       additionalArguments: [
-        `--qchat-version=${appVersion}`,
-        `--qchat-web-url=${webUrl}`,
-        `--qchat-platform-label=${encodeURIComponent(platformLabel())}`,
+        `--xinchat-version=${appVersion}`,
+        `--xinchat-web-url=${webUrl}`,
+        `--xinchat-platform-label=${encodeURIComponent(platformLabel())}`,
       ],
     },
   });
@@ -324,7 +324,7 @@ function createMainWindow(opts) {
     try {
       mainWindow.setIcon(icon);
     } catch (err) {
-      console.warn("[qchat-desktop] setIcon failed:", err?.message || err);
+      console.warn("[xinchat-desktop] setIcon failed:", err?.message || err);
     }
   }
 
@@ -384,7 +384,7 @@ function createMainWindow(opts) {
       await mainWindow.webContents.insertCSS(css);
     } catch (err) {
       console.warn(
-        "[qchat-desktop] chat layout CSS inject failed:",
+        "[xinchat-desktop] chat layout CSS inject failed:",
         err?.message || err
       );
     }
@@ -399,7 +399,7 @@ function createMainWindow(opts) {
       }
     } catch (err) {
       console.warn(
-        "[qchat-desktop] splash load failed:",
+        "[xinchat-desktop] splash load failed:",
         err?.message || err
       );
     }
@@ -459,7 +459,7 @@ function createMainWindow(opts) {
         details.resourceType === "xhr"
       ) {
         console.warn(
-          "[qchat-desktop] resource failed:",
+          "[xinchat-desktop] resource failed:",
           details.resourceType,
           details.error,
           details.url
@@ -468,7 +468,7 @@ function createMainWindow(opts) {
     });
   } catch (err) {
     console.warn(
-      "[qchat-desktop] webRequest hook failed:",
+      "[xinchat-desktop] webRequest hook failed:",
       err?.message || err
     );
   }
@@ -483,8 +483,8 @@ function createMainWindow(opts) {
         `Could not load XinChat web UI.\n\n` +
           `URL: ${validatedURL || webUrl}\n` +
           `Error: ${errorDescription} (${errorCode})\n\n` +
-          `Start apps/web (npm run dev) or set QCHAT_WEB_URL, e.g.\n` +
-          `QCHAT_WEB_URL=https://135.181.224.36 npm start`
+          `Start apps/web (npm run dev) or set XINCHAT_WEB_URL, e.g.\n` +
+          `XINCHAT_WEB_URL=https://135.181.224.36 npm start`
       );
     }
   );
@@ -507,25 +507,25 @@ function createMainWindow(opts) {
       mainWindow?.webContents
         .executeJavaScript(
           `({
-            hasDesktop: Boolean(window.qchatDesktop?.isDesktop),
-            hasNotify: typeof window.qchatDesktop?.notifyMessage,
-            platformLabel: window.qchatDesktop?.platformLabel || null,
+            hasDesktop: Boolean(window.xinchatDesktop?.isDesktop),
+            hasNotify: typeof window.xinchatDesktop?.notifyMessage,
+            platformLabel: window.xinchatDesktop?.platformLabel || null,
             path: location.pathname
           })`
         )
         .then((info) => {
           if (!info?.hasDesktop || info.hasNotify !== "function") {
             console.error(
-              "[qchat-desktop] preload bridge missing after load — desktop notifications cannot run:",
+              "[xinchat-desktop] preload bridge missing after load — desktop notifications cannot run:",
               info
             );
           } else {
-            console.log("[qchat-desktop] preload bridge ok:", info);
+            console.log("[xinchat-desktop] preload bridge ok:", info);
           }
         })
         .catch((err) => {
           console.warn(
-            "[qchat-desktop] preload bridge probe failed:",
+            "[xinchat-desktop] preload bridge probe failed:",
             err?.message || err
           );
         });

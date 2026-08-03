@@ -65,7 +65,7 @@ function requestWindowAttention(getMainWindow, opts = {}) {
       }
     } catch (err) {
       console.warn(
-        "[qchat-desktop] dock bounce failed:",
+        "[xinchat-desktop] dock bounce failed:",
         err?.message || err
       );
     }
@@ -76,7 +76,7 @@ function requestWindowAttention(getMainWindow, opts = {}) {
     win.flashFrame(true);
   } catch (err) {
     console.warn(
-      "[qchat-desktop] flashFrame failed:",
+      "[xinchat-desktop] flashFrame failed:",
       err?.message || err
     );
   }

@@ -1,4 +1,4 @@
-/** Composer GIF search via Qchat API → Giphy (server-side key). */
+/** Composer GIF search via XinChat API → Giphy (server-side key). */
 
 import { api, asList } from "./api";
 

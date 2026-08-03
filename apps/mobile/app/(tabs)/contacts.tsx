@@ -11,7 +11,7 @@ import {
   View,
 } from "react-native";
 import { router } from "expo-router";
-import { formatApiError } from "@qchat/i18n";
+import { formatApiError } from "@xinchat/i18n";
 import { Avatar } from "../../src/components/Avatar";
 import { useChat } from "../../src/context/ChatContext";
 import { useLocale } from "../../src/context/LocaleContext";

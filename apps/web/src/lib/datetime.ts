@@ -1,4 +1,4 @@
-import { intlLocale, type ResolvedLocale } from "@qchat/i18n";
+import { intlLocale, type ResolvedLocale } from "@xinchat/i18n";
 
 /** Conversation / message timestamps (today → time; else short month+day). */
 export function formatConversationTime(

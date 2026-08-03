@@ -9,8 +9,8 @@
       "distribution": "internal",
       "env": {
         "APP_ENV": "development",
-        "QCHAT_TRUST_CERT": "1",
-        "QCHAT_ALLOW_CLEARTEXT": "1"
+        "XINCHAT_TRUST_CERT": "1",
+        "XINCHAT_ALLOW_CLEARTEXT": "1"
       },
       "android": {
         "buildType": "apk"
@@ -24,8 +24,8 @@
       "autoIncrement": true,
       "env": {
         "APP_ENV": "preview",
-        "QCHAT_TRUST_CERT": "1",
-        "QCHAT_ALLOW_CLEARTEXT": "0",
+        "XINCHAT_TRUST_CERT": "1",
+        "XINCHAT_ALLOW_CLEARTEXT": "0",
         "EXPO_PUBLIC_API_URL": "https://135.181.224.36",
         "EXPO_PUBLIC_LIVEKIT_URL": "wss://135.181.224.36:7443"
       },
@@ -37,8 +37,8 @@
       "autoIncrement": true,
       "env": {
         "APP_ENV": "production",
-        "QCHAT_TRUST_CERT": "0",
-        "QCHAT_ALLOW_CLEARTEXT": "0"
+        "XINCHAT_TRUST_CERT": "0",
+        "XINCHAT_ALLOW_CLEARTEXT": "0"
       }
     }
   },

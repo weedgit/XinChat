@@ -32,13 +32,13 @@ copy_glob() {
 }
 
 echo "Publishing downloads → $DEST"
-copy_glob "$DESKTOP_DIST/qchat-desktop-Setup-"*.exe
-copy_glob "$DESKTOP_DIST/qchat-desktop-"*.dmg
-copy_glob "$DESKTOP_DIST/qchat-desktop-"*.AppImage
-copy_glob "$DESKTOP_DIST/qchat-desktop_"*.deb
-copy_glob "$DESKTOP_DIST/qchat-desktop-"*.deb
-copy_glob "$MOBILE_DIST/"*.apk "qchat-mobile.apk"
-copy_glob "$ROOT/apps/mobile/"*.apk "qchat-mobile.apk"
+copy_glob "$DESKTOP_DIST/xinchat-desktop-Setup-"*.exe
+copy_glob "$DESKTOP_DIST/xinchat-desktop-"*.dmg
+copy_glob "$DESKTOP_DIST/xinchat-desktop-"*.AppImage
+copy_glob "$DESKTOP_DIST/xinchat-desktop_"*.deb
+copy_glob "$DESKTOP_DIST/xinchat-desktop-"*.deb
+copy_glob "$MOBILE_DIST/"*.apk "xinchat-mobile.apk"
+copy_glob "$ROOT/apps/mobile/"*.apk "xinchat-mobile.apk"
 
 if ((copied == 0)); then
   echo "No artifacts found. Build first, then re-run:"

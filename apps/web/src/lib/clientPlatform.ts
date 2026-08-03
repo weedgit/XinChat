@@ -104,7 +104,7 @@ export async function detectWebPlatform(): Promise<ClientPlatformInfo> {
 
 /** Electron desktop platform label from preload bridge. */
 export function detectDesktopPlatform(): ClientPlatformInfo {
-  const desk = typeof window !== "undefined" ? window.qchatDesktop : undefined;
+  const desk = typeof window !== "undefined" ? window.xinchatDesktop : undefined;
   const label =
     desk?.platformLabel ||
     desk?.deviceName?.replace(/^XinChat Desktop\s*\(/, "").replace(/^Rchat Desktop\s*\(/, "").replace(/^Qchat Desktop\s*\(/, "").replace(/\)$/, "") ||

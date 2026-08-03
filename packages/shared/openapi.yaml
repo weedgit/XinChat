@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: Qchat API
+  title: XinChat API
   version: 0.3.0
 servers:
   - url: http://localhost:8080

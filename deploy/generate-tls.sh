@@ -5,12 +5,12 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-CERT_DIR="${QCHAT_CERT_DIR:-$ROOT/deploy/certs}"
+CERT_DIR="${XINCHAT_CERT_DIR:-$ROOT/deploy/certs}"
 HOST_OVERRIDE=""
 
 usage() {
   cat <<'EOF'
-Generate self-signed TLS certs for Qchat nginx.
+Generate self-signed TLS certs for XinChat nginx.
 
 Usage:
   ./deploy/generate-tls.sh
@@ -40,8 +40,8 @@ detect_host() {
     printf '%s\n' "$LIVEKIT_NODE_IP"
     return
   fi
-  if [[ -n "${QCHAT_PUBLIC_HOST:-}" ]]; then
-    printf '%s\n' "$QCHAT_PUBLIC_HOST"
+  if [[ -n "${XINCHAT_PUBLIC_HOST:-}" ]]; then
+    printf '%s\n' "$XINCHAT_PUBLIC_HOST"
     return
   fi
   local detected=""
@@ -61,8 +61,8 @@ detect_host() {
 
 HOST="$(detect_host)"
 mkdir -p "$CERT_DIR"
-KEY="$CERT_DIR/qchat.key"
-CRT="$CERT_DIR/qchat.crt"
+KEY="$CERT_DIR/xinchat.key"
+CRT="$CERT_DIR/xinchat.crt"
 CNF="$CERT_DIR/openssl.cnf"
 
 # Reuse existing cert if it already covers this host and is not expired.

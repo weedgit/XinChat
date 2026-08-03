@@ -13,7 +13,7 @@ import {
 import { searchGifs, type GifItem } from "@/lib/gifSearch";
 import { STICKER_PACKS, type StickerItem } from "@/lib/stickerData";
 import { useLocale } from "@/lib/locale";
-import type { MessageKey } from "@qchat/i18n";
+import type { MessageKey } from "@xinchat/i18n";
 
 export type PickerMedia = {
   url: string;

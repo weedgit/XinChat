@@ -59,7 +59,7 @@ func (s *Server) handleGifSearch(w http.ResponseWriter, r *http.Request) {
 	key := strings.TrimSpace(s.cfg.GiphyAPIKey)
 	if key == "" {
 		writeErrCode(w, 503, "giphy_not_configured",
-			"GIF search is not configured. Set QCHAT_GIPHY_API_KEY (free key from developers.giphy.com).")
+			"GIF search is not configured. Set XINCHAT_GIPHY_API_KEY (free key from developers.giphy.com).")
 		return
 	}
 

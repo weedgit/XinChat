@@ -21,17 +21,17 @@ async function injectSession(page: import("@playwright/test").Page) {
   await page.goto("/login");
   await page.evaluate(
     ({ access, refresh }) => {
-      localStorage.setItem("qchat.access_token", access);
-      localStorage.setItem("qchat.refresh_token", refresh);
-      localStorage.setItem("qchat.remember", "1");
+      localStorage.setItem("xinchat.access_token", access);
+      localStorage.setItem("xinchat.refresh_token", refresh);
+      localStorage.setItem("xinchat.remember", "1");
       // Force English so selectors match packages/i18n English strings.
-      localStorage.setItem("qchat.locale", "en");
+      localStorage.setItem("xinchat.locale", "en");
     },
     { access: tokens.access_token, refresh: tokens.refresh_token }
   );
 }
 
-test.describe("Qchat core flows", () => {
+test.describe("XinChat core flows", () => {
   test.beforeAll(async () => {
     if (process.env.PLAYWRIGHT_SKIP === "1") {
       test.skip(true, "PLAYWRIGHT_SKIP=1");

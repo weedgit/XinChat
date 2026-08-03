@@ -11,10 +11,10 @@ import (
 
 	"github.com/gorilla/websocket"
 	"github.com/jackc/pgx/v5/pgxpool"
-	"github.com/qchat/qchat/services/api/internal/auth"
-	"github.com/qchat/qchat/services/api/internal/blobstore"
-	"github.com/qchat/qchat/services/api/internal/config"
-	"github.com/qchat/qchat/services/api/internal/ws"
+	"github.com/xinchat/xinchat/services/api/internal/auth"
+	"github.com/xinchat/xinchat/services/api/internal/blobstore"
+	"github.com/xinchat/xinchat/services/api/internal/config"
+	"github.com/xinchat/xinchat/services/api/internal/ws"
 	"github.com/redis/go-redis/v9"
 )
 
@@ -78,9 +78,9 @@ func (s *Server) Handler() http.Handler {
 
 func (s *Server) routes() {
 	s.mux.HandleFunc("GET /healthz", func(w http.ResponseWriter, r *http.Request) {
-		writeJSON(w, http.StatusOK, map[string]any{"ok": true, "service": "qchat-api"})
+		writeJSON(w, http.StatusOK, map[string]any{"ok": true, "service": "xinchat-api"})
 	})
-	// MetricsSettings: scrape /metrics (keep off public nginx — see nginx-qchat.conf).
+	// MetricsSettings: scrape /metrics (keep off public nginx — see nginx-xinchat.conf).
 	s.mux.HandleFunc("GET /metrics", s.handleMetrics)
 
 	// Auth
@@ -248,7 +248,7 @@ func (s *Server) withCORS(next http.Handler) http.Handler {
 	})
 }
 
-// corsAllowOrigin picks ACAO. QCHAT_CORS_ORIGIN may be "*", one origin, or a comma list.
+// corsAllowOrigin picks ACAO. XINCHAT_CORS_ORIGIN may be "*", one origin, or a comma list.
 func corsAllowOrigin(cfg, reqOrigin string) string {
 	cfg = strings.TrimSpace(cfg)
 	reqOrigin = strings.TrimSpace(reqOrigin)

@@ -10,7 +10,7 @@ type Props = {
   size?: number;
 };
 
-/** Client-side profile QR (`qchat://user/{username}`). */
+/** Client-side profile QR (`xinchat://user/{username}`). */
 export function UserQr({ username, size = 180 }: Props) {
   const { colors } = useTheme();
   const [dataUrl, setDataUrl] = useState<string | null>(null);

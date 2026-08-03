@@ -196,7 +196,7 @@ if __name__ == "__main__":
     code = "H7K3P"
     img = render(code)
     out = img.resize((img.width * 2, img.height * 2), Image.NEAREST)
-    path = r"D:\Work\1-InProgress\qchat\assets\captcha-sample.png"
+    path = r"D:\Work\1-InProgress\xinchat\assets\captcha-sample.png"
     os.makedirs(os.path.dirname(path), exist_ok=True)
     out.save(path)
     print(path)

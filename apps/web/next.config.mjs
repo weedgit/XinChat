@@ -10,13 +10,13 @@ const nextConfig = {
   // Static export for production/nginx. Dev uses a server so /v1 can be proxied.
   ...(isDev ? {} : { output: "export" }),
   images: { unoptimized: true },
-  transpilePackages: ["@qchat/i18n"],
+  transpilePackages: ["@xinchat/i18n"],
   ...(isDev
     ? {
         // Proxy API through :3000 so captcha works via Cursor port-forward / same origin.
         async rewrites() {
           const api = (
-            process.env.QCHAT_DEV_API_PROXY || "http://127.0.0.1:8080"
+            process.env.XINCHAT_DEV_API_PROXY || "http://127.0.0.1:8080"
           ).replace(/\/$/, "");
           return [{ source: "/v1/:path*", destination: `${api}/v1/:path*` }];
         },
@@ -25,7 +25,7 @@ const nextConfig = {
   webpack: (config) => {
     config.resolve.alias = {
       ...config.resolve.alias,
-      "@qchat/i18n": path.resolve(__dirname, "../../packages/i18n/src/index.ts"),
+      "@xinchat/i18n": path.resolve(__dirname, "../../packages/i18n/src/index.ts"),
     };
     return config;
   },

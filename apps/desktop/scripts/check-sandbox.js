@@ -32,12 +32,12 @@ assert(
 );
 assert(
   sandboxJs.includes("isPackaged"),
-  "packaged builds must ignore QCHAT_DESKTOP_NO_SANDBOX"
+  "packaged builds must ignore XINCHAT_DESKTOP_NO_SANDBOX"
 );
 
 const launchJs = fs.readFileSync(path.join(ROOT, "scripts/launch.js"), "utf8");
 assert(
-  launchJs.includes("QCHAT_DESKTOP_NO_SANDBOX"),
+  launchJs.includes("XINCHAT_DESKTOP_NO_SANDBOX"),
   "launch.js must gate --no-sandbox on explicit env/flag"
 );
 assert(

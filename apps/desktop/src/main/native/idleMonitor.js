@@ -56,7 +56,7 @@ function tick() {
     idleTimeSec = Number(powerMonitor.getSystemIdleTime()) || 0;
   } catch (err) {
     console.warn(
-      "[qchat-desktop] getSystemIdleTime failed:",
+      "[xinchat-desktop] getSystemIdleTime failed:",
       err?.message || err
     );
     return;
@@ -86,7 +86,7 @@ function bindPowerHooks() {
     powerMonitor.on("resume", goActive);
   } catch (err) {
     console.warn(
-      "[qchat-desktop] powerMonitor hooks failed:",
+      "[xinchat-desktop] powerMonitor hooks failed:",
       err?.message || err
     );
   }

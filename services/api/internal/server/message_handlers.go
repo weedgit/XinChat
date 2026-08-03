@@ -12,7 +12,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/qchat/qchat/services/api/internal/ws"
+	"github.com/xinchat/xinchat/services/api/internal/ws"
 )
 
 func (s *Server) handleListConversations(w http.ResponseWriter, r *http.Request) {

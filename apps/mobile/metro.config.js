@@ -20,7 +20,7 @@ config.resolver.disableHierarchicalLookup = true;
 config.resolver.unstable_enablePackageExports = true;
 
 config.resolver.resolveRequest = (context, moduleName, platform) => {
-  if (moduleName === "@qchat/i18n") {
+  if (moduleName === "@xinchat/i18n") {
     return {
       filePath: path.resolve(workspaceRoot, "packages/i18n/src/index.ts"),
       type: "sourceFile",

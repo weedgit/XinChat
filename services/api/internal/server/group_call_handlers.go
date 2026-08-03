@@ -4,7 +4,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/qchat/qchat/services/api/internal/ws"
+	"github.com/xinchat/xinchat/services/api/internal/ws"
 )
 
 // handleInviteToCall adds members to an active/ringing group call and rings them.

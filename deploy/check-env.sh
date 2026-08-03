@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Validate deploy/qchat-api.env (and optional generated media.env) before redeploy.
+# Validate deploy/xinchat-api.env (and optional generated media.env) before redeploy.
 #
 # Usage:
 #   ./deploy/check-env.sh              # warn in development; fail in production
@@ -9,19 +9,19 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-ENV_FILE="${QCHAT_ENV_FILE:-$ROOT/deploy/qchat-api.env}"
+ENV_FILE="${XINCHAT_ENV_FILE:-$ROOT/deploy/xinchat-api.env}"
 MEDIA_ENV="$ROOT/deploy/generated/media.env"
 STRICT=0
 WARN_ONLY=0
 
-DEFAULT_JWT="dev-qchat-secret-change-me"
+DEFAULT_JWT="dev-xinchat-secret-change-me"
 DEFAULT_LK_KEY="devkey"
 DEFAULT_LK_SECRET="secret-that-is-at-least-32-characters-long"
-DEFAULT_TURN_PASS="qchatturnsecret"
+DEFAULT_TURN_PASS="xinchatturnsecret"
 
 usage() {
   cat <<'EOF'
-Validate Qchat API / media env before deploy.
+Validate XinChat API / media env before deploy.
 
 Usage:
   ./deploy/check-env.sh
@@ -29,7 +29,7 @@ Usage:
   ./deploy/check-env.sh --warn-only
 
 Environment:
-  QCHAT_ENV_FILE   path to env file (default: deploy/qchat-api.env)
+  XINCHAT_ENV_FILE   path to env file (default: deploy/xinchat-api.env)
 EOF
   exit "${1:-0}"
 }
@@ -59,7 +59,7 @@ warn() {
 ok() { echo "ok: $*"; }
 
 if [[ ! -f "$ENV_FILE" ]]; then
-  fail "missing $ENV_FILE (copy from deploy/qchat-api.env.example and rotate secrets)"
+  fail "missing $ENV_FILE (copy from deploy/xinchat-api.env.example and rotate secrets)"
   if [[ "$WARN_ONLY" -eq 1 ]]; then
     exit 0
   fi
@@ -72,9 +72,9 @@ set -a
 source "$ENV_FILE"
 set +a
 
-QCHAT_ENV_VAL="$(echo "${QCHAT_ENV:-development}" | tr '[:upper:]' '[:lower:]')"
+XINCHAT_ENV_VAL="$(echo "${XINCHAT_ENV:-development}" | tr '[:upper:]' '[:lower:]')"
 IS_PROD=0
-if [[ "$QCHAT_ENV_VAL" == "production" || "$STRICT" -eq 1 ]]; then
+if [[ "$XINCHAT_ENV_VAL" == "production" || "$STRICT" -eq 1 ]]; then
   IS_PROD=1
 fi
 
@@ -87,12 +87,12 @@ issue() {
 }
 
 # --- JWT ---
-if [[ -z "${QCHAT_JWT_SECRET:-}" || "$QCHAT_JWT_SECRET" == "$DEFAULT_JWT" ]]; then
-  issue "QCHAT_JWT_SECRET is missing or still the example default — run ./deploy/rotate-jwt-secret.sh"
-elif [[ "${#QCHAT_JWT_SECRET}" -lt 32 ]]; then
-  issue "QCHAT_JWT_SECRET must be at least 32 characters"
+if [[ -z "${XINCHAT_JWT_SECRET:-}" || "$XINCHAT_JWT_SECRET" == "$DEFAULT_JWT" ]]; then
+  issue "XINCHAT_JWT_SECRET is missing or still the example default — run ./deploy/rotate-jwt-secret.sh"
+elif [[ "${#XINCHAT_JWT_SECRET}" -lt 32 ]]; then
+  issue "XINCHAT_JWT_SECRET must be at least 32 characters"
 else
-  ok "QCHAT_JWT_SECRET length ${#QCHAT_JWT_SECRET}"
+  ok "XINCHAT_JWT_SECRET length ${#XINCHAT_JWT_SECRET}"
 fi
 
 # --- LiveKit ---
@@ -147,7 +147,7 @@ else
 fi
 
 echo
-echo "check-env: env=$QCHAT_ENV_VAL errors=$ERRORS warnings=$WARNINGS"
+echo "check-env: env=$XINCHAT_ENV_VAL errors=$ERRORS warnings=$WARNINGS"
 
 if [[ "$WARN_ONLY" -eq 1 ]]; then
   exit 0

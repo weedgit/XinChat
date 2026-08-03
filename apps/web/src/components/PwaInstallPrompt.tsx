@@ -25,10 +25,10 @@ function isIosSafari(): boolean {
 }
 
 function isElectronShell(): boolean {
-  return typeof window !== "undefined" && Boolean((window as any).qchatDesktop);
+  return typeof window !== "undefined" && Boolean((window as any).xinchatDesktop);
 }
 
-const DISMISS_KEY = "qchat.pwaInstallDismissed";
+const DISMISS_KEY = "xinchat.pwaInstallDismissed";
 
 /**
  * Chromium beforeinstallprompt chip + iOS Add-to-Home-Screen hint.
@@ -63,7 +63,7 @@ export default function PwaInstallPrompt() {
         setVisible(true);
       }
     };
-    window.addEventListener("qchat:pwa-install-reshow", onReshow);
+    window.addEventListener("xinchat:pwa-install-reshow", onReshow);
 
     if (isIosSafari()) {
       setShowIos(true);
@@ -72,7 +72,7 @@ export default function PwaInstallPrompt() {
 
     return () => {
       window.removeEventListener("beforeinstallprompt", onBip);
-      window.removeEventListener("qchat:pwa-install-reshow", onReshow);
+      window.removeEventListener("xinchat:pwa-install-reshow", onReshow);
     };
   }, []);
 

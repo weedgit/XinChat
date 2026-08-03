@@ -30,7 +30,7 @@ exports.default = async function afterSign(context) {
 
   if (!hasPasswordAuth && !hasApiKeyAuth) {
     console.log(
-      "[qchat-desktop afterSign] notarize skipped (set APPLE_ID + APPLE_APP_SPECIFIC_PASSWORD + APPLE_TEAM_ID, or API key env)"
+      "[xinchat-desktop afterSign] notarize skipped (set APPLE_ID + APPLE_APP_SPECIFIC_PASSWORD + APPLE_TEAM_ID, or API key env)"
     );
     return;
   }
@@ -38,7 +38,7 @@ exports.default = async function afterSign(context) {
   // Skip if nothing was signed (no Developer ID identity / CSC_*).
   if (!process.env.CSC_LINK && !process.env.CSC_NAME) {
     console.log(
-      "[qchat-desktop afterSign] notarize skipped (no CSC_LINK / CSC_NAME — app likely unsigned)"
+      "[xinchat-desktop afterSign] notarize skipped (no CSC_LINK / CSC_NAME — app likely unsigned)"
     );
     return;
   }
@@ -48,7 +48,7 @@ exports.default = async function afterSign(context) {
     ({ notarize } = require("@electron/notarize"));
   } catch (err) {
     console.warn(
-      "[qchat-desktop afterSign] @electron/notarize missing:",
+      "[xinchat-desktop afterSign] @electron/notarize missing:",
       err?.message || err
     );
     return;
@@ -57,7 +57,7 @@ exports.default = async function afterSign(context) {
   const appName = context.packager.appInfo.productFilename;
   const appPath = path.join(context.appOutDir, `${appName}.app`);
 
-  console.log(`[qchat-desktop afterSign] notarizing ${appPath} …`);
+  console.log(`[xinchat-desktop afterSign] notarizing ${appPath} …`);
 
   /** @type {Record<string, string>} */
   const opts = { appPath, teamId };
@@ -71,5 +71,5 @@ exports.default = async function afterSign(context) {
   }
 
   await notarize(opts);
-  console.log("[qchat-desktop afterSign] notarize complete");
+  console.log("[xinchat-desktop afterSign] notarize complete");
 };

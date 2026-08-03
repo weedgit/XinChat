@@ -1,4 +1,4 @@
--- Qchat core schema
+-- XinChat core schema
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
 CREATE TABLE IF NOT EXISTS enterprises (

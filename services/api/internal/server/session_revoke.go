@@ -6,7 +6,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/qchat/qchat/services/api/internal/ws"
+	"github.com/xinchat/xinchat/services/api/internal/ws"
 )
 
 // In-memory set of recently revoked session IDs so access JWTs stop working

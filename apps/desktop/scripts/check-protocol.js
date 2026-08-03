@@ -11,23 +11,28 @@ function bad(url) {
   assert.strictEqual(parseDeepLink(url), null, `expected reject: ${url}`);
 }
 
-ok("qchat://conversation/abc-123", "abc-123");
-ok("qchat://chat/deadbeef", "deadbeef");
-ok("qchat://c/x1", "x1");
-ok("qchat:///conversation/uuid-here", "uuid-here");
-ok("qchat://open?conversation=conv1", "conv1");
-ok("qchat://open?id=conv2", "conv2");
+ok("xinchat://conversation/abc-123", "abc-123");
+ok("xinchat://chat/deadbeef", "deadbeef");
+ok("xinchat://c/x1", "x1");
+ok("xinchat:///conversation/uuid-here", "uuid-here");
+ok("xinchat://open?conversation=conv1", "conv1");
+ok("xinchat://open?id=conv2", "conv2");
+ok("qchat://conversation/legacy-1", "legacy-1");
 
 bad("");
 bad("https://example.com/conversation/x");
-bad("qchat://conversation/");
-bad("qchat://conversation/../etc/passwd");
-bad("qchat://evil.com/conversation/x");
-bad("qchat://conversation/has spaces");
+bad("xinchat://conversation/");
+bad("xinchat://conversation/../etc/passwd");
+bad("xinchat://evil.com/conversation/x");
+bad("xinchat://conversation/has spaces");
 
 assert.strictEqual(
-  getDeepLinkFromArgv(["electron", ".", "qchat://chat/z9"]),
-  "qchat://chat/z9"
+  getDeepLinkFromArgv(["electron", ".", "xinchat://chat/z9"]),
+  "xinchat://chat/z9"
+);
+assert.strictEqual(
+  getDeepLinkFromArgv(["electron", ".", "qchat://chat/legacy"]),
+  "qchat://chat/legacy"
 );
 assert.strictEqual(getDeepLinkFromArgv(["electron", "."]), null);
 

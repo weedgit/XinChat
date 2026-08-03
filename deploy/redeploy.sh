@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Pull latest changes, then rebuild and restart Qchat.
+# Pull latest changes, then rebuild and restart XinChat.
 #
 # Usage:
 #   ./deploy/redeploy.sh                # pull + rebuild API, web, and admin
@@ -21,7 +21,7 @@ SKIP_ENV_CHECK=0
 
 usage() {
   cat <<'EOF'
-Pull latest changes, then rebuild and restart Qchat.
+Pull latest changes, then rebuild and restart XinChat.
 
 Usage:
   ./deploy/redeploy.sh
@@ -68,8 +68,8 @@ log() { printf '\n==> %s\n' "$*"; }
 log "git pull"
 git -C "$ROOT" pull --ff-only
 
-ENV_FILE="$ROOT/deploy/qchat-api.env"
-ENV_EXAMPLE="$ROOT/deploy/qchat-api.env.example"
+ENV_FILE="$ROOT/deploy/xinchat-api.env"
+ENV_EXAMPLE="$ROOT/deploy/xinchat-api.env.example"
 if [[ ! -f "$ENV_FILE" ]]; then
   if [[ -f "$ENV_EXAMPLE" ]]; then
     log "create $ENV_FILE from example"
@@ -94,9 +94,9 @@ set +a
 
 if [[ "$SKIP_ENV_CHECK" -eq 0 ]]; then
   log "check env"
-  # Fail hard when QCHAT_ENV=production (warnings only in development).
+  # Fail hard when XINCHAT_ENV=production (warnings only in development).
   "$ROOT/deploy/check-env.sh" || {
-    echo "error: env check failed; fix deploy/qchat-api.env or pass --skip-env-check" >&2
+    echo "error: env check failed; fix deploy/xinchat-api.env or pass --skip-env-check" >&2
     exit 1
   }
 else
@@ -132,7 +132,7 @@ if [[ "$REQUIRE_MEDIA" -eq 1 && "$MEDIA_OK" -ne 1 ]]; then
   exit 1
 fi
 
-# Re-check after media.env merge into qchat-api.env (render updates keys).
+# Re-check after media.env merge into xinchat-api.env (render updates keys).
 if [[ "$SKIP_ENV_CHECK" -eq 0 ]]; then
   "$ROOT/deploy/check-env.sh" || {
     echo "error: env check failed after media render (keys may still be defaults in production)" >&2
@@ -145,16 +145,16 @@ if [[ "$DO_API" -eq 1 ]]; then
   mkdir -p "$ROOT/services/api/bin"
   (
     cd "$ROOT/services/api"
-    go build -o bin/qchat-api ./cmd/api
+    go build -o bin/xinchat-api ./cmd/api
   )
 
-  log "restart qchat-api"
-  if systemctl is-enabled qchat-api >/dev/null 2>&1 || systemctl cat qchat-api >/dev/null 2>&1; then
-    systemctl reset-failed qchat-api 2>/dev/null || true
-    systemctl restart qchat-api
+  log "restart xinchat-api"
+  if systemctl is-enabled xinchat-api >/dev/null 2>&1 || systemctl cat xinchat-api >/dev/null 2>&1; then
+    systemctl reset-failed xinchat-api 2>/dev/null || true
+    systemctl restart xinchat-api
   else
-    echo "warning: qchat-api.service not installed; binary rebuilt at services/api/bin/qchat-api" >&2
-    echo "         install with: ln -sfn $ROOT/deploy/qchat-api.service /etc/systemd/system/qchat-api.service && systemctl daemon-reload && systemctl enable --now qchat-api" >&2
+    echo "warning: xinchat-api.service not installed; binary rebuilt at services/api/bin/xinchat-api" >&2
+    echo "         install with: ln -sfn $ROOT/deploy/xinchat-api.service /etc/systemd/system/xinchat-api.service && systemctl daemon-reload && systemctl enable --now xinchat-api" >&2
   fi
 fi
 
@@ -175,11 +175,11 @@ if [[ "$DO_WEB" -eq 1 ]]; then
       npm run build
   )
 
-  # Optional: sync to a published docroot (set QCHAT_WEB_ROOT=/var/www/qchat).
-  if [[ -n "${QCHAT_WEB_ROOT:-}" ]]; then
-    log "sync web to $QCHAT_WEB_ROOT"
-    mkdir -p "$QCHAT_WEB_ROOT"
-    rsync -a --delete "$ROOT/apps/web/out/" "$QCHAT_WEB_ROOT/"
+  # Optional: sync to a published docroot (set XINCHAT_WEB_ROOT=/var/www/xinchat).
+  if [[ -n "${XINCHAT_WEB_ROOT:-}" ]]; then
+    log "sync web to $XINCHAT_WEB_ROOT"
+    mkdir -p "$XINCHAT_WEB_ROOT"
+    rsync -a --delete "$ROOT/apps/web/out/" "$XINCHAT_WEB_ROOT/"
   fi
 
   log "reload nginx"

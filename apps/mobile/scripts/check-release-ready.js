@@ -34,11 +34,11 @@ try {
   errors.push(`eas.json parse failed: ${e.message}`);
 }
 
-if (eas?.build?.production?.env?.QCHAT_TRUST_CERT !== "0") {
-  errors.push("production profile must set QCHAT_TRUST_CERT=0");
+if (eas?.build?.production?.env?.XINCHAT_TRUST_CERT !== "0") {
+  errors.push("production profile must set XINCHAT_TRUST_CERT=0");
 }
-if (eas?.build?.production?.env?.QCHAT_ALLOW_CLEARTEXT !== "0") {
-  errors.push("production profile must set QCHAT_ALLOW_CLEARTEXT=0");
+if (eas?.build?.production?.env?.XINCHAT_ALLOW_CLEARTEXT !== "0") {
+  errors.push("production profile must set XINCHAT_ALLOW_CLEARTEXT=0");
 }
 if (eas?.build?.production?.env?.APP_ENV !== "production") {
   errors.push("production profile must set APP_ENV=production");
@@ -75,14 +75,14 @@ if (easignore && !easignore.includes(".env")) {
 
 // Production config simulation
 process.env.APP_ENV = "production";
-process.env.QCHAT_TRUST_CERT = "0";
-process.env.QCHAT_ALLOW_CLEARTEXT = "0";
+process.env.XINCHAT_TRUST_CERT = "0";
+process.env.XINCHAT_ALLOW_CLEARTEXT = "0";
 delete require.cache[require.resolve("../app.config.js")];
 const prodConfig = require("../app.config.js");
 const plugins = prodConfig.plugins || [];
 const pluginStr = JSON.stringify(plugins);
-if (pluginStr.includes("withTrustedQchatCert")) {
-  errors.push("production app.config still includes withTrustedQchatCert");
+if (pluginStr.includes("withTrustedXinChatCert")) {
+  errors.push("production app.config still includes withTrustedXinChatCert");
 }
 if (pluginStr.includes("expo-dev-client")) {
   errors.push("production app.config still includes expo-dev-client");
@@ -106,7 +106,7 @@ if (!process.env.EAS_PROJECT_ID && !prodConfig.extra?.eas?.projectId) {
   );
 }
 
-console.log("Qchat mobile release-ready check");
+console.log("XinChat mobile release-ready check");
 console.log(`  profile simulation: production`);
 for (const w of warnings) console.warn(`  warn: ${w}`);
 for (const e of errors) console.error(`  error: ${e}`);

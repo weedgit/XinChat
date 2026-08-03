@@ -12,7 +12,7 @@ function registerScreenshareHandler() {
   const ses = session.defaultSession;
   if (typeof ses.setDisplayMediaRequestHandler !== "function") {
     console.warn(
-      "[qchat-desktop] setDisplayMediaRequestHandler unavailable; screen share will not work"
+      "[xinchat-desktop] setDisplayMediaRequestHandler unavailable; screen share will not work"
     );
     return;
   }
@@ -22,7 +22,7 @@ function registerScreenshareHandler() {
       if (process.platform === "darwin" && systemPreferences.getMediaAccessStatus) {
         const status = systemPreferences.getMediaAccessStatus("screen");
         if (status === "denied") {
-          console.warn("[qchat-desktop] screen capture permission denied by macOS");
+          console.warn("[xinchat-desktop] screen capture permission denied by macOS");
           callback({});
           return;
         }
@@ -34,7 +34,7 @@ function registerScreenshareHandler() {
         thumbnailSize: { width: 0, height: 0 },
       });
       if (!sources.length) {
-        console.warn("[qchat-desktop] no desktopCapturer sources");
+        console.warn("[xinchat-desktop] no desktopCapturer sources");
         callback({});
         return;
       }
@@ -50,7 +50,7 @@ function registerScreenshareHandler() {
       callback(grant);
     } catch (err) {
       console.warn(
-        "[qchat-desktop] display media handler failed:",
+        "[xinchat-desktop] display media handler failed:",
         err?.message || err
       );
       callback({});

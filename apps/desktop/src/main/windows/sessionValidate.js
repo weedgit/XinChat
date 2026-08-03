@@ -57,12 +57,12 @@ async function ensureVaultSessionFresh(webUrl) {
       return current;
     }
   } catch (err) {
-    console.warn("[qchat-desktop] /v1/me probe failed:", err?.message || err);
+    console.warn("[xinchat-desktop] /v1/me probe failed:", err?.message || err);
   }
 
   const refreshToken = String(current.refreshToken || "").trim();
   if (!refreshToken) {
-    console.warn("[qchat-desktop] session expired and no refresh token in vault");
+    console.warn("[xinchat-desktop] session expired and no refresh token in vault");
     clearSecureSession(webUrl);
     return null;
   }
@@ -75,7 +75,7 @@ async function ensureVaultSessionFresh(webUrl) {
     });
     const body = await readJson(res);
     if (!res.ok) {
-      console.warn("[qchat-desktop] refresh failed:", res.status);
+      console.warn("[xinchat-desktop] refresh failed:", res.status);
       clearSecureSession(webUrl);
       return null;
     }
@@ -93,7 +93,7 @@ async function ensureVaultSessionFresh(webUrl) {
     setSecureSession(webUrl, next);
     return next;
   } catch (err) {
-    console.warn("[qchat-desktop] refresh request failed:", err?.message || err);
+    console.warn("[xinchat-desktop] refresh request failed:", err?.message || err);
     // Keep vault on transient network errors — caller may retry or show UI.
     return current;
   }

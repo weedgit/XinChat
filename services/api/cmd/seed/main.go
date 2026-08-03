@@ -5,10 +5,10 @@ import (
 	"log"
 
 	"github.com/google/uuid"
-	"github.com/qchat/qchat/services/api/internal/auth"
-	"github.com/qchat/qchat/services/api/internal/config"
-	"github.com/qchat/qchat/services/api/internal/db"
-	"github.com/qchat/qchat/services/api/internal/migrate"
+	"github.com/xinchat/xinchat/services/api/internal/auth"
+	"github.com/xinchat/xinchat/services/api/internal/config"
+	"github.com/xinchat/xinchat/services/api/internal/db"
+	"github.com/xinchat/xinchat/services/api/internal/migrate"
 )
 
 func main() {

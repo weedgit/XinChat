@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/qchat/qchat/services/api/internal/auth"
+	"github.com/xinchat/xinchat/services/api/internal/auth"
 )
 
 const mfaRecoveryCodeCount = 10

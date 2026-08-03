@@ -5,7 +5,7 @@
 backup_root() {
   local root
   root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-  echo "${QCHAT_BACKUP_DIR:-$root/backups}"
+  echo "${XINCHAT_BACKUP_DIR:-$root/backups}"
 }
 
 compose_project() {
@@ -38,23 +38,23 @@ compose() {
 minio_volume_name() {
   local proj want
   proj="$(compose_project)"
-  want="${proj}_qchat_minio"
+  want="${proj}_xinchat_minio"
   if docker volume inspect "$want" >/dev/null 2>&1; then
     echo "$want"
     return 0
   fi
-  # Fallback: any volume ending in _qchat_minio
-  docker volume ls -q 2>/dev/null | grep '_qchat_minio$' | head -1 || true
+  # Fallback: any volume ending in _xinchat_minio
+  docker volume ls -q 2>/dev/null | grep '_xinchat_minio$' | head -1 || true
 }
 
 passphrase_file() {
   local root
   root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-  echo "${QCHAT_BACKUP_PASSPHRASE_FILE:-$root/deploy/backup.passphrase}"
+  echo "${XINCHAT_BACKUP_PASSPHRASE_FILE:-$root/deploy/backup.passphrase}"
 }
 
 passphrase_available() {
-  if [[ -n "${QCHAT_BACKUP_PASSPHRASE:-}" ]]; then
+  if [[ -n "${XINCHAT_BACKUP_PASSPHRASE:-}" ]]; then
     return 0
   fi
   local f
@@ -64,8 +64,8 @@ passphrase_available() {
 
 # Print passphrase to stdout (caller must not log).
 read_passphrase() {
-  if [[ -n "${QCHAT_BACKUP_PASSPHRASE:-}" ]]; then
-    printf '%s' "$QCHAT_BACKUP_PASSPHRASE"
+  if [[ -n "${XINCHAT_BACKUP_PASSPHRASE:-}" ]]; then
+    printf '%s' "$XINCHAT_BACKUP_PASSPHRASE"
     return 0
   fi
   local f
@@ -158,9 +158,9 @@ payload = {
     "rpo_hours": 24,
     "rto_hours": 4,
   },
-  "offsite_configured": bool(os.environ.get("QCHAT_BACKUP_OFFSITE")),
-  "encryption_configured": enc or bool(os.environ.get("QCHAT_BACKUP_PASSPHRASE")) or os.path.isfile(
-    os.environ.get("QCHAT_BACKUP_PASSPHRASE_FILE", "")
+  "offsite_configured": bool(os.environ.get("XINCHAT_BACKUP_OFFSITE")),
+  "encryption_configured": enc or bool(os.environ.get("XINCHAT_BACKUP_PASSPHRASE")) or os.path.isfile(
+    os.environ.get("XINCHAT_BACKUP_PASSPHRASE_FILE", "")
   ),
 }
 # List recent backups

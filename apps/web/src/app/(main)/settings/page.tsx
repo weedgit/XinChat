@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import type { LocaleMode, MessageKey, ResolvedLocale } from "@qchat/i18n";
-import { formatApiError, intlLocale } from "@qchat/i18n";
+import type { LocaleMode, MessageKey, ResolvedLocale } from "@xinchat/i18n";
+import { formatApiError, intlLocale } from "@xinchat/i18n";
 import MenuModal from "@/components/MenuModal";
 import { api, clearToken, apiBaseUrl } from "@/lib/api";
 import {
@@ -358,11 +358,11 @@ export default function SettingsPage() {
               className="btn"
               onClick={() => {
                 try {
-                  localStorage.removeItem("qchat.pwaInstallDismissed");
+                  localStorage.removeItem("xinchat.pwaInstallDismissed");
                 } catch {
                   /* ignore */
                 }
-                window.dispatchEvent(new Event("qchat:pwa-install-reshow"));
+                window.dispatchEvent(new Event("xinchat:pwa-install-reshow"));
               }}
             >
               {t("settings.installAppAction")}

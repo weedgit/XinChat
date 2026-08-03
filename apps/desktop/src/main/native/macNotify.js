@@ -87,7 +87,7 @@ function toastHtml(title, body) {
   </div>
   <script>
     const { ipcRenderer } = require('electron');
-    function click() { ipcRenderer.send('qchat-mac-toast-click'); }
+    function click() { ipcRenderer.send('xinchat-mac-toast-click'); }
     document.getElementById('t').addEventListener('click', click);
     document.body.addEventListener('click', click);
   </script>
@@ -101,7 +101,7 @@ function toastHtml(title, body) {
 function showMacToastNotification(opts) {
   const now = Date.now();
   if (now - lastToastAt < MIN_INTERVAL_MS) {
-    console.log("[qchat-desktop] mac toast throttled");
+    console.log("[xinchat-desktop] mac toast throttled");
     return Promise.resolve(false);
   }
   lastToastAt = now;
@@ -154,22 +154,22 @@ function showMacToastNotification(opts) {
       toastWindow.setIgnoreMouseEvents(false);
 
       const onClick = () => {
-        console.log("[qchat-desktop] mac toast clicked — focusing main window");
+        console.log("[xinchat-desktop] mac toast clicked — focusing main window");
         try {
           if (typeof opts.onClick === "function") opts.onClick();
         } catch (err) {
           console.warn(
-            "[qchat-desktop] mac toast onClick failed:",
+            "[xinchat-desktop] mac toast onClick failed:",
             err?.message || err
           );
         }
         if (toastWindow && !toastWindow.isDestroyed()) toastWindow.close();
       };
-      ipcMain.removeAllListeners("qchat-mac-toast-click");
-      ipcMain.once("qchat-mac-toast-click", onClick);
+      ipcMain.removeAllListeners("xinchat-mac-toast-click");
+      ipcMain.once("xinchat-mac-toast-click", onClick);
 
       toastWindow.on("closed", () => {
-        ipcMain.removeListener("qchat-mac-toast-click", onClick);
+        ipcMain.removeListener("xinchat-mac-toast-click", onClick);
         toastWindow = null;
       });
 
@@ -193,7 +193,7 @@ function showMacToastNotification(opts) {
             /* ignore */
           }
         }
-        console.log("[qchat-desktop] mac toast window shown:", title);
+        console.log("[xinchat-desktop] mac toast window shown:", title);
         resolve(true);
       });
 
@@ -202,7 +202,7 @@ function showMacToastNotification(opts) {
       }, 5000);
     } catch (err) {
       console.warn(
-        "[qchat-desktop] mac toast window failed:",
+        "[xinchat-desktop] mac toast window failed:",
         err?.message || err
       );
       resolve(false);

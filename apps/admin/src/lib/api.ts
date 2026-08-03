@@ -19,7 +19,7 @@ export function apiBaseUrl(): string {
 export const API_URL =
   typeof window !== "undefined" ? apiBaseUrl() : process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8080";
 
-const TOKEN_KEY = "qchat.admin.access_token";
+const TOKEN_KEY = "xinchat.admin.access_token";
 
 export function getToken(): string | null {
   if (typeof window === "undefined") return null;

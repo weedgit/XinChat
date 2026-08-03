@@ -38,7 +38,7 @@ function createSystemTray(deps) {
 
   const image = trayIconImage();
   if (image.isEmpty()) {
-    console.warn("[qchat-desktop] tray icon missing; skipping system tray");
+    console.warn("[xinchat-desktop] tray icon missing; skipping system tray");
     return null;
   }
 

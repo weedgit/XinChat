@@ -1,6 +1,7 @@
 /** Group invite QR payload helpers (mirror apps/web/src/lib/groupQr.ts). */
 
-const JOIN_PREFIX = "qchat://join/";
+const JOIN_PREFIX = "xinchat://join/";
+const LEGACY_JOIN_PREFIX = "qchat://join/";
 
 /** Encode a group public_id into a scannable invite payload. */
 export function encodeGroupJoinPayload(publicId: string): string {
@@ -11,18 +12,23 @@ export function encodeGroupJoinPayload(publicId: string): string {
 
 /**
  * Extract a group public_id from typed/pasted/scanned text.
- * Accepts raw IDs (Gxxxxxxxx) or qchat://join/… payloads.
+ * Accepts raw IDs (Gxxxxxxxx) or xinchat://join/… (also legacy qchat://join/…).
  */
 export function parseGroupJoinPayload(raw: string): string | null {
   const text = raw.trim();
   if (!text) return null;
-  if (text.startsWith(JOIN_PREFIX)) {
-    const id = text.slice(JOIN_PREFIX.length).trim();
-    return id || null;
+  for (const prefix of [JOIN_PREFIX, LEGACY_JOIN_PREFIX]) {
+    if (text.startsWith(prefix)) {
+      const id = text.slice(prefix.length).trim();
+      return id || null;
+    }
   }
   try {
     const url = new URL(text);
-    if (url.protocol === "qchat:" && url.hostname === "join") {
+    if (
+      (url.protocol === "xinchat:" || url.protocol === "qchat:") &&
+      url.hostname === "join"
+    ) {
       const id = url.pathname.replace(/^\//, "").trim();
       return id || null;
     }

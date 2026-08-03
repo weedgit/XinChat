@@ -13,16 +13,16 @@ const {
 } = require("./hideOnStart");
 
 /**
- * Apply language preference in the loaded web client (localStorage qchat.locale).
+ * Apply language preference in the loaded web client (localStorage xinchat.locale).
  * @param {() => Electron.BrowserWindow | null} getMainWindow
  * @param {"en"|"zh"} mode
  */
 function setWebLocale(getMainWindow, mode) {
   const win = getMainWindow();
   if (!win || win.isDestroyed()) return;
-  const js = `(function(){try{localStorage.setItem('qchat.locale',${JSON.stringify(
+  const js = `(function(){try{localStorage.setItem('xinchat.locale',${JSON.stringify(
     mode
-  )});window.dispatchEvent(new Event('qchat-locale-change'));}catch(e){}})();`;
+  )});window.dispatchEvent(new Event('xinchat-locale-change'));}catch(e){}})();`;
   win.webContents.executeJavaScript(js).catch(() => {});
 }
 

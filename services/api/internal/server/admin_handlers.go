@@ -10,7 +10,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
-	"github.com/qchat/qchat/services/api/internal/auth"
+	"github.com/xinchat/xinchat/services/api/internal/auth"
 )
 
 var (

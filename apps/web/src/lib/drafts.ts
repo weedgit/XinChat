@@ -1,5 +1,5 @@
 /** channel drafts stored locally per conversation. */
-const DRAFT_KEY = "qchat.drafts";
+const DRAFT_KEY = "xinchat.drafts";
 
 export function loadDrafts(): Record<string, string> {
   if (typeof window === "undefined") return {};

@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { isQchatDesktop } from "./device";
+import { isXinChatDesktop } from "./device";
 
-const THEME_KEY = "qchat.theme";
+const THEME_KEY = "xinchat.theme";
 
 export type ThemeMode = "dark" | "light" | "system";
 
@@ -29,8 +29,8 @@ export function applyTheme(mode: ThemeMode) {
 
 /** SHELL-31: align Electron chrome with the web theme preference (no-op in browser). */
 function syncDesktopNativeTheme(mode: ThemeMode) {
-  if (!isQchatDesktop()) return;
-  const desk = window.qchatDesktop;
+  if (!isXinChatDesktop()) return;
+  const desk = window.xinchatDesktop;
   if (!desk?.setNativeThemeSource) return;
   void desk.setNativeThemeSource(mode).catch(() => {});
 }
@@ -52,8 +52,8 @@ export function useTheme() {
     mq.addEventListener("change", onOsScheme);
 
     let detachDesktop = () => {};
-    if (isQchatDesktop() && window.qchatDesktop?.onNativeThemeUpdated) {
-      detachDesktop = window.qchatDesktop.onNativeThemeUpdated(onOsScheme);
+    if (isXinChatDesktop() && window.xinchatDesktop?.onNativeThemeUpdated) {
+      detachDesktop = window.xinchatDesktop.onNativeThemeUpdated(onOsScheme);
     }
 
     return () => {

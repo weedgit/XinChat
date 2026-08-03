@@ -1,6 +1,6 @@
-# Qchat mobile (Expo / React Native)
+# XinChat mobile (Expo / React Native)
 
-Android-first client that talks to the same Qchat API as web.
+Android-first client that talks to the same XinChat API as web.
 Source and Metro run on **Linux**; the emulator can live on the **Windows host**.
 
 ## Setup
@@ -72,17 +72,17 @@ You do **not** need a full Android SDK on Linux for Expo Go. You only need `adb`
 
 ## Custom dev client (HTTPS + self-signed TLS)
 
-Expo Go cannot trust the deploy host’s self-signed cert (`deploy/certs/qchat.crt`).
+Expo Go cannot trust the deploy host’s self-signed cert (`deploy/certs/xinchat.crt`).
 Use a development build that embeds that cert via Android `network_security_config`.
 
 1. Copy the **public** cert from the server (not the private key):
 
 ```bash
 # from the deploy host, or scrape the live cert:
-# scp root@135.181.224.36:/root/qchat/deploy/certs/qchat.crt apps/mobile/certs/qchat.crt
+# scp root@135.181.224.36:/root/xinchat/deploy/certs/xinchat.crt apps/mobile/certs/xinchat.crt
 ```
 
-Ensure `apps/mobile/certs/qchat.crt` exists (PEM).
+Ensure `apps/mobile/certs/xinchat.crt` exists (PEM).
 
 2. Set `.env`:
 
@@ -105,10 +105,10 @@ npx expo run:android
 
 ```bash
 npx expo start --dev-client
-# press a, or open the Qchat app on the emulator
+# press a, or open the XinChat app on the emulator
 ```
 
-If the server rotates TLS (`./deploy/generate-tls.sh`), refresh `certs/qchat.crt` and rebuild.
+If the server rotates TLS (`./deploy/generate-tls.sh`), refresh `certs/xinchat.crt` and rebuild.
 
 **iOS note:** ATS exceptions do not accept invalid certs. Install the cert in Settings → General → About → Certificate Trust Settings, or use a real CA / tunnel.
 

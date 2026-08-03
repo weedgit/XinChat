@@ -20,7 +20,7 @@ import {
   type LocaleMode,
   type MessageKey,
   type ResolvedLocale,
-} from "@qchat/i18n";
+} from "@xinchat/i18n";
 
 type LocaleContextValue = {
   locale: LocaleMode;
@@ -61,10 +61,10 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
       applyDocumentLang(resolveLocale(next));
     };
     window.addEventListener("storage", syncFromStorage);
-    window.addEventListener("qchat-locale-change", syncFromStorage);
+    window.addEventListener("xinchat-locale-change", syncFromStorage);
     return () => {
       window.removeEventListener("storage", syncFromStorage);
-      window.removeEventListener("qchat-locale-change", syncFromStorage);
+      window.removeEventListener("xinchat-locale-change", syncFromStorage);
     };
   }, []);
 
@@ -72,7 +72,7 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
     localStorage.setItem(LOCALE_KEY, mode);
     setLocaleState(mode);
     applyDocumentLang(resolveLocale(mode));
-    window.dispatchEvent(new Event("qchat-locale-change"));
+    window.dispatchEvent(new Event("xinchat-locale-change"));
   }, []);
 
   const resolved = useMemo(() => resolveLocale(locale), [locale]);

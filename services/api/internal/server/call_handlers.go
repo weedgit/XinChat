@@ -8,8 +8,8 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/qchat/qchat/services/api/internal/livekit"
-	"github.com/qchat/qchat/services/api/internal/ws"
+	"github.com/xinchat/xinchat/services/api/internal/livekit"
+	"github.com/xinchat/xinchat/services/api/internal/ws"
 )
 
 // ringTimeout is 30s — unanswered ringing ends as missed (DM / group with no join).
@@ -199,7 +199,7 @@ func (s *Server) handleStartCall(w http.ResponseWriter, r *http.Request) {
 	}
 
 	id := uuid.New()
-	room := "qchat-" + id.String()
+	room := "xinchat-" + id.String()
 	initiatorDevice := c.DeviceID
 	_, err := s.db.Exec(r.Context(), `
 		INSERT INTO call_sessions(id, conversation_id, initiator_id, initiator_device_id, kind, room_name, status)

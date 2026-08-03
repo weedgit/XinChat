@@ -43,7 +43,7 @@ function readJsonWebUrl(filePath) {
   try {
     if (!fs.existsSync(filePath)) return "";
     const raw = JSON.parse(fs.readFileSync(filePath, "utf8"));
-    return String(raw?.webUrl || raw?.QCHAT_WEB_URL || "")
+    return String(raw?.webUrl || raw?.XINCHAT_WEB_URL || "")
       .trim()
       .replace(/\/$/, "");
   } catch {
@@ -63,7 +63,7 @@ function userConfigPath() {
  * Resolve web UI origin.
  * Precedence:
  *   1. --url CLI
- *   2. QCHAT_WEB_URL env (including values loaded from `.env`)
+ *   2. XINCHAT_WEB_URL env (including values loaded from `.env`)
  *   3. If packaged: userData/config.json → production.json → DEFAULT_PROD_URL
  *   4. If unpackaged: DEFAULT_DEV_URL (localhost:3000)
  */
@@ -82,7 +82,7 @@ function resolveWebUrl() {
     }
   }
 
-  const fromEnv = (process.env.QCHAT_WEB_URL || "").trim();
+  const fromEnv = (process.env.XINCHAT_WEB_URL || "").trim();
   if (fromEnv) return fromEnv.replace(/\/$/, "");
 
   if (isPackagedApp()) {

@@ -6,12 +6,12 @@
 #   npm run dist:win:docker
 #
 # Optional signing: export CSC_LINK / CSC_KEY_PASSWORD (or WIN_CSC_*) before running.
-# Artifacts land in apps/desktop/dist/ (qchat-desktop-Setup-*.exe).
+# Artifacts land in apps/desktop/dist/ (xinchat-desktop-Setup-*.exe).
 #
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-IMAGE="${QCHAT_ELECTRON_WINE_IMAGE:-electronuserland/builder:wine}"
+IMAGE="${XINCHAT_ELECTRON_WINE_IMAGE:-electronuserland/builder:wine}"
 
 if ! command -v docker >/dev/null 2>&1; then
   echo "error: docker is required for dist:win:docker" >&2
@@ -20,8 +20,8 @@ fi
 
 mkdir -p "$ROOT/dist"
 # Cache electron + electron-builder downloads across runs when possible.
-ELECTRON_CACHE_VOL="${QCHAT_ELECTRON_CACHE:-qchat-electron-cache}"
-BUILDER_CACHE_VOL="${QCHAT_ELECTRON_BUILDER_CACHE:-qchat-electron-builder-cache}"
+ELECTRON_CACHE_VOL="${XINCHAT_ELECTRON_CACHE:-xinchat-electron-cache}"
+BUILDER_CACHE_VOL="${XINCHAT_ELECTRON_BUILDER_CACHE:-xinchat-electron-builder-cache}"
 
 echo "==> Windows NSIS via ${IMAGE}"
 echo "    project: ${ROOT}"
@@ -42,5 +42,5 @@ docker run --rm \
 
 echo
 echo "Windows build complete. Look under:"
-echo "  ${ROOT}/dist/qchat-desktop-Setup-*.exe"
-ls -la "$ROOT/dist"/qchat-desktop-Setup-*.exe 2>/dev/null || ls -la "$ROOT/dist" || true
+echo "  ${ROOT}/dist/xinchat-desktop-Setup-*.exe"
+ls -la "$ROOT/dist"/xinchat-desktop-Setup-*.exe 2>/dev/null || ls -la "$ROOT/dist" || true

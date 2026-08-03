@@ -4,7 +4,7 @@ const { launchElectron } = require("./launch");
 
 const DESKTOP_ROOT = path.resolve(__dirname, "..");
 const WEB_ROOT = path.resolve(DESKTOP_ROOT, "../web");
-const WEB_URL = process.env.QCHAT_WEB_URL || "http://localhost:3000";
+const WEB_URL = process.env.XINCHAT_WEB_URL || "http://localhost:3000";
 const npm = process.platform === "win32" ? "npm.cmd" : "npm";
 
 async function webIsReady() {
@@ -31,7 +31,7 @@ async function waitForWeb(webProcess) {
 async function main() {
   let webProcess;
   if (!(await webIsReady())) {
-    console.log(`Starting Qchat web development server at ${WEB_URL}`);
+    console.log(`Starting XinChat web development server at ${WEB_URL}`);
     webProcess = spawn(npm, ["run", "dev"], {
       cwd: WEB_ROOT,
       env: process.env,

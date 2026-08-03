@@ -1,7 +1,7 @@
 /** Per-conversation composer drafts (mirror web drafts.ts; FileSystem for RN size). */
 import * as FileSystem from "expo-file-system/legacy";
 
-const DRAFT_PATH = `${FileSystem.documentDirectory ?? ""}qchat.drafts.json`;
+const DRAFT_PATH = `${FileSystem.documentDirectory ?? ""}xinchat.drafts.json`;
 
 let cache: Record<string, string> | null = null;
 let loadPromise: Promise<Record<string, string>> | null = null;

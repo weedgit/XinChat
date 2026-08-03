@@ -2,7 +2,7 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-SOURCE="$ROOT/branding/qchat-icon-512.png"
+SOURCE="$ROOT/branding/xinchat-icon-512.png"
 
 if command -v magick >/dev/null; then
   IM=(magick)
@@ -30,7 +30,7 @@ cp "$SOURCE" "$ROOT/apps/web/public/icons/icon-512.png"
   "$ROOT/apps/web/public/icons/icon-maskable-192.png"
 
 # Download page brand mark (keep filename for existing hrefs).
-cp "$ROOT/apps/web/public/icons/icon-192.png" "$ROOT/apps/web/public/downloads/images/qchat-icon.png"
+cp "$ROOT/apps/web/public/icons/icon-192.png" "$ROOT/apps/web/public/downloads/images/xinchat-icon.png"
 
 cp "$ROOT/apps/web/public/icons/icon-192.png" "$ROOT/apps/admin/public/icons/icon-192.png"
 cp "$ROOT/apps/web/public/icons/icon-512.png" "$ROOT/apps/admin/public/icons/icon-512.png"
@@ -41,7 +41,7 @@ for size in 16 32 48 64 128 256 512; do
   "${IM[@]}" "$SOURCE" -resize "${size}x${size}" -strip "$ROOT/apps/desktop/assets/icon-${size}.png"
 done
 cp "$SOURCE" "$ROOT/apps/desktop/assets/icon.png"
-cp "$SOURCE" "$ROOT/apps/mobile/assets/qchat-icon-512.png"
+cp "$SOURCE" "$ROOT/apps/mobile/assets/xinchat-icon-512.png"
 cp "$SOURCE" "$ROOT/apps/mobile/assets/icon.png"
 "${IM[@]}" "$SOURCE" -resize 1024x1024 -strip "$ROOT/apps/mobile/assets/adaptive-icon.png"
 
@@ -54,4 +54,4 @@ cp "$SOURCE" "$ROOT/apps/mobile/assets/icon.png"
   "$ROOT/apps/desktop/assets/icon-256.png" \
   "$ROOT/apps/desktop/assets/icon.ico"
 
-echo "XinChat icons synced from branding/qchat-icon-512.png"
+echo "XinChat icons synced from branding/xinchat-icon-512.png"

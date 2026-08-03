@@ -40,7 +40,7 @@ export function detectDownloadOs(): DownloadOs {
 }
 
 export function isElectronShell(): boolean {
-  return typeof window !== "undefined" && Boolean(window.qchatDesktop);
+  return typeof window !== "undefined" && Boolean(window.xinchatDesktop);
 }
 
 export function downloadHref(app: DownloadApp): string | null {
@@ -99,7 +99,7 @@ export const FALLBACK_DOWNLOAD_MANIFEST: DownloadManifest = {
       os: "windows",
       title: "Windows",
       subtitle: "NSIS installer (.exe)",
-      file: "qchat-desktop-Setup-0.1.0.exe",
+      file: "xinchat-desktop-Setup-0.1.0.exe",
       available: false,
     },
     {
@@ -108,7 +108,7 @@ export const FALLBACK_DOWNLOAD_MANIFEST: DownloadManifest = {
       os: "macos",
       title: "macOS",
       subtitle: "Disk image (.dmg, Apple Silicon)",
-      file: "qchat-desktop-0.1.0-arm64.dmg",
+      file: "xinchat-desktop-0.1.0-arm64.dmg",
       available: false,
     },
     {
@@ -117,7 +117,7 @@ export const FALLBACK_DOWNLOAD_MANIFEST: DownloadManifest = {
       os: "linux",
       title: "Linux",
       subtitle: "AppImage (x64)",
-      file: "qchat-desktop-0.1.0-x64.AppImage",
+      file: "xinchat-desktop-0.1.0-x64.AppImage",
       available: false,
     },
     {
@@ -126,7 +126,7 @@ export const FALLBACK_DOWNLOAD_MANIFEST: DownloadManifest = {
       os: "linux",
       title: "Debian / Ubuntu",
       subtitle: "Package (.deb)",
-      file: "qchat-desktop-0.1.0-amd64.deb",
+      file: "xinchat-desktop-0.1.0-amd64.deb",
       available: false,
     },
     {
@@ -135,7 +135,7 @@ export const FALLBACK_DOWNLOAD_MANIFEST: DownloadManifest = {
       os: "android",
       title: "Android",
       subtitle: "APK install",
-      file: "qchat-mobile.apk",
+      file: "xinchat-mobile.apk",
       available: false,
     },
     {

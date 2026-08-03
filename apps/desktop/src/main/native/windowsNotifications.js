@@ -27,7 +27,7 @@ function startMenuProgramsDir() {
   );
 }
 
-function qchatShortcutPath() {
+function xinchatShortcutPath() {
   return path.join(startMenuProgramsDir(), `${APP_TITLE}.lnk`);
 }
 
@@ -35,7 +35,7 @@ function qchatShortcutPath() {
  * Electron's built-in toast activator also writes a Start Menu .lnk named after
  * GetApplicationName(). For unpackaged electron.exe that name is often
  * "Electron", so Windows Settings lists banners under "Electron" instead of
- * Qchat. Remove those conflicting shortcuts when they point at our binary.
+ * XinChat. Remove those conflicting shortcuts when they point at our binary.
  */
 function removeConflictingElectronShortcuts() {
   const programs = startMenuProgramsDir();
@@ -56,7 +56,7 @@ function removeConflictingElectronShortcuts() {
         if (target === execPath || aumid === APP_ID) {
           fs.unlinkSync(full);
           removed = true;
-          console.log("[qchat-desktop] removed conflicting toast shortcut:", full);
+          console.log("[xinchat-desktop] removed conflicting toast shortcut:", full);
         }
       } catch {
         /* ignore unreadable lnk */
@@ -64,14 +64,14 @@ function removeConflictingElectronShortcuts() {
     }
   } catch (err) {
     console.warn(
-      "[qchat-desktop] failed cleaning Electron toast shortcuts:",
+      "[xinchat-desktop] failed cleaning Electron toast shortcuts:",
       err?.message || err
     );
   }
   return removed;
 }
 
-/** Help Settings → Notifications show "Qchat Desktop" for our AUMID. */
+/** Help Settings → Notifications show "XinChat Desktop" for our AUMID. */
 function registerAppUserModelDisplayName() {
   if (process.platform !== "win32") return;
   try {
@@ -92,7 +92,7 @@ function registerAppUserModelDisplayName() {
     }
   } catch (err) {
     console.warn(
-      "[qchat-desktop] AppUserModelId DisplayName registry failed:",
+      "[xinchat-desktop] AppUserModelId DisplayName registry failed:",
       err?.message || err
     );
   }
@@ -126,7 +126,7 @@ function ensureWindowsToastShortcut() {
     const programs = startMenuProgramsDir();
     fs.mkdirSync(programs, { recursive: true });
 
-    const shortcutPath = qchatShortcutPath();
+    const shortcutPath = xinchatShortcutPath();
     // Prefer PNG for .lnk icon — hand-rolled .ico failed Electron setIcon on Win11.
     const iconPng = getIconPngPath();
     const iconPath = fs.existsSync(iconPng) ? iconPng : getIconPath();
@@ -172,7 +172,7 @@ function ensureWindowsToastShortcut() {
     const ok = shell.writeShortcutLink(shortcutPath, operation, details);
     if (!ok) {
       console.warn(
-        "[qchat-desktop] failed to write Start Menu shortcut for Windows toasts:",
+        "[xinchat-desktop] failed to write Start Menu shortcut for Windows toasts:",
         shortcutPath
       );
       return { ok: false, clsidChanged: false, conflictRemoved: false };
@@ -181,13 +181,13 @@ function ensureWindowsToastShortcut() {
     const conflictRemoved = removeConflictingElectronShortcuts();
     const clsidChanged = Boolean(previousClsid) && previousClsid !== toastClsid;
     console.log(
-      "[qchat-desktop] Windows toast shortcut ready:",
+      "[xinchat-desktop] Windows toast shortcut ready:",
       shortcutPath,
       `(${APP_ID}, ${toastClsid})`
     );
     return { ok: true, clsidChanged, conflictRemoved };
   } catch (err) {
-    console.warn("[qchat-desktop] Windows toast shortcut error:", err);
+    console.warn("[xinchat-desktop] Windows toast shortcut error:", err);
     return { ok: false, clsidChanged: false, conflictRemoved: false };
   }
 }
@@ -222,7 +222,7 @@ function primeWindowsToastOnce(opts = {}) {
       silent: false,
     });
     notification.on("failed", (_e, error) => {
-      console.warn("[qchat-desktop] prime toast failed event:", error);
+      console.warn("[xinchat-desktop] prime toast failed event:", error);
       try {
         fs.unlinkSync(flagPath);
       } catch {
@@ -230,12 +230,12 @@ function primeWindowsToastOnce(opts = {}) {
       }
     });
     notification.on("show", () => {
-      console.log("[qchat-desktop] prime toast shown");
+      console.log("[xinchat-desktop] prime toast shown");
     });
     notification.show();
     fs.writeFileSync(flagPath, String(Date.now()));
   } catch (err) {
-    console.warn("[qchat-desktop] prime toast failed:", err);
+    console.warn("[xinchat-desktop] prime toast failed:", err);
   }
 }
 
@@ -255,7 +255,7 @@ function reassertWindowsToastShortcutSoon() {
         }
       } catch (err) {
         console.warn(
-          "[qchat-desktop] toast shortcut reassert failed:",
+          "[xinchat-desktop] toast shortcut reassert failed:",
           err?.message || err
         );
       }
@@ -269,7 +269,7 @@ function registerWindowsNotifications() {
   const { ok, clsidChanged, conflictRemoved } = ensureWindowsToastShortcut();
   if (!ok) return;
   // Re-prime when CLSID was repaired or Electron.lnk was removed so Settings
-  // rebinds under "Qchat Desktop". Also primes once via windows-toast-primed-v2.
+  // rebinds under "XinChat Desktop". Also primes once via windows-toast-primed-v2.
   primeWindowsToastOnce({ force: clsidChanged || conflictRemoved });
   reassertWindowsToastShortcutSoon();
 }

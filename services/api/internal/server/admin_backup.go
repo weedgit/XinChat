@@ -31,7 +31,7 @@ func (s *Server) handleAdminBackupStatus(w http.ResponseWriter, r *http.Request)
 	if err != nil {
 		out["configured"] = false
 		out["ok"] = false
-		out["message"] = "no status.json — run deploy/backup.sh and ensure QCHAT_BACKUP_DIR points at the backups root"
+		out["message"] = "no status.json — run deploy/backup.sh and ensure XINCHAT_BACKUP_DIR points at the backups root"
 		// Still list stamp dirs if present.
 		out["recent"] = listBackupDirs(dir, 10)
 		writeJSON(w, 200, out)
@@ -68,7 +68,7 @@ func (s *Server) handleAdminBackupStatus(w http.ResponseWriter, r *http.Request)
 		}
 	}
 	if off, _ := parsed["offsite_configured"].(bool); !off {
-		warnings = append(warnings, "QCHAT_BACKUP_OFFSITE not set — host loss may destroy backups")
+		warnings = append(warnings, "XINCHAT_BACKUP_OFFSITE not set — host loss may destroy backups")
 	}
 	if drill, _ := parsed["latest_drill"].(map[string]any); drill != nil {
 		if dOK, _ := drill["ok"].(bool); !dOK {

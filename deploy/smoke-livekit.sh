@@ -23,11 +23,11 @@ HTTP_BASE="${LIVEKIT_HTTP:-http://127.0.0.1:7880}"
 
 echo "== LiveKit HTTP $HTTP_BASE =="
 # LiveKit returns a small JSON/text body on GET /; accept any 2xx/3xx.
-code="$(curl -sS -o /tmp/qchat-livekit-smoke.out -w '%{http_code}' --retry 5 --retry-delay 1 --retry-connrefused \
+code="$(curl -sS -o /tmp/xinchat-livekit-smoke.out -w '%{http_code}' --retry 5 --retry-delay 1 --retry-connrefused \
   "$HTTP_BASE/" || true)"
 if [[ "$code" != 2* && "$code" != 3* ]]; then
   echo "error: LiveKit HTTP GET / returned status ${code:-none}" >&2
-  [[ -f /tmp/qchat-livekit-smoke.out ]] && head -c 200 /tmp/qchat-livekit-smoke.out >&2 || true
+  [[ -f /tmp/xinchat-livekit-smoke.out ]] && head -c 200 /tmp/xinchat-livekit-smoke.out >&2 || true
   exit 1
 fi
 echo "livekit http ok (status $code)"

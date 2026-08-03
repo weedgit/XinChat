@@ -8,14 +8,14 @@ import (
 	"time"
 
 	"github.com/gorilla/websocket"
-	"github.com/qchat/qchat/services/api/internal/auth"
-	"github.com/qchat/qchat/services/api/internal/ws"
+	"github.com/xinchat/xinchat/services/api/internal/auth"
+	"github.com/xinchat/xinchat/services/api/internal/ws"
 )
 
 // wsOriginAllowed ties WebSocket upgrades to the same origin policy as HTTP
 // CORS (corsAllowOrigin). An empty Origin — sent by native clients such as the
 // React Native app — is always permitted; browser origins must be allowed by
-// QCHAT_CORS_ORIGIN. With the default "*" this stays fully permissive, so it is
+// XINCHAT_CORS_ORIGIN. With the default "*" this stays fully permissive, so it is
 // a no-op until an operator configures a real origin list.
 func wsOriginAllowed(corsCfg, origin string) bool {
 	return corsAllowOrigin(corsCfg, strings.TrimSpace(origin)) != ""

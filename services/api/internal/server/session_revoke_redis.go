@@ -7,7 +7,7 @@ import (
 	"github.com/redis/go-redis/v9"
 )
 
-const revokedSessionKeyPrefix = "qchat:revoked:"
+const revokedSessionKeyPrefix = "xinchat:revoked:"
 
 // revokedSessionTTL keeps remote revoke markers at least as long as access tokens.
 const revokedSessionTTL = 24 * time.Hour

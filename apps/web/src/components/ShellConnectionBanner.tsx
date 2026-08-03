@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { isQchatDesktop } from "@/lib/device";
+import { isXinChatDesktop } from "@/lib/device";
 
 type Props = {
   /** WebSocket reconnect after a prior successful connect (chat shell). */
@@ -25,7 +25,7 @@ export default function ShellConnectionBanner({
   const [online, setOnline] = useState(true);
 
   useEffect(() => {
-    if (!isQchatDesktop()) return;
+    if (!isXinChatDesktop()) return;
     setActive(true);
 
     let cancelled = false;
@@ -35,7 +35,7 @@ export default function ShellConnectionBanner({
 
     apply(typeof navigator !== "undefined" ? navigator.onLine : true);
 
-    const desk = window.qchatDesktop;
+    const desk = window.xinchatDesktop;
     if (desk?.getNetworkOnline) {
       void desk
         .getNetworkOnline()

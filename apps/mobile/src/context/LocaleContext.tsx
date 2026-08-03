@@ -21,7 +21,7 @@ import {
   type LocaleMode,
   type MessageKey,
   type ResolvedLocale,
-} from "@qchat/i18n";
+} from "@xinchat/i18n";
 
 type LocaleContextValue = {
   locale: LocaleMode;

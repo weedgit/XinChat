@@ -33,7 +33,7 @@ class CertificateStore {
       fs.writeFileSync(this.storeFile, JSON.stringify(this.data, null, 2));
     } catch (err) {
       console.warn(
-        "[qchat-desktop] certificate store save failed:",
+        "[xinchat-desktop] certificate store save failed:",
         err?.message || err
       );
     }

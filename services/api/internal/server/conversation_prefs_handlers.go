@@ -3,7 +3,7 @@ package server
 import (
 	"net/http"
 
-	"github.com/qchat/qchat/services/api/internal/ws"
+	"github.com/xinchat/xinchat/services/api/internal/ws"
 )
 
 // handleConversationPrefs favoriteChannel / muteChannel

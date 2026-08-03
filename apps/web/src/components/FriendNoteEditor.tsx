@@ -1,7 +1,7 @@
 "use client";
 
 import { FormEvent, useEffect, useState } from "react";
-import { formatApiError } from "@qchat/i18n";
+import { formatApiError } from "@xinchat/i18n";
 import { api } from "@/lib/api";
 import { useLocale } from "@/lib/locale";
 

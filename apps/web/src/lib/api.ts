@@ -3,7 +3,7 @@
  * - NEXT_PUBLIC_API_URL set (including "") → use it; empty means same-origin (nginx HTTPS/HTTP).
  * - unset + browser → host:8080 (LAN next-dev without nginx).
  */
-import { apiErrorMessageKey, formatApiErrorLocale } from "@qchat/i18n";
+import { apiErrorMessageKey, formatApiErrorLocale } from "@xinchat/i18n";
 
 export function apiBaseUrl(): string {
   if (typeof process.env.NEXT_PUBLIC_API_URL === "string") {
@@ -22,13 +22,13 @@ export function apiBaseUrl(): string {
 export const API_URL =
   typeof window !== "undefined" ? apiBaseUrl() : process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8080";
 
-const ACCESS_KEY = "qchat.access_token";
-const REFRESH_KEY = "qchat.refresh_token";
-const REMEMBER_KEY = "qchat.remember";
+const ACCESS_KEY = "xinchat.access_token";
+const REFRESH_KEY = "xinchat.refresh_token";
+const REMEMBER_KEY = "xinchat.remember";
 
-function desktopBridge(): Window["qchatDesktop"] | undefined {
+function desktopBridge(): Window["xinchatDesktop"] | undefined {
   if (typeof window === "undefined") return undefined;
-  return window.qchatDesktop;
+  return window.xinchatDesktop;
 }
 
 function applyTokensLocal(access: string, refresh: string, remember: boolean) {
@@ -278,7 +278,7 @@ export type MeUpdatedDetail = {
 
 export function notifyMeUpdated(detail?: MeUpdatedDetail) {
   if (typeof window === "undefined") return;
-  window.dispatchEvent(new CustomEvent<MeUpdatedDetail>("qchat:me-updated", { detail }));
+  window.dispatchEvent(new CustomEvent<MeUpdatedDetail>("xinchat:me-updated", { detail }));
 }
 
 /** Notify the mounted chat shell to reload the conversation list (e.g. after group create). */
@@ -289,7 +289,7 @@ export type ConversationsChangedDetail = {
 export function notifyConversationsChanged(detail?: ConversationsChangedDetail) {
   if (typeof window === "undefined") return;
   window.dispatchEvent(
-    new CustomEvent<ConversationsChangedDetail>("qchat:conversations-changed", { detail })
+    new CustomEvent<ConversationsChangedDetail>("xinchat:conversations-changed", { detail })
   );
 }
 

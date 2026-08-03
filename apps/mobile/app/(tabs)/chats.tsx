@@ -23,7 +23,7 @@ import {
 import { useTheme, useThemedStyles } from "../../src/context/ThemeContext";
 import { radius, spacing, type ColorTokens } from "../../src/theme";
 import { useLocale } from "../../src/context/LocaleContext";
-import { intlLocale, type ResolvedLocale } from "@qchat/i18n";
+import { intlLocale, type ResolvedLocale } from "@xinchat/i18n";
 
 type SearchHit = {
   id: string;

@@ -7,7 +7,7 @@ export async function copyTextToClipboard(text: string): Promise<boolean> {
   const value = text ?? "";
   if (!value) return false;
 
-  const desk = typeof window !== "undefined" ? window.qchatDesktop : undefined;
+  const desk = typeof window !== "undefined" ? window.xinchatDesktop : undefined;
   if (desk?.writeClipboardText) {
     try {
       const res = await desk.writeClipboardText(value);

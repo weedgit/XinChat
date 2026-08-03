@@ -11,7 +11,7 @@ import {
   TextInput,
   View,
 } from "react-native";
-import { formatApiError } from "@qchat/i18n";
+import { formatApiError } from "@xinchat/i18n";
 import { Redirect, router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { api, takeSessionRevokedReason } from "../src/lib/api";

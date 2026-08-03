@@ -2,7 +2,7 @@
 
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { formatApiError } from "@qchat/i18n";
+import { formatApiError } from "@xinchat/i18n";
 import Avatar from "@/components/Avatar";
 import MenuModal from "@/components/MenuModal";
 import { PasswordInput } from "@/components/PasswordInput";

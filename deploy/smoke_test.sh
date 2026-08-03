@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-API="${QCHAT_API:-http://localhost:8080}"
+API="${XINCHAT_API:-http://localhost:8080}"
 
 echo "== health =="
 curl -sf "$API/healthz" | grep -q '"ok":true'

@@ -6,7 +6,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/qchat/qchat/services/api/internal/config"
+	"github.com/xinchat/xinchat/services/api/internal/config"
 )
 
 func TestIPLimiterAllowsBurstThenBlocks(t *testing.T) {

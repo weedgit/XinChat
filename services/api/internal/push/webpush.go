@@ -80,7 +80,7 @@ func SendWeb(ctx context.Context, cfg Config, subscriptionJSON string, p WebPayl
 	payload, _ := json.Marshal(p)
 	subject := cfg.Subject
 	if subject == "" {
-		subject = "mailto:admin@qchat.local"
+		subject = "mailto:admin@xinchat.local"
 	}
 	ttl := 60
 	if p.Type == "call" {

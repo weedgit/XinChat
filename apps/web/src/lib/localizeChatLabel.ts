@@ -1,5 +1,5 @@
-import type { MessageKey } from "@qchat/i18n";
-import { formatSystemNotice } from "@qchat/i18n";
+import type { MessageKey } from "@xinchat/i18n";
+import { formatSystemNotice } from "@xinchat/i18n";
 
 type Translate = (key: MessageKey, vars?: Record<string, string | number>) => string;
 

@@ -5,9 +5,9 @@ const {
   clearSecureSession,
 } = require("../secureStorage");
 
-const ACCESS_KEY = "qchat.access_token";
-const REFRESH_KEY = "qchat.refresh_token";
-const REMEMBER_KEY = "qchat.remember";
+const ACCESS_KEY = "xinchat.access_token";
+const REFRESH_KEY = "xinchat.refresh_token";
+const REMEMBER_KEY = "xinchat.remember";
 
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -54,7 +54,7 @@ async function prepareEarlySessionBootstrap(wc, webUrl, session = null) {
     return true;
   } catch (err) {
     console.warn(
-      "[qchat-desktop] early session bootstrap failed:",
+      "[xinchat-desktop] early session bootstrap failed:",
       err?.message || err
     );
     return false;
@@ -120,7 +120,7 @@ function attachSessionPersistence(win, webUrl, opts = {}) {
       return true;
     } catch (err) {
       console.warn(
-        "[qchat-desktop] failed to inject secure session:",
+        "[xinchat-desktop] failed to inject secure session:",
         err?.message || err
       );
       return false;
@@ -188,7 +188,7 @@ function attachSessionPersistence(win, webUrl, opts = {}) {
       }
     } catch (err) {
       console.warn(
-        "[qchat-desktop] failed to sync session from page:",
+        "[xinchat-desktop] failed to sync session from page:",
         err?.message || err
       );
     }
@@ -210,7 +210,7 @@ function attachSessionPersistence(win, webUrl, opts = {}) {
       const access = String(snap?.access || "").trim();
       const onLogin = path === "/login" || path.startsWith("/login/");
 
-      // Stay hidden on splash ("Starting Qchat") / login bounce — match web UX.
+      // Stay hidden on splash ("Starting XinChat") / login bounce — match web UX.
       const onSplash =
         !onLogin &&
         (path === "/" || path === "") &&

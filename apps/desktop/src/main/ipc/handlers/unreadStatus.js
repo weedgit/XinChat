@@ -26,7 +26,7 @@ function createUnreadStatusHandler(deps) {
     try {
       await updateAppBadge(status, { getMainWindow: deps.getMainWindow });
     } catch (err) {
-      console.warn("[qchat-desktop] app badge update failed:", err?.message || err);
+      console.warn("[xinchat-desktop] app badge update failed:", err?.message || err);
     }
 
     const increased =

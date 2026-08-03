@@ -92,9 +92,9 @@ assert(
   "external links must show menu"
 );
 
-assert(emailFromMailto("mailto:dev@qchat.local") === "dev@qchat.local", "mailto");
+assert(emailFromMailto("mailto:dev@xinchat.local") === "dev@xinchat.local", "mailto");
 assert(
-  emailFromMailto("mailto:dev@qchat.local?subject=Hi") === "dev@qchat.local",
+  emailFromMailto("mailto:dev@xinchat.local?subject=Hi") === "dev@xinchat.local",
   "mailto with query"
 );
 assert(emailFromMailto("https://example.com") === null, "non-mailto");

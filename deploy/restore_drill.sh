@@ -7,19 +7,19 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 # shellcheck source=/dev/null
 source "$ROOT/deploy/backup-lib.sh"
 
-REPORT_DIR="${QCHAT_DRILL_REPORT_DIR:-$(backup_root)/drills}"
+REPORT_DIR="${XINCHAT_DRILL_REPORT_DIR:-$(backup_root)/drills}"
 mkdir -p "$REPORT_DIR"
 STAMP="$(date -u +%Y%m%dT%H%M%SZ)"
 REPORT="$REPORT_DIR/drill-$STAMP.md"
-DRILL_DB="${QCHAT_DRILL_DB:-qchat_drill}"
+DRILL_DB="${XINCHAT_DRILL_DB:-xinchat_drill}"
 
 log() { printf '%s\n' "$*" | tee -a "$REPORT"; }
 
 : > "$REPORT"
-log "# Qchat restore drill — $STAMP"
+log "# XinChat restore drill — $STAMP"
 log ""
 log "Targets: RPO ≤ 24h, RTO ≤ 4h"
-log "Mode: isolated database \`$DRILL_DB\` (production \`qchat\` untouched)"
+log "Mode: isolated database \`$DRILL_DB\` (production \`xinchat\` untouched)"
 log ""
 
 START_TOTAL="$(date +%s)"
@@ -28,11 +28,11 @@ log "## 1. Backup"
 T0="$(date +%s)"
 bash "$ROOT/deploy/backup.sh" | tee -a "$REPORT"
 BACKUP_DIR="$(readlink -f "$(backup_root)/latest" 2>/dev/null || true)"
-if [[ -z "$BACKUP_DIR" || (! -f "$BACKUP_DIR/qchat.dump" && ! -f "$BACKUP_DIR/qchat.dump.enc") ]]; then
+if [[ -z "$BACKUP_DIR" || (! -f "$BACKUP_DIR/xinchat.dump" && ! -f "$BACKUP_DIR/xinchat.dump.enc") ]]; then
   # Fallback: newest stamp dir
   BACKUP_DIR="$(ls -1dt "$(backup_root)"/2* 2>/dev/null | head -1 || true)"
 fi
-if [[ -z "$BACKUP_DIR" || (! -f "$BACKUP_DIR/qchat.dump" && ! -f "$BACKUP_DIR/qchat.dump.enc") ]]; then
+if [[ -z "$BACKUP_DIR" || (! -f "$BACKUP_DIR/xinchat.dump" && ! -f "$BACKUP_DIR/xinchat.dump.enc") ]]; then
   log "FAIL: no backup dump found"
   exit 1
 fi
@@ -45,9 +45,9 @@ log ""
 
 log "## 2. Isolated restore"
 T2="$(date +%s)"
-QCHAT_RESTORE_DB="$DRILL_DB" \
-  QCHAT_RESTORE_MINIO=1 \
-  QCHAT_RESTORE_UPLOADS=1 \
+XINCHAT_RESTORE_DB="$DRILL_DB" \
+  XINCHAT_RESTORE_MINIO=1 \
+  XINCHAT_RESTORE_UPLOADS=1 \
   bash "$ROOT/deploy/restore.sh" "$BACKUP_DIR" | tee -a "$REPORT"
 T3="$(date +%s)"
 RESTORE_SECS=$((T3 - T2))
@@ -57,7 +57,7 @@ log ""
 
 log "## 3. Verify drill DB"
 ROW_USERS="$(compose exec -T postgres \
-  psql -U qchat -d "$DRILL_DB" -Atc "SELECT count(*) FROM users;" 2>/dev/null | tr -d '[:space:]' || echo fail)"
+  psql -U xinchat -d "$DRILL_DB" -Atc "SELECT count(*) FROM users;" 2>/dev/null | tr -d '[:space:]' || echo fail)"
 log "users count in $DRILL_DB: $ROW_USERS"
 if [[ "$ROW_USERS" == "fail" || -z "$ROW_USERS" ]]; then
   HEALTH=FAIL
@@ -69,7 +69,7 @@ fi
 
 log "## 4. Drop drill database"
 compose exec -T postgres \
-  psql -U qchat -d postgres -v ON_ERROR_STOP=1 \
+  psql -U xinchat -d postgres -v ON_ERROR_STOP=1 \
   -c "DROP DATABASE IF EXISTS ${DRILL_DB};" | tee -a "$REPORT" || true
 
 # Optional API check (production still running; not part of isolated restore)

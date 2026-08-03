@@ -1,4 +1,4 @@
-module github.com/qchat/qchat/services/api
+module github.com/xinchat/xinchat/services/api
 
 go 1.24
 

@@ -1,4 +1,4 @@
-import { isQchatDesktop } from "@/lib/device";
+import { isXinChatDesktop } from "@/lib/device";
 import { loadLocalNotifyProps } from "@/lib/notifyProps";
 import { startCallRing, stopCallRing } from "@/lib/callRing";
 
@@ -20,8 +20,8 @@ export function notifyIncomingCall(opts: {
   // Desktop: use Electron IPC. Page Visibility stays "visible" when the window
   // is unfocused (not minimized), so browser Notification would never fire —
   // while call-cancel system messages still toast via notifyMessage.
-  if (isQchatDesktop() && window.qchatDesktop?.notifyMessage) {
-    void window.qchatDesktop
+  if (isXinChatDesktop() && window.xinchatDesktop?.notifyMessage) {
+    void window.xinchatDesktop
       .notifyMessage({
         title,
         body,
@@ -32,7 +32,7 @@ export function notifyIncomingCall(opts: {
         suppressIfFocused: false,
       })
       .catch((err) => {
-        console.error("[qchat] desktop incoming-call notify failed:", err);
+        console.error("[xinchat] desktop incoming-call notify failed:", err);
       });
     return null;
   }
@@ -45,7 +45,7 @@ export function notifyIncomingCall(opts: {
 
   const n = new Notification(title, {
     body,
-    tag: `qchat-call-${opts.callId}`,
+    tag: `xinchat-call-${opts.callId}`,
     silent: !props.sound,
   });
   n.onclick = () => {

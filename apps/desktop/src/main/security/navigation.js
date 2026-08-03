@@ -1,7 +1,7 @@
 const { shell } = require("electron");
 
 /**
- * Same Qchat server if hostnames match (HTTP↔HTTPS redirects, default ports).
+ * Same XinChat server if hostnames match (HTTP↔HTTPS redirects, default ports).
  * @param {URL} a
  * @param {URL} b
  */
@@ -23,7 +23,7 @@ function attachNavigationGuards(win, webUrl, opts = {}) {
     allowed = null;
   }
 
-  const handleQchat = (url) => {
+  const handleXinChat = (url) => {
     if (typeof opts.onDeepLink === "function" && opts.onDeepLink(url)) return true;
     shell.openExternal(url).catch(() => {});
     return true;
@@ -32,8 +32,8 @@ function attachNavigationGuards(win, webUrl, opts = {}) {
   win.webContents.setWindowOpenHandler(({ url }) => {
     try {
       const parsed = new URL(url);
-      if (parsed.protocol === "qchat:") {
-        handleQchat(url);
+      if (parsed.protocol === "xinchat:" || parsed.protocol === "qchat:") {
+        handleXinChat(url);
         return { action: "deny" };
       }
       if (allowed && isSameWebHost(parsed, allowed)) {
@@ -51,9 +51,9 @@ function attachNavigationGuards(win, webUrl, opts = {}) {
   win.webContents.on("will-navigate", (event, url) => {
     try {
       const target = new URL(url);
-      if (target.protocol === "qchat:") {
+      if (target.protocol === "xinchat:" || target.protocol === "qchat:") {
         event.preventDefault();
-        handleQchat(url);
+        handleXinChat(url);
         return;
       }
       if (allowed && isSameWebHost(target, allowed)) {

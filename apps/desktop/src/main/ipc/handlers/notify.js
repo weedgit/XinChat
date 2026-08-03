@@ -61,7 +61,7 @@ function buildNotificationOptions(title, body, silent) {
 function createNotifyHandler(deps) {
   return async (_event, payload) => {
     if (!Notification.isSupported()) {
-      console.warn("[qchat-desktop] notification not supported");
+      console.warn("[xinchat-desktop] notification not supported");
       return false;
     }
     if (!payload || typeof payload !== "object") return false;
@@ -87,14 +87,14 @@ function createNotifyHandler(deps) {
 
     if (windowActive) {
       console.log(
-        "[qchat-desktop] skip toast — window focused:",
+        "[xinchat-desktop] skip toast — window focused:",
         conversationId || "(no conversation)",
         viewingConversation ? "(viewing this chat)" : ""
       );
       return false;
     }
 
-    console.log("[qchat-desktop] show toast:", {
+    console.log("[xinchat-desktop] show toast:", {
       title,
       conversationId,
       viewingConversation,
@@ -124,7 +124,7 @@ function createNotifyHandler(deps) {
         },
       });
       if (ok) {
-        console.log("[qchat-desktop] message toast shown (mac window):", title);
+        console.log("[xinchat-desktop] message toast shown (mac window):", title);
       }
       return ok;
     }
@@ -138,7 +138,7 @@ function createNotifyHandler(deps) {
         deps.sendConversationToRenderer(conversationId);
       });
       notification.on("show", () => {
-        console.log("[qchat-desktop] message toast shown:", title);
+        console.log("[xinchat-desktop] message toast shown:", title);
         try {
           const { markDesktopToastShown } = require("../../native/notifyUnread");
           markDesktopToastShown();
@@ -158,13 +158,13 @@ function createNotifyHandler(deps) {
       });
       notification.on("failed", (_e, error) => {
         const msg = String(error || "");
-        console.warn("[qchat-desktop] notification failed:", msg);
+        console.warn("[xinchat-desktop] notification failed:", msg);
         if (
           process.platform === "darwin" &&
           /UNErrorDomain|NotificationsNotAllowed/i.test(msg)
         ) {
           console.warn(
-            "[qchat-desktop] macOS UNNotification requires a signed Electron.app. " +
+            "[xinchat-desktop] macOS UNNotification requires a signed Electron.app. " +
               "Quit and re-run npm start (auto sign:dev), or: npm run sign:dev"
           );
         }
@@ -172,7 +172,7 @@ function createNotifyHandler(deps) {
       notification.show();
       return true;
     } catch (err) {
-      console.warn("[qchat-desktop] notification error:", err);
+      console.warn("[xinchat-desktop] notification error:", err);
       return false;
     }
   };

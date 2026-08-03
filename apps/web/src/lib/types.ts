@@ -1,4 +1,4 @@
-import type { MessageKey, ResolvedLocale } from "@qchat/i18n";
+import type { MessageKey, ResolvedLocale } from "@xinchat/i18n";
 import { formatShortDate } from "./datetime";
 import { newUUID } from "./uuid";
 

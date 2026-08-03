@@ -10,7 +10,7 @@
 import { detectDesktopPlatform, detectWebPlatform } from "./clientPlatform";
 import { newUUID } from "./uuid";
 
-const DEVICE_ID_KEY = "qchat.device_id";
+const DEVICE_ID_KEY = "xinchat.device_id";
 
 export type AuthDeviceType = "web" | "desktop" | "phone";
 
@@ -40,7 +40,7 @@ export async function getAuthDevice(): Promise<{
 }> {
   const deviceId = getDeviceId();
   if (typeof window !== "undefined") {
-    const desk = window.qchatDesktop;
+    const desk = window.xinchatDesktop;
     if (desk?.isDesktop) {
       const info = detectDesktopPlatform();
       return {
@@ -60,6 +60,6 @@ export async function getAuthDevice(): Promise<{
   };
 }
 
-export function isQchatDesktop(): boolean {
-  return typeof window !== "undefined" && Boolean(window.qchatDesktop?.isDesktop);
+export function isXinChatDesktop(): boolean {
+  return typeof window !== "undefined" && Boolean(window.xinchatDesktop?.isDesktop);
 }

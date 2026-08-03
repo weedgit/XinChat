@@ -187,7 +187,7 @@ function withTimeout<T>(p: Promise<T>, ms: number, label: string): Promise<T> {
 
 /**
  * Calls-style 1:1 ring → answer → LiveKit media.
- * Signaling via Qchat WS; media via LiveKit SFU.
+ * Signaling via XinChat WS; media via LiveKit SFU.
  */
 export function useCall(opts: {
   meId?: string;

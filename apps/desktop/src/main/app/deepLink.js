@@ -11,7 +11,7 @@ function createDeepLinkHandler(deps) {
   return (raw) => {
     const parsed = parseDeepLink(raw);
     if (!parsed?.conversationId) {
-      console.warn("[qchat-desktop] ignored deep link:", raw);
+      console.warn("[xinchat-desktop] ignored deep link:", raw);
       return false;
     }
     deps.focusMainWindow();

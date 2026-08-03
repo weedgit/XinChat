@@ -48,7 +48,7 @@ function maybeNotifyFromUnread(status, deps = {}) {
       : `You have ${unread} unread message${unread === 1 ? "" : "s"}`;
 
   const onClick = () => {
-    console.log("[qchat-desktop] unread toast clicked — focusing main window");
+    console.log("[xinchat-desktop] unread toast clicked — focusing main window");
     if (process.platform === "darwin") {
       try {
         app.show();
@@ -80,7 +80,7 @@ function maybeNotifyFromUnread(status, deps = {}) {
   };
 
   if (shouldUseMacToastFallback()) {
-    console.log("[qchat-desktop] show unread backup toast (mac window):", {
+    console.log("[xinchat-desktop] show unread backup toast (mac window):", {
       unread,
       mentions,
     });
@@ -92,7 +92,7 @@ function maybeNotifyFromUnread(status, deps = {}) {
     }).then((ok) => {
       if (ok) {
         console.log(
-          "[qchat-desktop] unread backup toast shown (mac window):",
+          "[xinchat-desktop] unread backup toast shown (mac window):",
           body
         );
         markDesktopToastShown();
@@ -110,7 +110,7 @@ function maybeNotifyFromUnread(status, deps = {}) {
     });
     notification.on("click", onClick);
     notification.on("show", () => {
-      console.log("[qchat-desktop] unread backup toast shown:", body);
+      console.log("[xinchat-desktop] unread backup toast shown:", body);
       markDesktopToastShown();
       if (win && !win.isDestroyed() && process.platform === "win32") {
         try {
@@ -122,22 +122,22 @@ function maybeNotifyFromUnread(status, deps = {}) {
     });
     notification.on("failed", (_e, error) => {
       const msg = String(error || "");
-      console.warn("[qchat-desktop] unread backup toast failed:", msg);
+      console.warn("[xinchat-desktop] unread backup toast failed:", msg);
       if (
         process.platform === "darwin" &&
         /UNErrorDomain|NotificationsNotAllowed/i.test(msg)
       ) {
         console.warn(
-          "[qchat-desktop] macOS notifications need a signed Electron.app — run: npm run sign:dev"
+          "[xinchat-desktop] macOS notifications need a signed Electron.app — run: npm run sign:dev"
         );
       }
     });
-    console.log("[qchat-desktop] show unread backup toast:", { unread, mentions });
+    console.log("[xinchat-desktop] show unread backup toast:", { unread, mentions });
     notification.show();
     markDesktopToastShown();
     return true;
   } catch (err) {
-    console.warn("[qchat-desktop] unread backup toast error:", err);
+    console.warn("[xinchat-desktop] unread backup toast error:", err);
     return false;
   }
 }

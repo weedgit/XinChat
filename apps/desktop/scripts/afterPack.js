@@ -18,7 +18,7 @@ exports.default = async function afterPack(context) {
   const sandboxPath = path.join(context.appOutDir, "chrome-sandbox");
   if (!fs.existsSync(sandboxPath)) {
     console.warn(
-      "[qchat-desktop afterPack] chrome-sandbox not found; skipping setuid"
+      "[xinchat-desktop afterPack] chrome-sandbox not found; skipping setuid"
     );
     return;
   }
@@ -46,6 +46,6 @@ exports.default = async function afterPack(context) {
     );
   }
   console.log(
-    `[qchat-desktop afterPack] set ${SETUID_PERMISSIONS} on chrome-sandbox (${label})`
+    `[xinchat-desktop afterPack] set ${SETUID_PERMISSIONS} on chrome-sandbox (${label})`
   );
 };

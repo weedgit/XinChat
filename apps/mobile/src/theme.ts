@@ -1,4 +1,4 @@
-/** 随行聊-inspired tokens for Qchat mobile (light + dark). */
+/** 随行聊-inspired tokens for XinChat mobile (light + dark). */
 export type ThemeMode = "light" | "dark" | "system";
 export type ResolvedTheme = "light" | "dark";
 

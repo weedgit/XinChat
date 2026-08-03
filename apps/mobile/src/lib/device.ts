@@ -2,7 +2,7 @@ import * as Device from "expo-device";
 import * as SecureStore from "expo-secure-store";
 import { Platform } from "react-native";
 
-const DEVICE_ID_KEY = "qchat.device_id";
+const DEVICE_ID_KEY = "xinchat.device_id";
 
 function newDeviceId(): string {
   const bytes = new Uint8Array(16);

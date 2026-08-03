@@ -34,8 +34,8 @@ function isIPv4(net) {
 }
 
 function listCandidateIps() {
-  if (process.env.QCHAT_LAN_IP) {
-    return [process.env.QCHAT_LAN_IP.trim()];
+  if (process.env.XINCHAT_LAN_IP) {
+    return [process.env.XINCHAT_LAN_IP.trim()];
   }
 
   /** @type {{ address: string, score: number }[]} */
@@ -89,7 +89,7 @@ function canReachWeb(ip, port, timeoutMs = 800) {
 }
 
 async function resolveWebUrl() {
-  const port = process.env.QCHAT_WEB_PORT || "3000";
+  const port = process.env.XINCHAT_WEB_PORT || "3000";
   const candidates = [...listCandidateIps(), "127.0.0.1"];
 
   for (const ip of candidates) {
@@ -98,7 +98,7 @@ async function resolveWebUrl() {
     if (ok) {
       return { webUrl: `http://${ip}:${port}`, ip, port };
     }
-    console.warn(`[qchat-desktop] web UI not reachable at http://${ip}:${port}`);
+    console.warn(`[xinchat-desktop] web UI not reachable at http://${ip}:${port}`);
   }
 
   return null;
@@ -108,16 +108,16 @@ async function main() {
   const resolved = await resolveWebUrl();
   if (!resolved) {
     console.error(
-      "[qchat-desktop] Could not reach apps/web on LAN or localhost:3000.\n" +
+      "[xinchat-desktop] Could not reach apps/web on LAN or localhost:3000.\n" +
         "Start the web app first: cd apps/web && npm run dev\n" +
-        "Or force an IP: QCHAT_LAN_IP=192.168.1.124 npm run start:lan"
+        "Or force an IP: XINCHAT_LAN_IP=192.168.1.124 npm run start:lan"
     );
     process.exitCode = 1;
     return;
   }
 
   console.log(
-    `[qchat-desktop] loading web UI at ${resolved.webUrl} (LAN-friendly for LiveKit)`
+    `[xinchat-desktop] loading web UI at ${resolved.webUrl} (LAN-friendly for LiveKit)`
   );
 
   const electron = launchElectron([`--url=${resolved.webUrl}`, ...process.argv.slice(2)]);

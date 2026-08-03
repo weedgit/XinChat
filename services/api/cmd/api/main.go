@@ -10,12 +10,12 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/qchat/qchat/services/api/internal/config"
-	"github.com/qchat/qchat/services/api/internal/db"
-	"github.com/qchat/qchat/services/api/internal/migrate"
-	"github.com/qchat/qchat/services/api/internal/redisx"
-	"github.com/qchat/qchat/services/api/internal/server"
-	"github.com/qchat/qchat/services/api/internal/ws"
+	"github.com/xinchat/xinchat/services/api/internal/config"
+	"github.com/xinchat/xinchat/services/api/internal/db"
+	"github.com/xinchat/xinchat/services/api/internal/migrate"
+	"github.com/xinchat/xinchat/services/api/internal/redisx"
+	"github.com/xinchat/xinchat/services/api/internal/server"
+	"github.com/xinchat/xinchat/services/api/internal/ws"
 )
 
 func main() {
@@ -60,7 +60,7 @@ func main() {
 	}
 
 	go func() {
-		log.Printf("qchat api listening on %s", cfg.HTTPAddr)
+		log.Printf("xinchat api listening on %s", cfg.HTTPAddr)
 		if err := httpServer.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			log.Fatalf("http: %v", err)
 		}

@@ -1,4 +1,4 @@
-# Build + install Qchat Android dev client on LDPlayer (self-signed HTTPS trust).
+# Build + install XinChat Android dev client on LDPlayer (self-signed HTTPS trust).
 # Bypasses Expo's fragile emulator-5558 AVD probe when needed.
 $ErrorActionPreference = "Stop"
 $Root = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent

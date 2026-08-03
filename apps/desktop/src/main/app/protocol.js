@@ -3,7 +3,7 @@ const { app } = require("electron");
 const { APP_PROTOCOL, parseDeepLink, getDeepLinkFromArgv } = require("./deepLinkParse");
 
 /**
- * Register as the OS handler for qchat:// (Mattermost-style).
+ * Register as the OS handler for xinchat:// (Mattermost-style).
  * Safe to call before ready; no-op when registration is unsupported.
  */
 function registerProtocolClient() {
@@ -18,7 +18,7 @@ function registerProtocolClient() {
     }
     app.setAsDefaultProtocolClient(APP_PROTOCOL);
   } catch (err) {
-    console.warn("[qchat-desktop] protocol registration failed:", err?.message || err);
+    console.warn("[xinchat-desktop] protocol registration failed:", err?.message || err);
   }
 }
 

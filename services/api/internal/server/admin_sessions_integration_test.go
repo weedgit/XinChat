@@ -5,8 +5,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/qchat/qchat/services/api/internal/auth"
-	"github.com/qchat/qchat/services/api/internal/config"
+	"github.com/xinchat/xinchat/services/api/internal/auth"
+	"github.com/xinchat/xinchat/services/api/internal/config"
 )
 
 func adminToken(t *testing.T, memberToken string) string {

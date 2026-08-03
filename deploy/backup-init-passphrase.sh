@@ -2,7 +2,7 @@
 # Initialize deploy/backup.passphrase for AES-encrypted backups (gitignored).
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-FILE="${QCHAT_BACKUP_PASSPHRASE_FILE:-$ROOT/deploy/backup.passphrase}"
+FILE="${XINCHAT_BACKUP_PASSPHRASE_FILE:-$ROOT/deploy/backup.passphrase}"
 if [[ -f "$FILE" && -s "$FILE" && "${1:-}" != "--force" ]]; then
   echo "Already exists: $FILE (use --force to rotate)"
   exit 0

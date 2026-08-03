@@ -26,7 +26,7 @@ function notifyDownloadComplete(savePath) {
       shell.showItemInFolder(path.normalize(savePath));
     } catch (err) {
       console.warn(
-        "[qchat-desktop] showItemInFolder failed:",
+        "[xinchat-desktop] showItemInFolder failed:",
         err?.message || err
       );
     }

@@ -5,11 +5,11 @@ const { app } = require("electron");
  * Must run before app.ready (Mattermost: app.enableSandbox()).
  */
 function enableProductionSandbox() {
-  if (app.isPackaged && process.env.QCHAT_DESKTOP_NO_SANDBOX) {
+  if (app.isPackaged && process.env.XINCHAT_DESKTOP_NO_SANDBOX) {
     console.warn(
-      "[qchat-desktop] ignoring QCHAT_DESKTOP_NO_SANDBOX in packaged builds (PACK-07)"
+      "[xinchat-desktop] ignoring XINCHAT_DESKTOP_NO_SANDBOX in packaged builds (PACK-07)"
     );
-    delete process.env.QCHAT_DESKTOP_NO_SANDBOX;
+    delete process.env.XINCHAT_DESKTOP_NO_SANDBOX;
   }
 
   try {
@@ -18,7 +18,7 @@ function enableProductionSandbox() {
     }
   } catch (err) {
     console.warn(
-      "[qchat-desktop] enableSandbox failed:",
+      "[xinchat-desktop] enableSandbox failed:",
       err?.message || err
     );
   }

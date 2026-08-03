@@ -37,4 +37,4 @@ Write-Host "ANDROID_SERIAL=$serial"
 Invoke-Adb devices -l
 Write-Host ""
 Write-Host "Next: npx expo run:android --device $serial"
-Write-Host "  or: npx expo start --dev-client  (open Qchat app; do not press a)"
+Write-Host "  or: npx expo start --dev-client  (open XinChat app; do not press a)"

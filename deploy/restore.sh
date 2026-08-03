@@ -1,19 +1,19 @@
 #!/usr/bin/env bash
-# Restore Qchat from a backup directory produced by deploy/backup.sh.
+# Restore XinChat from a backup directory produced by deploy/backup.sh.
 #
 # Usage:
 #   ./deploy/restore.sh /path/to/backup-dir
 #
 # Safety:
-#   Production DB restore requires QCHAT_RESTORE_CONFIRM=YES
-#   Isolated drill DB: QCHAT_RESTORE_DB=qchat_drill (no confirm needed)
+#   Production DB restore requires XINCHAT_RESTORE_CONFIRM=YES
+#   Isolated drill DB: XINCHAT_RESTORE_DB=xinchat_drill (no confirm needed)
 #
 # Env:
-#   QCHAT_RESTORE_CONFIRM=YES     Required to overwrite database `qchat`
-#   QCHAT_RESTORE_DB=qchat        Target database name (default qchat)
-#   QCHAT_RESTORE_MINIO=1         Restore MinIO volume (default 1)
-#   QCHAT_RESTORE_UPLOADS=1       Restore local uploads (default 1)
-#   QCHAT_RESTORE_SECRETS=0       Restore env/certs from secrets bundle (default 0)
+#   XINCHAT_RESTORE_CONFIRM=YES     Required to overwrite database `xinchat`
+#   XINCHAT_RESTORE_DB=xinchat        Target database name (default xinchat)
+#   XINCHAT_RESTORE_MINIO=1         Restore MinIO volume (default 1)
+#   XINCHAT_RESTORE_UPLOADS=1       Restore local uploads (default 1)
+#   XINCHAT_RESTORE_SECRETS=0       Restore env/certs from secrets bundle (default 0)
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
@@ -22,16 +22,16 @@ source "$ROOT/deploy/backup-lib.sh"
 
 SRC="${1:?usage: restore.sh /path/to/backup-dir}"
 SRC="$(cd "$SRC" && pwd)"
-TARGET_DB="${QCHAT_RESTORE_DB:-qchat}"
+TARGET_DB="${XINCHAT_RESTORE_DB:-xinchat}"
 
 if [[ ! -d "$SRC" ]]; then
   echo "Not a directory: $SRC" >&2
   exit 1
 fi
 
-if [[ "$TARGET_DB" == "qchat" && "${QCHAT_RESTORE_CONFIRM:-}" != "YES" ]]; then
-  echo "Refusing to overwrite production DB 'qchat'." >&2
-  echo "Re-run with QCHAT_RESTORE_CONFIRM=YES, or set QCHAT_RESTORE_DB=qchat_drill for an isolated restore." >&2
+if [[ "$TARGET_DB" == "xinchat" && "${XINCHAT_RESTORE_CONFIRM:-}" != "YES" ]]; then
+  echo "Refusing to overwrite production DB 'xinchat'." >&2
+  echo "Re-run with XINCHAT_RESTORE_CONFIRM=YES, or set XINCHAT_RESTORE_DB=xinchat_drill for an isolated restore." >&2
   exit 2
 fi
 
@@ -59,26 +59,26 @@ materialize() {
 
 # --- Postgres ---
 DUMP_PATH=""
-if DUMP_PATH="$(materialize qchat.dump)"; then
+if DUMP_PATH="$(materialize xinchat.dump)"; then
   echo "Restoring Postgres ($TARGET_DB)..."
-  if [[ "$TARGET_DB" != "qchat" ]]; then
+  if [[ "$TARGET_DB" != "xinchat" ]]; then
     compose exec -T postgres \
-      psql -U qchat -d postgres -v ON_ERROR_STOP=1 \
+      psql -U xinchat -d postgres -v ON_ERROR_STOP=1 \
       -c "SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname='${TARGET_DB}' AND pid <> pg_backend_pid();" \
       >/dev/null 2>&1 || true
     compose exec -T postgres \
-      psql -U qchat -d postgres -v ON_ERROR_STOP=1 \
+      psql -U xinchat -d postgres -v ON_ERROR_STOP=1 \
       -c "DROP DATABASE IF EXISTS ${TARGET_DB};"
     compose exec -T postgres \
-      psql -U qchat -d postgres -v ON_ERROR_STOP=1 \
-      -c "CREATE DATABASE ${TARGET_DB} OWNER qchat;"
+      psql -U xinchat -d postgres -v ON_ERROR_STOP=1 \
+      -c "CREATE DATABASE ${TARGET_DB} OWNER xinchat;"
   fi
 
   # pg_restore exits 1 on some benign notices; treat only exit >= 2 as hard fail,
   # but also require that tables exist afterwards.
   set +e
   compose exec -T postgres \
-    pg_restore -U qchat -d "$TARGET_DB" --clean --if-exists --no-owner < "$DUMP_PATH"
+    pg_restore -U xinchat -d "$TARGET_DB" --clean --if-exists --no-owner < "$DUMP_PATH"
   RC=$?
   set -e
   if [[ "$RC" -ge 2 ]]; then
@@ -86,7 +86,7 @@ if DUMP_PATH="$(materialize qchat.dump)"; then
     exit 1
   fi
   TABLE_COUNT="$(compose exec -T postgres \
-    psql -U qchat -d "$TARGET_DB" -Atc "SELECT count(*) FROM information_schema.tables WHERE table_schema='public';" \
+    psql -U xinchat -d "$TARGET_DB" -Atc "SELECT count(*) FROM information_schema.tables WHERE table_schema='public';" \
     | tr -d '[:space:]')"
   if [[ -z "$TABLE_COUNT" || "$TABLE_COUNT" == "0" ]]; then
     echo "FAIL: restore produced zero public tables" >&2
@@ -94,19 +94,19 @@ if DUMP_PATH="$(materialize qchat.dump)"; then
   fi
   echo "  ok: postgres ($TABLE_COUNT public tables, pg_restore rc=$RC)"
 else
-  echo "FAIL: missing qchat.dump(.enc)" >&2
+  echo "FAIL: missing xinchat.dump(.enc)" >&2
   exit 1
 fi
 
 # --- MinIO ---
-if [[ "${QCHAT_RESTORE_MINIO:-1}" == "1" ]]; then
+if [[ "${XINCHAT_RESTORE_MINIO:-1}" == "1" ]]; then
   if MINIO_TAR="$(materialize minio.tar.gz 2>/dev/null)"; then
     MINIO_VOL="$(minio_volume_name)"
     if [[ -z "$MINIO_VOL" ]]; then
       echo "FAIL: MinIO volume not found" >&2
       exit 1
     fi
-    if [[ "$TARGET_DB" != "qchat" ]]; then
+    if [[ "$TARGET_DB" != "xinchat" ]]; then
       echo "  skip MinIO write (isolated DB restore; archive verified only)"
       tar tzf "$MINIO_TAR" >/dev/null
       echo "  ok: minio.tar.gz integrity"
@@ -126,13 +126,13 @@ if [[ "${QCHAT_RESTORE_MINIO:-1}" == "1" ]]; then
 fi
 
 # --- Local uploads ---
-if [[ "${QCHAT_RESTORE_UPLOADS:-1}" == "1" ]]; then
+if [[ "${XINCHAT_RESTORE_UPLOADS:-1}" == "1" ]]; then
   if UP_TAR="$(materialize uploads.tar.gz 2>/dev/null)"; then
-    if [[ "$TARGET_DB" != "qchat" ]]; then
+    if [[ "$TARGET_DB" != "xinchat" ]]; then
       tar tzf "$UP_TAR" >/dev/null
       echo "  ok: uploads.tar.gz integrity (not extracted in drill mode)"
     else
-      DATA_DIR="${QCHAT_DATA_DIR:-$ROOT/services/api/data}"
+      DATA_DIR="${XINCHAT_DATA_DIR:-$ROOT/services/api/data}"
       mkdir -p "$DATA_DIR"
       tar -C "$DATA_DIR" -xzf "$UP_TAR"
       echo "  ok: uploads extracted to $DATA_DIR"
@@ -143,9 +143,9 @@ if [[ "${QCHAT_RESTORE_UPLOADS:-1}" == "1" ]]; then
 fi
 
 # --- Secrets ---
-if [[ "${QCHAT_RESTORE_SECRETS:-0}" == "1" ]]; then
+if [[ "${XINCHAT_RESTORE_SECRETS:-0}" == "1" ]]; then
   if SEC_TAR="$(materialize secrets.tar.gz 2>/dev/null)"; then
-    if [[ "$TARGET_DB" != "qchat" ]]; then
+    if [[ "$TARGET_DB" != "xinchat" ]]; then
       tar tzf "$SEC_TAR" >/dev/null
       echo "  ok: secrets.tar.gz integrity"
     else
@@ -158,7 +158,7 @@ if [[ "${QCHAT_RESTORE_SECRETS:-0}" == "1" ]]; then
 fi
 
 echo "Restore complete (db=$TARGET_DB)."
-if [[ "$TARGET_DB" == "qchat" ]]; then
+if [[ "$TARGET_DB" == "xinchat" ]]; then
   echo "Validate: curl -fsS http://127.0.0.1:8080/healthz"
-  echo "Restart API if needed: systemctl restart qchat-api"
+  echo "Restart API if needed: systemctl restart xinchat-api"
 fi

@@ -7,8 +7,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/qchat/qchat/services/api/internal/auth"
-	"github.com/qchat/qchat/services/api/internal/db"
+	"github.com/xinchat/xinchat/services/api/internal/auth"
+	"github.com/xinchat/xinchat/services/api/internal/db"
 )
 
 func TestAdminMFALoginGating(t *testing.T) {
@@ -19,9 +19,9 @@ func TestAdminMFALoginGating(t *testing.T) {
 	memberTok, _, userID, _ := registerUser(t, base, "ACME2026")
 	admin := adminToken(t, memberTok)
 
-	dsn := os.Getenv("QCHAT_DATABASE_URL")
+	dsn := os.Getenv("XINCHAT_DATABASE_URL")
 	if dsn == "" {
-		dsn = "postgres://qchat:qchat@localhost:5432/qchat?sslmode=disable"
+		dsn = "postgres://xinchat:xinchat@localhost:5432/xinchat?sslmode=disable"
 	}
 	ctx := context.Background()
 	pool, err := db.Connect(ctx, dsn)

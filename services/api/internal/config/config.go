@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-const DefaultJWTSecret = "dev-qchat-secret-change-me"
+const DefaultJWTSecret = "dev-xinchat-secret-change-me"
 const DefaultLiveKitAPIKey = "devkey"
 const DefaultLiveKitAPISecret = "secret-that-is-at-least-32-characters-long"
 
@@ -26,7 +26,7 @@ type Config struct {
 	// Object storage credentials (MinIO / S3). Defaults match docker-compose minio.
 	ObjectStorageAccessKey string
 	ObjectStorageSecretKey string
-	// DataDir holds local uploads (…/uploads). Override with QCHAT_DATA_DIR.
+	// DataDir holds local uploads (…/uploads). Override with XINCHAT_DATA_DIR.
 	DataDir     string
 	MigrateOnly bool
 	Env         string
@@ -61,53 +61,53 @@ type Config struct {
 
 func Load() Config {
 	return Config{
-		HTTPAddr:               getenv("QCHAT_HTTP_ADDR", ":8080"),
-		DatabaseURL:            getenv("QCHAT_DATABASE_URL", "postgres://qchat:qchat@localhost:5432/qchat?sslmode=disable"),
-		RedisURL:               getenv("QCHAT_REDIS_URL", "redis://localhost:6379/0"),
-		JWTSecret:              getenv("QCHAT_JWT_SECRET", DefaultJWTSecret),
-		AccessTTL:              durationEnv("QCHAT_ACCESS_TTL", 15*time.Minute),
-		RefreshTTL:             durationEnv("QCHAT_REFRESH_TTL", 60*24*time.Hour),
-		CORSOrigin:             getenv("QCHAT_CORS_ORIGIN", "*"),
-		ObjectStorageURL:       getenv("QCHAT_OBJECT_STORAGE_URL", "http://localhost:9000"),
-		Bucket:                 getenv("QCHAT_BUCKET", "qchat"),
-		ObjectStorageAccessKey: getenv("QCHAT_OBJECT_STORAGE_ACCESS_KEY", "qchatminio"),
-		ObjectStorageSecretKey: getenv("QCHAT_OBJECT_STORAGE_SECRET_KEY", "qchatminio123"),
+		HTTPAddr:               getenv("XINCHAT_HTTP_ADDR", ":8080"),
+		DatabaseURL:            getenv("XINCHAT_DATABASE_URL", "postgres://xinchat:xinchat@localhost:5432/xinchat?sslmode=disable"),
+		RedisURL:               getenv("XINCHAT_REDIS_URL", "redis://localhost:6379/0"),
+		JWTSecret:              getenv("XINCHAT_JWT_SECRET", DefaultJWTSecret),
+		AccessTTL:              durationEnv("XINCHAT_ACCESS_TTL", 15*time.Minute),
+		RefreshTTL:             durationEnv("XINCHAT_REFRESH_TTL", 60*24*time.Hour),
+		CORSOrigin:             getenv("XINCHAT_CORS_ORIGIN", "*"),
+		ObjectStorageURL:       getenv("XINCHAT_OBJECT_STORAGE_URL", "http://localhost:9000"),
+		Bucket:                 getenv("XINCHAT_BUCKET", "xinchat"),
+		ObjectStorageAccessKey: getenv("XINCHAT_OBJECT_STORAGE_ACCESS_KEY", "xinchatminio"),
+		ObjectStorageSecretKey: getenv("XINCHAT_OBJECT_STORAGE_SECRET_KEY", "xinchatminio123"),
 		DataDir:                resolveDataDir(),
-		Env:                    strings.ToLower(getenv("QCHAT_ENV", "development")),
+		Env:                    strings.ToLower(getenv("XINCHAT_ENV", "development")),
 		LiveKitURL:             getenv("LIVEKIT_URL", "ws://localhost:7880"),
 		LiveKitAPIKey:          getenv("LIVEKIT_API_KEY", DefaultLiveKitAPIKey),
 		LiveKitAPISecret:       getenv("LIVEKIT_API_SECRET", DefaultLiveKitAPISecret),
-		VAPIDPublic:            getenv("QCHAT_VAPID_PUBLIC", "BFdXB2ANYUTz51uvhyiHY690_q7gwTQugmCht6XglXgTLyoubrPvnpQVk4Jac5cP_zVayT88l0gTgnCt1gK5cfA"),
-		VAPIDPrivate:           getenv("QCHAT_VAPID_PRIVATE", "bUnBIxgamtcANH9nAryWvxT0v8s4iosetHMSeOmcB7g"),
-		VAPIDSubject:           getenv("QCHAT_VAPID_SUBJECT", "mailto:admin@qchat.local"),
-		ExpoPushEnabled:        getenv("QCHAT_EXPO_PUSH_ENABLED", "true"),
-		ExpoAccessToken:        strings.TrimSpace(getenv("QCHAT_EXPO_ACCESS_TOKEN", "")),
-		FCMProjectID:           strings.TrimSpace(getenv("QCHAT_FCM_PROJECT_ID", "")),
-		FCMCredentialsJSON:     strings.TrimSpace(getenv("QCHAT_FCM_CREDENTIALS_JSON", "")),
-		APNsKeyID:              strings.TrimSpace(getenv("QCHAT_APNS_KEY_ID", "")),
-		APNsTeamID:             strings.TrimSpace(getenv("QCHAT_APNS_TEAM_ID", "")),
-		APNsBundleID:           strings.TrimSpace(getenv("QCHAT_APNS_BUNDLE_ID", "")),
-		APNsKeyPath:            strings.TrimSpace(getenv("QCHAT_APNS_KEY_PATH", "")),
-		APNsProduction:         getenv("QCHAT_APNS_PRODUCTION", "1"),
-		GetuiEnabled:           strings.TrimSpace(getenv("QCHAT_GETUI_ENABLED", "")),
-		GetuiAppID:             strings.TrimSpace(getenv("QCHAT_GETUI_APP_ID", "")),
-		GetuiAppKey:            strings.TrimSpace(getenv("QCHAT_GETUI_APP_KEY", "")),
-		GetuiMasterSecret:      strings.TrimSpace(getenv("QCHAT_GETUI_MASTER_SECRET", "")),
-		GiphyAPIKey:            strings.TrimSpace(getenv("QCHAT_GIPHY_API_KEY", "")),
+		VAPIDPublic:            getenv("XINCHAT_VAPID_PUBLIC", "BFdXB2ANYUTz51uvhyiHY690_q7gwTQugmCht6XglXgTLyoubrPvnpQVk4Jac5cP_zVayT88l0gTgnCt1gK5cfA"),
+		VAPIDPrivate:           getenv("XINCHAT_VAPID_PRIVATE", "bUnBIxgamtcANH9nAryWvxT0v8s4iosetHMSeOmcB7g"),
+		VAPIDSubject:           getenv("XINCHAT_VAPID_SUBJECT", "mailto:admin@xinchat.local"),
+		ExpoPushEnabled:        getenv("XINCHAT_EXPO_PUSH_ENABLED", "true"),
+		ExpoAccessToken:        strings.TrimSpace(getenv("XINCHAT_EXPO_ACCESS_TOKEN", "")),
+		FCMProjectID:           strings.TrimSpace(getenv("XINCHAT_FCM_PROJECT_ID", "")),
+		FCMCredentialsJSON:     strings.TrimSpace(getenv("XINCHAT_FCM_CREDENTIALS_JSON", "")),
+		APNsKeyID:              strings.TrimSpace(getenv("XINCHAT_APNS_KEY_ID", "")),
+		APNsTeamID:             strings.TrimSpace(getenv("XINCHAT_APNS_TEAM_ID", "")),
+		APNsBundleID:           strings.TrimSpace(getenv("XINCHAT_APNS_BUNDLE_ID", "")),
+		APNsKeyPath:            strings.TrimSpace(getenv("XINCHAT_APNS_KEY_PATH", "")),
+		APNsProduction:         getenv("XINCHAT_APNS_PRODUCTION", "1"),
+		GetuiEnabled:           strings.TrimSpace(getenv("XINCHAT_GETUI_ENABLED", "")),
+		GetuiAppID:             strings.TrimSpace(getenv("XINCHAT_GETUI_APP_ID", "")),
+		GetuiAppKey:            strings.TrimSpace(getenv("XINCHAT_GETUI_APP_KEY", "")),
+		GetuiMasterSecret:      strings.TrimSpace(getenv("XINCHAT_GETUI_MASTER_SECRET", "")),
+		GiphyAPIKey:            strings.TrimSpace(getenv("XINCHAT_GIPHY_API_KEY", "")),
 		BackupDir:              resolveBackupDir(),
 	}
 }
 
-// ValidateSecrets refuses weak JWT / LiveKit defaults when QCHAT_ENV=production.
+// ValidateSecrets refuses weak JWT / LiveKit defaults when XINCHAT_ENV=production.
 func (c Config) ValidateSecrets() error {
 	if c.Env != "production" {
 		return nil
 	}
 	if c.JWTSecret == "" || c.JWTSecret == DefaultJWTSecret || len(c.JWTSecret) < 32 {
-		return fmt.Errorf("QCHAT_JWT_SECRET must be a unique secret (≥32 chars); run deploy/rotate-jwt-secret.sh")
+		return fmt.Errorf("XINCHAT_JWT_SECRET must be a unique secret (≥32 chars); run deploy/rotate-jwt-secret.sh")
 	}
 	if c.LiveKitAPIKey == "" || c.LiveKitAPIKey == DefaultLiveKitAPIKey {
-		return fmt.Errorf("LIVEKIT_API_KEY must not use the default %q in production; set a unique key in deploy/qchat-api.env", DefaultLiveKitAPIKey)
+		return fmt.Errorf("LIVEKIT_API_KEY must not use the default %q in production; set a unique key in deploy/xinchat-api.env", DefaultLiveKitAPIKey)
 	}
 	if c.LiveKitAPISecret == "" || c.LiveKitAPISecret == DefaultLiveKitAPISecret || len(c.LiveKitAPISecret) < 32 {
 		return fmt.Errorf("LIVEKIT_API_SECRET must be a unique secret (≥32 chars) in production; re-run deploy/render-media-config.sh with LIVEKIT_API_SECRET set")
@@ -122,18 +122,25 @@ func getenv(k, def string) string {
 	if v := os.Getenv(k); v != "" {
 		return v
 	}
+	// Accept legacy QCHAT_* during the XinChat rebrand cutover.
+	if strings.HasPrefix(k, "XINCHAT_") {
+		if v := os.Getenv("QCHAT_" + strings.TrimPrefix(k, "XINCHAT_")); v != "" {
+			return v
+		}
+	}
 	return def
 }
 
 // resolveBackupDir locates deploy/backup.sh output (status.json / latest/).
 func resolveBackupDir() string {
-	if v := strings.TrimSpace(os.Getenv("QCHAT_BACKUP_DIR")); v != "" {
+	if v := strings.TrimSpace(getenv("XINCHAT_BACKUP_DIR", "")); v != "" {
 		return v
 	}
 	candidates := []string{
 		"backups",
 		filepath.Join("..", "..", "backups"),
 		filepath.Join("..", "backups"),
+		"/root/xinchat/backups",
 		"/root/qchat/backups",
 	}
 	for _, c := range candidates {
@@ -147,7 +154,7 @@ func resolveBackupDir() string {
 // resolveDataDir picks the local upload root (…/uploads). Prefer an existing
 // tree so API cwd may be either services/api or the monorepo root.
 func resolveDataDir() string {
-	if v := os.Getenv("QCHAT_DATA_DIR"); v != "" {
+	if v := getenv("XINCHAT_DATA_DIR", ""); v != "" {
 		return v
 	}
 	candidates := []string{
@@ -164,7 +171,7 @@ func resolveDataDir() string {
 }
 
 func durationEnv(k string, def time.Duration) time.Duration {
-	if v := os.Getenv(k); v != "" {
+	if v := getenv(k, ""); v != "" {
 		if d, err := time.ParseDuration(v); err == nil {
 			return d
 		}

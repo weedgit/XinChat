@@ -198,8 +198,8 @@ export const EMOJI_CATEGORIES: EmojiCategory[] = [
   },
 ];
 
-const RECENT_KEY = "qchat.emoji.recent";
-const MOOD_ORDER_KEY = "qchat.emoji.moodOrder";
+const RECENT_KEY = "xinchat.emoji.recent";
+const MOOD_ORDER_KEY = "xinchat.emoji.moodOrder";
 const RECENT_MAX = 32;
 
 export function loadRecentEmojis(): string[] {

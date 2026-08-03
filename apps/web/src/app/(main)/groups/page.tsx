@@ -2,7 +2,7 @@
 
 import { FormEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { formatApiError } from "@qchat/i18n";
+import { formatApiError } from "@xinchat/i18n";
 import Avatar from "@/components/Avatar";
 import GroupQr from "@/components/GroupQr";
 import GroupQrScanner, { isGroupQrCameraSupported } from "@/components/GroupQrScanner";
@@ -141,11 +141,11 @@ export default function GroupsPage() {
     const onChanged = () => {
       void load().catch(() => {});
     };
-    window.addEventListener("qchat:conversations-changed", onChanged);
-    window.addEventListener("qchat:group-pending", onChanged);
+    window.addEventListener("xinchat:conversations-changed", onChanged);
+    window.addEventListener("xinchat:group-pending", onChanged);
     return () => {
-      window.removeEventListener("qchat:conversations-changed", onChanged);
-      window.removeEventListener("qchat:group-pending", onChanged);
+      window.removeEventListener("xinchat:conversations-changed", onChanged);
+      window.removeEventListener("xinchat:group-pending", onChanged);
     };
   }, [load]);
 
@@ -649,8 +649,8 @@ export default function GroupsPage() {
       if (detail?.conversation_id !== activeGroup) return;
       void refreshPending(activeGroup);
     };
-    window.addEventListener("qchat:group-pending", onPending);
-    return () => window.removeEventListener("qchat:group-pending", onPending);
+    window.addEventListener("xinchat:group-pending", onPending);
+    return () => window.removeEventListener("xinchat:group-pending", onPending);
   }, [activeGroup, refreshPending]);
 
   async function approve(userId: string) {

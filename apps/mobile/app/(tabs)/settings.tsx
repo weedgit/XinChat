@@ -16,7 +16,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
-import type { LocaleMode } from "@qchat/i18n";
+import type { LocaleMode } from "@xinchat/i18n";
 import { useAuth } from "../../src/context/AuthContext";
 import { useLocale } from "../../src/context/LocaleContext";
 import { useTheme, useThemedStyles } from "../../src/context/ThemeContext";

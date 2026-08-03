@@ -1,5 +1,5 @@
-/* Qchat PWA + Web Push service worker — keep one root-scoped worker. */
-const CACHE_NAME = "qchat-shell-v3";
+/* XinChat PWA + Web Push service worker — keep one root-scoped worker. */
+const CACHE_NAME = "xinchat-shell-v3";
 const OFFLINE_URL = "/offline.html";
 const APP_SHELL = [
   "/",
@@ -32,7 +32,7 @@ self.addEventListener("activate", (event) => {
 });
 
 self.addEventListener("message", (event) => {
-  if (event?.data?.type === "qchat-skip-waiting") {
+  if (event?.data?.type === "xinchat-skip-waiting") {
     self.skipWaiting();
   }
 });
@@ -89,7 +89,7 @@ self.addEventListener("fetch", (event) => {
 });
 
 self.addEventListener("push", (event) => {
-  let data = { title: "XinChat", body: "New message", tag: "qchat", type: "message", url: "/" };
+  let data = { title: "XinChat", body: "New message", tag: "xinchat", type: "message", url: "/" };
   try {
     if (event.data) data = { ...data, ...event.data.json() };
   } catch (_) {
@@ -112,7 +112,7 @@ self.addEventListener("push", (event) => {
       }
       await self.registration.showNotification(data.title || "XinChat", {
         body: data.body || "",
-        tag: data.tag || "qchat",
+        tag: data.tag || "xinchat",
         icon: data.icon || "/icons/icon-192.png",
         badge: "/icons/icon-192.png",
         renotify: true,
@@ -135,7 +135,7 @@ self.addEventListener("notificationclick", (event) => {
     clients.matchAll({ type: "window", includeUncontrolled: true }).then((list) => {
       for (const c of list) {
         if ("focus" in c) {
-          c.postMessage({ type: "qchat-notification-click", ...meta });
+          c.postMessage({ type: "xinchat-notification-click", ...meta });
           return c.focus();
         }
       }

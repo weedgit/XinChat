@@ -28,17 +28,17 @@ func TestPercentile(t *testing.T) {
 }
 
 func TestScrapeMetric(t *testing.T) {
-	body := `# HELP qchat_ws_send_drops_total drops
-# TYPE qchat_ws_send_drops_total counter
-qchat_ws_send_drops_total 12
-qchat_http_requests_total{method="GET",path="/v1",status="200"} 3
+	body := `# HELP xinchat_ws_send_drops_total drops
+# TYPE xinchat_ws_send_drops_total counter
+xinchat_ws_send_drops_total 12
+xinchat_http_requests_total{method="GET",path="/v1",status="200"} 3
 `
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		_, _ = w.Write([]byte(body))
 	}))
 	defer srv.Close()
 
-	got, err := scrapeMetric(srv.URL, "qchat_ws_send_drops_total")
+	got, err := scrapeMetric(srv.URL, "xinchat_ws_send_drops_total")
 	if err != nil {
 		t.Fatal(err)
 	}

@@ -13,7 +13,7 @@ const ClientSendBuffer = 256
 
 var (
 	wsSendDrops = promauto.NewCounter(prometheus.CounterOpts{
-		Name: "qchat_ws_send_drops_total",
+		Name: "xinchat_ws_send_drops_total",
 		Help: "WebSocket outbound frames dropped because a client send buffer was full",
 	})
 	wsSendDropCount atomic.Uint64

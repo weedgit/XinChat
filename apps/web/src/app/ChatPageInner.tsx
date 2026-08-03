@@ -78,7 +78,7 @@ import { formatConversationTime } from "@/lib/datetime";
 
 /** Chat errors go to the console only — never surface as UI banners. */
 function logChatError(...args: unknown[]) {
-  console.error("[qchat]", ...args);
+  console.error("[xinchat]", ...args);
 }
 
 function ConversationRow({
@@ -1291,7 +1291,7 @@ export default function ChatPageInner() {
   const mobilePane: "list" | "chat" =
     narrowLayout && mobileChatOpen && active ? "chat" : "list";
 
-  const MOBILE_PANE_STATE = "qchatMobilePane";
+  const MOBILE_PANE_STATE = "xinchatMobilePane";
 
   function openChat(convId: string) {
     chat.openConversation(convId);
@@ -1765,7 +1765,7 @@ export default function ChatPageInner() {
   useEffect(() => {
     if (!ctxMenu) return;
     let alive = true;
-    const isDesktop = Boolean(window.qchatDesktop?.isDesktop);
+    const isDesktop = Boolean(window.xinchatDesktop?.isDesktop);
     const close = (e?: Event) => {
       if (!alive) return;
       // Opening right-click already called preventDefault; ignore that gesture
@@ -2048,8 +2048,8 @@ export default function ChatPageInner() {
       if (role !== "owner" && role !== "admin") return;
       void reloadGroupDetails().catch(() => {});
     };
-    window.addEventListener("qchat:group-pending", onPending);
-    return () => window.removeEventListener("qchat:group-pending", onPending);
+    window.addEventListener("xinchat:group-pending", onPending);
+    return () => window.removeEventListener("xinchat:group-pending", onPending);
   }, [showDetails, active?.id, active?.type, groupDetails?.role, chat.myRole]);
 
   // Pending friend-request badge + live toast/notification.
@@ -2099,12 +2099,12 @@ export default function ChatPageInner() {
     const onOpenFriends = () => {
       router.push("/friends");
     };
-    window.addEventListener("qchat:friend-request", onFriend);
-    window.addEventListener("qchat:open-friends", onOpenFriends);
+    window.addEventListener("xinchat:friend-request", onFriend);
+    window.addEventListener("xinchat:open-friends", onOpenFriends);
     return () => {
       cancelled = true;
-      window.removeEventListener("qchat:friend-request", onFriend);
-      window.removeEventListener("qchat:open-friends", onOpenFriends);
+      window.removeEventListener("xinchat:friend-request", onFriend);
+      window.removeEventListener("xinchat:open-friends", onOpenFriends);
     };
   }, [t, router]);
 
@@ -2140,8 +2140,8 @@ export default function ChatPageInner() {
         setGroupDetails((prev) => (prev ? { ...prev, title: detail.title } : prev));
       }
     };
-    window.addEventListener("qchat:group-updated", onUpdated);
-    return () => window.removeEventListener("qchat:group-updated", onUpdated);
+    window.addEventListener("xinchat:group-updated", onUpdated);
+    return () => window.removeEventListener("xinchat:group-updated", onUpdated);
   }, [showDetails, active?.id, active?.type]);
 
   // Prefetch group members for call invite picker (without opening RHS).
@@ -2275,8 +2275,8 @@ export default function ChatPageInner() {
       openedFromQuery.current = selectId;
       setMobileChatOpen(true);
     };
-    window.addEventListener("qchat:conversations-changed", onChanged);
-    return () => window.removeEventListener("qchat:conversations-changed", onChanged);
+    window.addEventListener("xinchat:conversations-changed", onChanged);
+    return () => window.removeEventListener("xinchat:conversations-changed", onChanged);
   }, []);
 
   useEffect(() => {
@@ -5140,7 +5140,7 @@ export default function ChatPageInner() {
   );
 }
 
-/** ForwardPostModal-style picker; Qchat API already accepts multiple conversation_ids. */
+/** ForwardPostModal-style picker; XinChat API already accepts multiple conversation_ids. */
 function ForwardPicker({
   conversations,
   messageCount,

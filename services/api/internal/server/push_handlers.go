@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/qchat/qchat/services/api/internal/push"
+	"github.com/xinchat/xinchat/services/api/internal/push"
 )
 
 func (s *Server) pushCfg() push.Config {
@@ -320,7 +320,7 @@ func (s *Server) notifyMessagePush(
 		s.pushToUser(ctx, cfg, p.uid, push.WebPayload{
 			Title:          title,
 			Body:           body,
-			Tag:            "qchat-" + convID,
+			Tag:            "xinchat-" + convID,
 			Type:           "message",
 			Icon:           icon,
 			URL:            "/?c=" + convID,
@@ -363,7 +363,7 @@ func (s *Server) notifyFriendRequestPush(ctx context.Context, userID, fromName, 
 	s.pushToUser(ctx, cfg, userID, push.WebPayload{
 		Title: "Friend request",
 		Body:  who + " wants to add you as a contact",
-		Tag:   "qchat-friend-request",
+		Tag:   "xinchat-friend-request",
 		Type:  "friend",
 		URL:   "/friends",
 	})
@@ -389,7 +389,7 @@ func (s *Server) notifyCallRingPush(ctx context.Context, userIDs []string, kind,
 	p := push.WebPayload{
 		Title:          title,
 		Body:           body,
-		Tag:            "qchat-call-" + callID,
+		Tag:            "xinchat-call-" + callID,
 		Type:           "call",
 		URL:            "/?c=" + conversationID,
 		CallID:         callID,

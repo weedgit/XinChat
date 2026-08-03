@@ -75,7 +75,7 @@ async function setWindowsOverlay(win, text, description) {
     }
     win.setOverlayIcon(nativeImage.createFromDataURL(dataUrl), description);
   } catch (err) {
-    console.warn("[qchat-desktop] taskbar overlay badge failed:", err?.message || err);
+    console.warn("[xinchat-desktop] taskbar overlay badge failed:", err?.message || err);
   }
 }
 
@@ -113,7 +113,7 @@ async function updateAppBadge(payload, opts = {}) {
       }
       app.setBadgeCount(count);
     } catch (err) {
-      console.warn("[qchat-desktop] setBadgeCount failed:", err?.message || err);
+      console.warn("[xinchat-desktop] setBadgeCount failed:", err?.message || err);
     }
     return { unread, mentions, label, count };
   }

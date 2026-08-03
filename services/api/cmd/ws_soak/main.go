@@ -66,7 +66,7 @@ func main() {
 	fanoutMax := flag.Duration("fanout-max", 2*time.Second, "fail if p95 full-fanout latency exceeds this")
 	dialConcurrency := flag.Int("dial-concurrency", 64, "max parallel WS dials")
 	checkMetrics := flag.Bool("check-metrics", true, "assert WS send-drop counter stays within budget")
-	maxDrops := flag.Float64("max-drops", 50, "max allowed increase in qchat_ws_send_drops_total during soak")
+	maxDrops := flag.Float64("max-drops", 50, "max allowed increase in xinchat_ws_send_drops_total during soak")
 	flag.Parse()
 
 	if *n < 1 {
@@ -89,7 +89,7 @@ func main() {
 
 	dropsBefore := 0.0
 	if *checkMetrics {
-		if d, err := scrapeMetric(bases[0]+"/metrics", "qchat_ws_send_drops_total"); err == nil {
+		if d, err := scrapeMetric(bases[0]+"/metrics", "xinchat_ws_send_drops_total"); err == nil {
 			dropsBefore = d
 		} else {
 			log.Printf("metrics: could not read drops before soak: %v (continuing)", err)
@@ -194,9 +194,9 @@ func main() {
 	mu.Unlock()
 
 	if *checkMetrics {
-		if d, err := scrapeMetric(bases[0]+"/metrics", "qchat_ws_send_drops_total"); err == nil {
+		if d, err := scrapeMetric(bases[0]+"/metrics", "xinchat_ws_send_drops_total"); err == nil {
 			delta := d - dropsBefore
-			log.Printf("metrics: qchat_ws_send_drops_total delta=%.0f (max %.0f)", delta, *maxDrops)
+			log.Printf("metrics: xinchat_ws_send_drops_total delta=%.0f (max %.0f)", delta, *maxDrops)
 			if delta > *maxDrops {
 				log.Fatalf("too many WS send drops during soak: %.0f > %.0f", delta, *maxDrops)
 			}

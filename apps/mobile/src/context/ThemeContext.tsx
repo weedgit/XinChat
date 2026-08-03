@@ -18,7 +18,7 @@ import {
   type ThemeMode,
 } from "../theme";
 
-const THEME_KEY = "qchat.theme";
+const THEME_KEY = "xinchat.theme";
 
 type ThemeContextValue = {
   theme: ThemeMode;

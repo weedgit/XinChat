@@ -52,7 +52,7 @@ export async function saveMediaToDisk(
   const fileName = preferredName || basenameFromURL(authed);
 
   // Desktop: downloadURL hits session will-download → dialog.showSaveDialog.
-  const desk = typeof window !== "undefined" ? window.qchatDesktop : undefined;
+  const desk = typeof window !== "undefined" ? window.xinchatDesktop : undefined;
   if (desk?.isDesktop && typeof desk.downloadURL === "function") {
     if (authed.startsWith("blob:") || authed.startsWith("data:")) {
       // Native downloadURL needs http(s); fall through to picker/blob.

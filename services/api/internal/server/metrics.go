@@ -16,23 +16,23 @@ import (
 
 var (
 	httpRequests = promauto.NewCounterVec(prometheus.CounterOpts{
-		Name: "qchat_http_requests_total",
+		Name: "xinchat_http_requests_total",
 		Help: "Total HTTP requests by method, path group, and status",
 	}, []string{"method", "path", "status"})
 
 	httpDuration = promauto.NewHistogramVec(prometheus.HistogramOpts{
-		Name:    "qchat_http_request_duration_seconds",
+		Name:    "xinchat_http_request_duration_seconds",
 		Help:    "HTTP request latency",
 		Buckets: prometheus.DefBuckets,
 	}, []string{"method", "path"})
 
 	httpErrors = promauto.NewCounterVec(prometheus.CounterOpts{
-		Name: "qchat_http_errors_total",
+		Name: "xinchat_http_errors_total",
 		Help: "HTTP responses with status >= 400",
 	}, []string{"method", "path", "status"})
 
 	wsConnections = promauto.NewGaugeFunc(prometheus.GaugeOpts{
-		Name: "qchat_ws_connections",
+		Name: "xinchat_ws_connections",
 		Help: "Current WebSocket connections (websocket metrics)",
 	}, func() float64 {
 		if wsGaugeFn == nil {
@@ -42,7 +42,7 @@ var (
 	})
 
 	messagePublishDuration = promauto.NewHistogram(prometheus.HistogramOpts{
-		Name:    "qchat_message_publish_duration_seconds",
+		Name:    "xinchat_message_publish_duration_seconds",
 		Help:    "Time to fan out message.new on the local WS hub (before HTTP response)",
 		Buckets: []float64{0.001, 0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2},
 	})

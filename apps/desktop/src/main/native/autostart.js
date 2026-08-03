@@ -13,7 +13,7 @@ const { isHideOnStartEnabled } = require("./hideOnStart");
  */
 
 function linuxAutostartPath() {
-  return path.join(os.homedir(), ".config", "autostart", "qchat-desktop.desktop");
+  return path.join(os.homedir(), ".config", "autostart", "xinchat-desktop.desktop");
 }
 
 function linuxAutostartExec() {
@@ -43,7 +43,7 @@ function syncLinuxAutostart(enabled) {
       `Hidden=false\n`;
     fs.writeFileSync(desktopFile, body, "utf8");
   } catch (err) {
-    console.warn("[qchat-desktop] linux autostart sync failed:", err?.message || err);
+    console.warn("[xinchat-desktop] linux autostart sync failed:", err?.message || err);
   }
 }
 
@@ -96,7 +96,7 @@ function setAutostartEnabled(enabled) {
     }
     app.setLoginItemSettings(loginSettings);
   } catch (err) {
-    console.warn("[qchat-desktop] setLoginItemSettings failed:", err?.message || err);
+    console.warn("[xinchat-desktop] setLoginItemSettings failed:", err?.message || err);
   }
 
   if (process.platform === "linux") {

@@ -1,10 +1,10 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { formatApiErrorLocale, formatSystemNotice } from "@qchat/i18n";
+import { formatApiErrorLocale, formatSystemNotice } from "@xinchat/i18n";
 import { api, asList, clearToken, ensureAccessToken, formatSendError, getToken, mediaAuthURL, uploadMedia, wsUrl } from "./api";
 import { useMe } from "./MeContext";
-import { isQchatDesktop } from "./device";
+import { isXinChatDesktop } from "./device";
 import { loadLocalNotifyProps, shouldNotifyDesktop } from "./notifyProps";
 import {
   Conversation,
@@ -14,7 +14,7 @@ import {
   normalizeMessage,
 } from "./types";
 import { normalizePinnedMessages, PinnedMessage } from "./pinnedCycle";
-import type { MessageKey } from "@qchat/i18n";
+import type { MessageKey } from "@xinchat/i18n";
 
 export type TypingUser = { userId: string; name: string };
 
@@ -74,9 +74,9 @@ export function useChat() {
       windowFocusedRef.current = false;
       return false;
     }
-    if (isQchatDesktop() && window.qchatDesktop?.isWindowFocused) {
+    if (isXinChatDesktop() && window.xinchatDesktop?.isWindowFocused) {
       try {
-        const s = await window.qchatDesktop.isWindowFocused();
+        const s = await window.xinchatDesktop.isWindowFocused();
         if (s && typeof s.focused === "boolean") {
           windowFocusedRef.current = s.focused;
         }
@@ -106,8 +106,8 @@ export function useChat() {
   hasMoreRef.current = hasMoreByConv;
 
   useEffect(() => {
-    if (!isQchatDesktop()) return;
-    const desk = window.qchatDesktop;
+    if (!isXinChatDesktop()) return;
+    const desk = window.xinchatDesktop;
     if (!desk?.onWindowFocusChanged && !desk?.isWindowFocused) return;
 
     let detach: (() => void) | undefined;
@@ -132,7 +132,7 @@ export function useChat() {
 
   // Browser: catch up reads when the tab becomes visible *and* focused again.
   useEffect(() => {
-    if (isQchatDesktop()) return;
+    if (isXinChatDesktop()) return;
     const syncFocus = () => {
       windowFocusedRef.current = !document.hidden && document.hasFocus();
     };
@@ -247,7 +247,7 @@ export function useChat() {
 
   useEffect(() => {
     if (!("Notification" in window) || Notification.permission !== "default") return;
-    if (isQchatDesktop()) return;
+    if (isXinChatDesktop()) return;
 
     const requestPermission = () => {
       Notification.requestPermission().catch(() => {});
@@ -292,7 +292,7 @@ export function useChat() {
       setLoadError(null);
       return list;
     } catch (e: unknown) {
-      console.error("[qchat] load conversations failed:", e);
+      console.error("[xinchat] load conversations failed:", e);
       setLoadError(formatApiErrorLocale(e, undefined, "api.err.loadFailed"));
       return [] as Conversation[];
     }
@@ -315,7 +315,7 @@ export function useChat() {
         await markConversationReadRef.current(convId);
       }
     } catch (e: unknown) {
-      console.error("[qchat] load messages failed:", e);
+      console.error("[xinchat] load messages failed:", e);
       setLoadError(formatApiErrorLocale(e, undefined, "api.err.loadFailed"));
     }
   }, []);
@@ -363,7 +363,7 @@ export function useChat() {
       });
       return older.length;
     } catch (e: any) {
-      console.error("[qchat] load older messages failed:", e?.message || e);
+      console.error("[xinchat] load older messages failed:", e?.message || e);
       return 0;
     } finally {
       loadingOlderRef.current[convId] = false;
@@ -384,7 +384,7 @@ export function useChat() {
     if (type === "session.revoked") {
       try {
         sessionStorage.setItem(
-          "qchat.session_revoked",
+          "xinchat.session_revoked",
           String(payload?.reason || "replaced")
         );
       } catch {
@@ -473,12 +473,12 @@ export function useChat() {
       if (meId && Array.isArray(addedRaw) && addedRaw.map(String).includes(meId)) {
         void loadConversations();
         if (typeof window !== "undefined") {
-          window.dispatchEvent(new CustomEvent("qchat:conversations-changed"));
+          window.dispatchEvent(new CustomEvent("xinchat:conversations-changed"));
         }
       }
       if (typeof window !== "undefined") {
         window.dispatchEvent(
-          new CustomEvent("qchat:group-updated", {
+          new CustomEvent("xinchat:group-updated", {
             detail: {
               conversation_id: convId,
               forbid_member_friend_add:
@@ -507,7 +507,7 @@ export function useChat() {
       const convId = String(payload?.conversation_id ?? "");
       if (convId && typeof window !== "undefined") {
         window.dispatchEvent(
-          new CustomEvent("qchat:group-pending", {
+          new CustomEvent("xinchat:group-pending", {
             detail: {
               conversation_id: convId,
               user_id: String(payload?.user_id ?? ""),
@@ -734,7 +734,7 @@ export function useChat() {
     ) {
       if (typeof window !== "undefined") {
         window.dispatchEvent(
-          new CustomEvent("qchat:friend-request", {
+          new CustomEvent("xinchat:friend-request", {
             detail: {
               from: String(payload?.from ?? ""),
               status: String(payload?.status ?? ""),
@@ -911,8 +911,8 @@ export function useChat() {
       }
       const body = msg.content || (msg.mediaUrl ? "Attachment" : "New message");
 
-      if (isQchatDesktop() && window.qchatDesktop?.notifyMessage) {
-        window.qchatDesktop
+      if (isXinChatDesktop() && window.xinchatDesktop?.notifyMessage) {
+        window.xinchatDesktop
           .notifyMessage({
             title,
             body,
@@ -922,7 +922,7 @@ export function useChat() {
             suppressIfFocused: false,
           })
           .catch((err) => {
-            console.error("[qchat] desktop notifyMessage failed:", err);
+            console.error("[xinchat] desktop notifyMessage failed:", err);
           });
         return;
       }
@@ -930,7 +930,7 @@ export function useChat() {
       if ("Notification" in window && Notification.permission === "granted") {
         const notification = new Notification(title, {
           body: msg.content,
-          tag: `qchat-${msg.conversationId}`,
+          tag: `xinchat-${msg.conversationId}`,
           silent: !notify.sound,
           icon: mediaAuthURL(msg.senderAvatar),
         });
@@ -1074,17 +1074,17 @@ export function useChat() {
         if (selectId) void openConversation(selectId);
       });
     };
-    window.addEventListener("qchat:conversations-changed", onChanged);
-    return () => window.removeEventListener("qchat:conversations-changed", onChanged);
+    window.addEventListener("xinchat:conversations-changed", onChanged);
+    return () => window.removeEventListener("xinchat:conversations-changed", onChanged);
   }, [loadConversations, openConversation]);
 
   useEffect(() => {
-    if (!isQchatDesktop()) return;
-    const detach = window.qchatDesktop?.onOpenConversation((conversationId) => {
+    if (!isXinChatDesktop()) return;
+    const detach = window.xinchatDesktop?.onOpenConversation((conversationId) => {
       window.focus();
       if (conversationId === "__friends__") {
         if (typeof window !== "undefined") {
-          window.dispatchEvent(new CustomEvent("qchat:open-friends"));
+          window.dispatchEvent(new CustomEvent("xinchat:open-friends"));
         }
         return;
       }
@@ -1196,7 +1196,7 @@ export function useChat() {
       }));
     } catch (e: any) {
       const message = formatSendError(e);
-      console.error("[qchat] send message failed:", message, e);
+      console.error("[xinchat] send message failed:", message, e);
       setMessages((prev) => ({
         ...prev,
         [convId]: (prev[convId] ?? []).map((m) =>
@@ -1480,7 +1480,7 @@ export function useChat() {
           return;
         }
         const message = formatSendError(e, "Upload failed");
-        console.error("[qchat] media upload failed:", message, e);
+        console.error("[xinchat] media upload failed:", message, e);
         setMessages((prev) => ({
           ...prev,
           [convId]: (prev[convId] ?? []).map((m) =>
@@ -1646,7 +1646,7 @@ export function useChat() {
           return;
         }
         const message = formatSendError(e, "Upload failed");
-        console.error("[qchat] voice upload failed:", message, e);
+        console.error("[xinchat] voice upload failed:", message, e);
         setMessages((prev) => ({
           ...prev,
           [convId]: (prev[convId] ?? []).map((m) =>
@@ -1942,7 +1942,7 @@ export function useChat() {
     });
     if (typeof window !== "undefined") {
       window.dispatchEvent(
-        new CustomEvent("qchat:friend-request", {
+        new CustomEvent("xinchat:friend-request", {
           detail: { status: "blocked", peer_id: friendshipOrPeerId },
         })
       );
@@ -1960,8 +1960,8 @@ export function useChat() {
   // NOTI-03 / NOTI-04: push unread totals to Electron dock/taskbar + tray.
   // No-op in the browser; does not alter chat state.
   useEffect(() => {
-    if (!isQchatDesktop()) return;
-    const desk = window.qchatDesktop;
+    if (!isXinChatDesktop()) return;
+    const desk = window.xinchatDesktop;
     if (!desk?.setUnreadStatus) return;
     const unread = conversations.reduce((n, c) => n + (Number(c.unreadCount) || 0), 0);
     const mentions = conversations.reduce((n, c) => n + (Number(c.mentionCount) || 0), 0);
@@ -1970,8 +1970,8 @@ export function useChat() {
 
   useEffect(() => {
     return () => {
-      if (!isQchatDesktop()) return;
-      void window.qchatDesktop?.setUnreadStatus?.({ unread: 0, mentions: 0 }).catch(() => {});
+      if (!isXinChatDesktop()) return;
+      void window.xinchatDesktop?.setUnreadStatus?.({ unread: 0, mentions: 0 }).catch(() => {});
     };
   }, []);
 

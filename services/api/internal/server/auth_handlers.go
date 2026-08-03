@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/qchat/qchat/services/api/internal/auth"
+	"github.com/xinchat/xinchat/services/api/internal/auth"
 )
 
 func (s *Server) handleCaptcha(w http.ResponseWriter, r *http.Request) {

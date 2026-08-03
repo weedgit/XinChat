@@ -62,7 +62,7 @@ function loadAll() {
       return parsed && typeof parsed === "object" ? parsed : {};
     }
   } catch (err) {
-    console.warn("[qchat-desktop] failed to read encrypted session store:", err?.message || err);
+    console.warn("[xinchat-desktop] failed to read encrypted session store:", err?.message || err);
   }
   try {
     if (fs.existsSync(plaintextPath())) {
@@ -70,7 +70,7 @@ function loadAll() {
       return parsed && typeof parsed === "object" ? parsed : {};
     }
   } catch (err) {
-    console.warn("[qchat-desktop] failed to read plaintext session store:", err?.message || err);
+    console.warn("[xinchat-desktop] failed to read plaintext session store:", err?.message || err);
   }
   return {};
 }
@@ -90,7 +90,7 @@ function saveAll(all) {
     return;
   }
   console.warn(
-    "[qchat-desktop] safeStorage encryption unavailable; session tokens stored as plaintext in userData/secure/"
+    "[xinchat-desktop] safeStorage encryption unavailable; session tokens stored as plaintext in userData/secure/"
   );
   fs.writeFileSync(plaintextPath(), json, { encoding: "utf8", mode: 0o600 });
 }

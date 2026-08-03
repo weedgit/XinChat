@@ -1,4 +1,4 @@
-# Qchat
+# XinChat
 
 Secure enterprise internal messenger with a simple, focused UX.
 
@@ -36,7 +36,7 @@ Desktop development instructions for Linux and Windows 11 are in
 
 ## Deploy modes
 
-Qchat can run on a **VPS** or on a **local LAN computer** (no VPS):
+XinChat can run on a **VPS** or on a **local LAN computer** (no VPS):
 
 | Mode | Host | Desktop command |
 |---|---|---|
@@ -49,7 +49,7 @@ VPS nginx details: [`docs/deployment-nginx-systemd.md`](docs/deployment-nginx-sy
 ## Brand assets
 
 Web/PWA, admin, desktop, and mobile icons are generated from
-`branding/qchat-icon-512.png`:
+`branding/xinchat-icon-512.png`:
 
 ```bash
 ./scripts/sync-brand-icons.sh

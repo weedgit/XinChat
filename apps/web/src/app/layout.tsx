@@ -31,9 +31,9 @@ export const viewport: Viewport = {
   viewportFit: "cover",
 };
 
-const themeBoot = `(function(){try{var t=localStorage.getItem('qchat.theme')||'dark';var r=t==='system'?(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'):t;document.documentElement.setAttribute('data-theme',r);document.documentElement.style.colorScheme=r;}catch(e){}})();`;
+const themeBoot = `(function(){try{var t=localStorage.getItem('xinchat.theme')||'dark';var r=t==='system'?(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'):t;document.documentElement.setAttribute('data-theme',r);document.documentElement.style.colorScheme=r;}catch(e){}})();`;
 
-const localeBoot = `(function(){try{var l=localStorage.getItem('qchat.locale')||'zh';var r=(l==='en')?'en':'zh';document.documentElement.lang=r==='zh'?'zh-CN':'en';}catch(e){}})();`;
+const localeBoot = `(function(){try{var l=localStorage.getItem('xinchat.locale')||'zh';var r=(l==='en')?'en':'zh';document.documentElement.lang=r==='zh'?'zh-CN':'en';}catch(e){}})();`;
 
 export default function RootLayout({
   children,

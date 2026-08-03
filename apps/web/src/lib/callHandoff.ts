@@ -1,7 +1,7 @@
 /** Cross-window call handoff (main chat ↔ pop-out call window). */
 
-export const CALL_HANDOFF_KEY = "qchat.call.handoff";
-export const CALL_CHANNEL = "qchat-call";
+export const CALL_HANDOFF_KEY = "xinchat.call.handoff";
+export const CALL_CHANNEL = "xinchat-call";
 
 export type CallHandoffPayload = {
   v: 1;
@@ -110,7 +110,7 @@ export function postCallChannel(msg: CallChannelMessage): void {
 export function openCallPopoutWindow(): boolean {
   if (typeof window === "undefined") return false;
   const path = "/call";
-  const desk = window.qchatDesktop;
+  const desk = window.xinchatDesktop;
   if (desk?.openCallWindow) {
     void desk.openCallWindow(path);
     return true;
@@ -118,7 +118,7 @@ export function openCallPopoutWindow(): boolean {
   const url = `${window.location.origin}${path}`;
   const features =
     "popup=yes,width=1100,height=720,left=80,top=60,resizable=yes,scrollbars=no,status=no";
-  const w = window.open(url, "qchat-call", features);
+  const w = window.open(url, "xinchat-call", features);
   if (!w) return false;
   try {
     w.focus();
@@ -130,18 +130,18 @@ export function openCallPopoutWindow(): boolean {
 
 export function focusCallPopoutWindow(): void {
   if (typeof window === "undefined") return;
-  if (window.qchatDesktop?.focusCallWindow) {
-    void window.qchatDesktop.focusCallWindow();
+  if (window.xinchatDesktop?.focusCallWindow) {
+    void window.xinchatDesktop.focusCallWindow();
     return;
   }
-  const w = window.open("", "qchat-call");
+  const w = window.open("", "xinchat-call");
   w?.focus();
 }
 
 export function focusMainChatWindow(): void {
   if (typeof window === "undefined") return;
-  if (window.qchatDesktop?.focusMainWindow) {
-    void window.qchatDesktop.focusMainWindow();
+  if (window.xinchatDesktop?.focusMainWindow) {
+    void window.xinchatDesktop.focusMainWindow();
     return;
   }
   if (window.opener && !window.opener.closed) {

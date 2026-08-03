@@ -1,6 +1,6 @@
 /**
  * Calls-style 1:1 ring → answer → LiveKit media (mobile).
- * Signaling via Qchat WS + REST; media via LiveKit SFU.
+ * Signaling via XinChat WS + REST; media via LiveKit SFU.
  */
 import { useCallback, useEffect, useRef, useState } from "react";
 import { PermissionsAndroid, Platform } from "react-native";

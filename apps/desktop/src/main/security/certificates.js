@@ -22,7 +22,7 @@ function allowedHostsFromWebUrl(webUrl) {
 const pendingCertCallbacks = new Map();
 
 /**
- * Accept TLS for the configured Qchat web host, and for other origins show a
+ * Accept TLS for the configured XinChat web host, and for other origins show a
  * Mattermost-style trust / deny dialog (SHELL-30). Persisted decisions live in
  * userData/certificate.json.
  *
@@ -79,7 +79,7 @@ function allowSelfSignedForWebHost(webUrlOrOpts, maybeGetMainWindow) {
       return;
     }
 
-    // Configured Qchat web host: silent trust (existing production behavior).
+    // Configured XinChat web host: silent trust (existing production behavior).
     if (hostAllowed(parsed.hostname)) {
       event.preventDefault();
       callback(true);
@@ -90,7 +90,7 @@ function allowSelfSignedForWebHost(webUrlOrOpts, maybeGetMainWindow) {
     if (store.isExplicitlyUntrusted(parsed)) {
       event.preventDefault();
       console.warn(
-        "[qchat-desktop] ignoring previously untrusted certificate for",
+        "[xinchat-desktop] ignoring previously untrusted certificate for",
         parsed.origin
       );
       callback(false);
@@ -166,7 +166,7 @@ function allowSelfSignedForWebHost(webUrlOrOpts, maybeGetMainWindow) {
       }
     } catch (err) {
       console.warn(
-        "[qchat-desktop] certificate dialog failed:",
+        "[xinchat-desktop] certificate dialog failed:",
         err?.message || err
       );
       const finish = pendingCertCallbacks.get(errorID) || callback;

@@ -10,9 +10,9 @@ const http = require("http");
 const https = require("https");
 const { URL } = require("url");
 
-const LISTEN = Number(process.env.QCHAT_API_PROXY_PORT || 9080);
+const LISTEN = Number(process.env.XINCHAT_API_PROXY_PORT || 9080);
 const UPSTREAM = (
-  process.env.QCHAT_API_UPSTREAM || "https://135.181.224.36"
+  process.env.XINCHAT_API_UPSTREAM || "https://135.181.224.36"
 ).replace(/\/$/, "");
 
 function quietSocket(sock) {

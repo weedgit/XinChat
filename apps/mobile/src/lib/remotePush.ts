@@ -137,7 +137,7 @@ export async function registerRemotePush(): Promise<{ enabled: boolean; reason: 
       return { enabled: true, reason: "registered_getui" };
     } catch (err) {
       // Fall through to Expo so non-China / missing native build still gets something.
-      console.warn("[qchat] getui register failed, trying Expo:", err);
+      console.warn("[xinchat] getui register failed, trying Expo:", err);
     }
   }
 

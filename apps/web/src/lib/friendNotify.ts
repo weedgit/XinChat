@@ -1,4 +1,4 @@
-import { isQchatDesktop } from "@/lib/device";
+import { isXinChatDesktop } from "@/lib/device";
 import { loadLocalNotifyProps } from "@/lib/notifyProps";
 
 /** Count incoming pending friend requests from /v1/friends. */
@@ -25,8 +25,8 @@ export function notifyFriendRequest(opts: {
   const body = `${who} wants to add you as a contact`;
 
   // Desktop: Electron IPC (browser Notification is unreliable when unfocused).
-  if (isQchatDesktop() && window.qchatDesktop?.notifyMessage) {
-    void window.qchatDesktop
+  if (isXinChatDesktop() && window.xinchatDesktop?.notifyMessage) {
+    void window.xinchatDesktop
       .notifyMessage({
         title,
         body,
@@ -36,7 +36,7 @@ export function notifyFriendRequest(opts: {
         suppressIfFocused: false,
       })
       .catch((err) => {
-        console.error("[qchat] desktop friend-request notify failed:", err);
+        console.error("[xinchat] desktop friend-request notify failed:", err);
       });
     return null;
   }
@@ -46,7 +46,7 @@ export function notifyFriendRequest(opts: {
 
   const n = new Notification(title, {
     body,
-    tag: "qchat-friend-request",
+    tag: "xinchat-friend-request",
     silent: !props.sound,
   });
   n.onclick = () => {

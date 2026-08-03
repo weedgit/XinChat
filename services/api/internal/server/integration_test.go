@@ -14,18 +14,18 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/qchat/qchat/services/api/internal/config"
-	"github.com/qchat/qchat/services/api/internal/db"
-	"github.com/qchat/qchat/services/api/internal/migrate"
-	"github.com/qchat/qchat/services/api/internal/server"
-	"github.com/qchat/qchat/services/api/internal/ws"
+	"github.com/xinchat/xinchat/services/api/internal/config"
+	"github.com/xinchat/xinchat/services/api/internal/db"
+	"github.com/xinchat/xinchat/services/api/internal/migrate"
+	"github.com/xinchat/xinchat/services/api/internal/server"
+	"github.com/xinchat/xinchat/services/api/internal/ws"
 )
 
 func testServer(t *testing.T) (*httptest.Server, func()) {
 	t.Helper()
-	dsn := os.Getenv("QCHAT_DATABASE_URL")
+	dsn := os.Getenv("XINCHAT_DATABASE_URL")
 	if dsn == "" {
-		dsn = "postgres://qchat:qchat@localhost:5432/qchat?sslmode=disable"
+		dsn = "postgres://xinchat:xinchat@localhost:5432/xinchat?sslmode=disable"
 	}
 	ctx := context.Background()
 	pool, err := db.Connect(ctx, dsn)
