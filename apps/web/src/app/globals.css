@@ -608,6 +608,13 @@ select:focus {
   overflow: hidden;
 }
 
+.shell-body {
+  flex: 1;
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+}
+
 /* Compact dual-pane (Telegram-like): shrink list before collapsing to one pane. */
 @media (max-width: 1100px) {
   .sidebar {
@@ -626,10 +633,10 @@ select:focus {
 }
 
 /* Wide: collapse conversation list (menu bar) while keeping the open chat. */
-.shell[data-sidebar-collapsed="true"] > .sidebar {
+.shell[data-sidebar-collapsed="true"] .sidebar {
   display: none;
 }
-.shell[data-sidebar-collapsed="true"] > .chat-pane {
+.shell[data-sidebar-collapsed="true"] .chat-pane {
   flex: 1;
   width: 100%;
   min-width: 0;
@@ -637,20 +644,20 @@ select:focus {
 
 /* Narrow: conversation list ↔ chat (Telegram mobile) — web and desktop. */
 @media (max-width: 768px) {
-  .shell[data-mobile-pane="list"] > .sidebar {
+  .shell[data-mobile-pane="list"] .sidebar {
     flex: 1;
     width: auto;
     max-width: none;
     border-right: none;
   }
-  .shell[data-mobile-pane="list"] > .chat-pane,
-  .shell[data-mobile-pane="list"] > .details-panel {
+  .shell[data-mobile-pane="list"] .chat-pane,
+  .shell[data-mobile-pane="list"] .details-panel {
     display: none;
   }
-  .shell[data-mobile-pane="chat"] > .sidebar {
+  .shell[data-mobile-pane="chat"] .sidebar {
     display: none;
   }
-  .shell[data-mobile-pane="chat"] > .chat-pane {
+  .shell[data-mobile-pane="chat"] .chat-pane {
     flex: 1;
     width: 100%;
     min-width: 0;
@@ -805,6 +812,70 @@ select:focus {
   flex-direction: column;
   padding: 18px 14px 14px;
   overflow: hidden;
+  transition:
+    width 0.2s ease,
+    min-width 0.2s ease,
+    padding 0.2s ease;
+}
+.app-nav[data-state="collapsed"] {
+  width: 56px;
+  min-width: 56px;
+  padding: 12px 8px;
+}
+.app-nav-avatar-lg {
+  display: block;
+}
+.app-nav-avatar-sm {
+  display: none;
+}
+.app-nav[data-state="collapsed"] .app-nav-avatar-lg {
+  display: none;
+}
+.app-nav[data-state="collapsed"] .app-nav-avatar-sm {
+  display: block;
+}
+.app-nav[data-state="collapsed"] .app-nav-brand-text,
+.app-nav[data-state="collapsed"] .app-nav-profile-name,
+.app-nav[data-state="collapsed"] .app-nav-id-list,
+.app-nav[data-state="collapsed"] .app-nav-profile-meta,
+.app-nav[data-state="collapsed"] .app-nav-link-label,
+.app-nav[data-state="collapsed"] .app-nav-link-badge,
+.app-nav[data-state="collapsed"] .app-nav-sep {
+  display: none;
+}
+.app-nav[data-state="collapsed"] .app-nav-brand {
+  justify-content: center;
+  padding: 0 0 12px;
+}
+.app-nav[data-state="collapsed"] .app-nav-profile {
+  padding: 0 0 8px;
+}
+.app-nav[data-state="collapsed"] .app-nav-link {
+  justify-content: center;
+  padding: 11px;
+  gap: 0;
+}
+.app-nav[data-state="collapsed"] .app-nav-menu,
+.app-nav[data-state="collapsed"] .app-nav-footer {
+  padding: 0;
+}
+.app-nav[data-state="collapsed"] .app-nav-menu {
+  flex: 1;
+}
+.app-nav[data-state="collapsed"] .app-nav-footer {
+  margin-top: auto;
+  flex-direction: column;
+}
+.app-nav-rail-avatar {
+  display: none;
+  justify-content: center;
+  padding: 8px 0 4px;
+}
+.app-nav[data-state="collapsed"] .app-nav-header .app-nav-profile {
+  display: none;
+}
+.app-nav[data-state="collapsed"] .app-nav-rail-avatar {
+  display: flex;
 }
 .app-nav-brand {
   display: flex;
@@ -6400,27 +6471,28 @@ html:has(.dl-page) body {
   color: #fff;
   box-sizing: border-box;
 }
-/* Desktop: separated floating glass cards with visible gradient gaps. */
+/* Desktop: flush three-column layout (nav | list | chat), shadcn-style icon rail. */
 @media (min-width: 769px) {
   .shell[data-ui="arena"] {
-    padding: 16px;
-    gap: 16px;
+    padding: 0;
+    gap: 0;
   }
   .shell[data-ui="arena"] .app-nav,
   .shell[data-ui="arena"] .sidebar,
   .shell[data-ui="arena"] .chat-pane,
   .shell[data-ui="arena"] .details-panel {
-    border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 0;
+    border: none;
     overflow: hidden;
     min-height: 0;
-    box-shadow:
-      0 8px 32px rgba(0, 0, 0, 0.35),
-      0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+    box-shadow: none;
   }
   .shell[data-ui="arena"] .app-nav {
     background: #001529;
-    border-right: none;
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .shell[data-ui="arena"] .sidebar {
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
   }
 }
 .shell[data-ui="arena"] .nav-rail {

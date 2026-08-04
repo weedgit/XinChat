@@ -10,11 +10,14 @@ import {
   type ReactNode,
 } from "react";
 
-const NAV_OPEN_KEY = "xinchat.navOpen";
+const NAV_STATE_KEY = "xinchat.navState";
+
+export type NavSidebarState = "expanded" | "collapsed";
 
 type NavShellContextValue = {
-  navOpen: boolean;
-  setNavOpen: (open: boolean) => void;
+  navState: NavSidebarState;
+  navExpanded: boolean;
+  setNavState: (state: NavSidebarState) => void;
   toggleNav: () => void;
   pendingFriendCount: number;
   setPendingFriendCount: (count: number) => void;
@@ -22,37 +25,47 @@ type NavShellContextValue = {
 
 const NavShellContext = createContext<NavShellContextValue | null>(null);
 
-function readNavOpen(): boolean {
-  if (typeof window === "undefined") return true;
-  const v = localStorage.getItem(NAV_OPEN_KEY);
-  if (v === "0" || v === "false") return false;
-  return true;
+function readNavState(): NavSidebarState {
+  if (typeof window === "undefined") return "expanded";
+  const v = localStorage.getItem(NAV_STATE_KEY);
+  if (v === "collapsed") return "collapsed";
+  // migrate old boolean key
+  const legacy = localStorage.getItem("xinchat.navOpen");
+  if (legacy === "0" || legacy === "false") return "collapsed";
+  return "expanded";
 }
 
 export function NavShellProvider({ children }: { children: ReactNode }) {
-  const [navOpen, setNavOpenState] = useState(true);
+  const [navState, setNavStateInternal] = useState<NavSidebarState>("expanded");
   const [pendingFriendCount, setPendingFriendCount] = useState(0);
 
   useEffect(() => {
-    setNavOpenState(readNavOpen());
+    setNavStateInternal(readNavState());
   }, []);
 
-  const setNavOpen = useCallback((open: boolean) => {
-    localStorage.setItem(NAV_OPEN_KEY, open ? "1" : "0");
-    setNavOpenState(open);
+  const setNavState = useCallback((state: NavSidebarState) => {
+    localStorage.setItem(NAV_STATE_KEY, state);
+    setNavStateInternal(state);
   }, []);
 
   const toggleNav = useCallback(() => {
-    setNavOpenState((prev) => {
-      const next = !prev;
-      localStorage.setItem(NAV_OPEN_KEY, next ? "1" : "0");
+    setNavStateInternal((prev) => {
+      const next: NavSidebarState = prev === "expanded" ? "collapsed" : "expanded";
+      localStorage.setItem(NAV_STATE_KEY, next);
       return next;
     });
   }, []);
 
   const value = useMemo(
-    () => ({ navOpen, setNavOpen, toggleNav, pendingFriendCount, setPendingFriendCount }),
-    [navOpen, setNavOpen, toggleNav, pendingFriendCount]
+    () => ({
+      navState,
+      navExpanded: navState === "expanded",
+      setNavState,
+      toggleNav,
+      pendingFriendCount,
+      setPendingFriendCount,
+    }),
+    [navState, setNavState, toggleNav, pendingFriendCount]
   );
 
   return <NavShellContext.Provider value={value}>{children}</NavShellContext.Provider>;
@@ -62,8 +75,9 @@ export function useNavShell(): NavShellContextValue {
   const ctx = useContext(NavShellContext);
   if (!ctx) {
     return {
-      navOpen: true,
-      setNavOpen: () => {},
+      navState: "expanded",
+      navExpanded: true,
+      setNavState: () => {},
       toggleNav: () => {},
       pendingFriendCount: 0,
       setPendingFriendCount: () => {},

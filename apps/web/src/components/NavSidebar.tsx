@@ -46,6 +46,7 @@ const ICONS = {
   copy: "M9 9h10v12H9z M5 15V3h10",
   select: "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z M8.5 12l2.5 2.5 4.5-4.5",
   menu: "M3 6h18 M3 12h18 M3 18h18",
+  sidebarToggle: "M3 5h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3V5z M17 5h4v14h-4",
 };
 
 const MAIN_LINKS = [
@@ -56,20 +57,22 @@ const MAIN_LINKS = [
 ];
 
 export function MenubarShowButton({ className }: { className?: string }) {
-  const { navOpen, toggleNav, pendingFriendCount } = useNavShell();
+  const { navExpanded, toggleNav, pendingFriendCount } = useNavShell();
   const { t } = useLocale();
 
   return (
     <button
       type="button"
-      className={["icon-btn menubar-show-button", navOpen ? "active" : "", className].filter(Boolean).join(" ")}
-      title={navOpen ? t("nav.hideMenu") : t("nav.showMenu")}
-      aria-label={navOpen ? t("nav.hideMenu") : t("nav.showMenu")}
-      aria-expanded={navOpen}
+      className={["icon-btn menubar-show-button", navExpanded ? "active" : "", className]
+        .filter(Boolean)
+        .join(" ")}
+      title={navExpanded ? t("nav.hideMenu") : t("nav.showMenu")}
+      aria-label={navExpanded ? t("nav.hideMenu") : t("nav.showMenu")}
+      aria-expanded={navExpanded}
       onClick={toggleNav}
     >
-      <NavIcon d={ICONS.menu} />
-      {!navOpen && pendingFriendCount > 0 ? <span className="menu-pending-dot" aria-hidden /> : null}
+      <NavIcon d={ICONS.sidebarToggle} />
+      {!navExpanded && pendingFriendCount > 0 ? <span className="menu-pending-dot" aria-hidden /> : null}
     </button>
   );
 }
@@ -79,7 +82,7 @@ export default function NavSidebar() {
   const router = useRouter();
   const { t, locale, setLocale, labelLocale } = useLocale();
   const { me, refreshMe } = useMe();
-  const { pendingFriendCount } = useNavShell();
+  const { pendingFriendCount, navState } = useNavShell();
   const [menuCopiedField, setMenuCopiedField] = useState<"username" | "phone" | null>(null);
   const [myStatus, setMyStatus] = useState<"online" | "away" | "dnd" | "offline">("online");
   const { noteManualStatusChange } = useDesktopIdleStatus(myStatus, setMyStatus);
@@ -121,18 +124,20 @@ export default function NavSidebar() {
           : t("status.offline");
 
   return (
-    <aside className="app-nav" aria-label={t("nav.menu")}>
-      <div className="app-nav-brand">
-        <img src="/icons/icon-192.png" alt="" width={28} height={28} className="app-nav-logo" />
-        <span className="app-nav-brand-text">
-          <span className="app-nav-brand-xin">Xin</span>
-          <span className="app-nav-brand-chat">Chat</span>
-        </span>
-      </div>
+    <aside className="app-nav" data-state={navState} aria-label={t("nav.menu")}>
+      <div className="app-nav-header">
+        <div className="app-nav-brand">
+          <img src="/icons/icon-192.png" alt="" width={28} height={28} className="app-nav-logo" />
+          <span className="app-nav-brand-text">
+            <span className="app-nav-brand-xin">Xin</span>
+            <span className="app-nav-brand-chat">Chat</span>
+          </span>
+        </div>
 
-      <div className="app-nav-profile">
-        <Avatar name={me?.nickname || me?.username || "?"} url={me?.avatarUrl} size={72} />
-        <div className="app-nav-profile-name">{me?.nickname || me?.username || t("nav.profile")}</div>
+        <div className="app-nav-profile">
+          <Avatar name={me?.nickname || me?.username || "?"} url={me?.avatarUrl} size={72} className="app-nav-avatar-lg" />
+          <Avatar name={me?.nickname || me?.username || "?"} url={me?.avatarUrl} size={36} className="app-nav-avatar-sm" />
+          <div className="app-nav-profile-name">{me?.nickname || me?.username || t("nav.profile")}</div>
         <div className="app-nav-id-list">
           <button
             type="button"
@@ -169,6 +174,7 @@ export default function NavSidebar() {
             t("account.enterprise")
           )}
         </div>
+      </div>
       </div>
 
       <div className="app-nav-sep" />
@@ -235,6 +241,9 @@ export default function NavSidebar() {
       <div className="app-nav-sep" />
 
       <div className="app-nav-footer">
+        <div className="app-nav-rail-avatar">
+          <Avatar name={me?.nickname || me?.username || "?"} url={me?.avatarUrl} size={36} />
+        </div>
         <button type="button" className="app-nav-link app-nav-link-btn app-nav-logout" onClick={() => void logout()}>
           <span className="app-nav-link-icon">
             <NavIcon d={ICONS.logout} />

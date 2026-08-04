@@ -18,7 +18,7 @@ function AppShellInner({
   mobilePane?: "list" | "chat";
   sidebarCollapsed?: boolean;
 }) {
-  const { navOpen } = useNavShell();
+  const { navState } = useNavShell();
 
   useEffect(() => {
     let cancelled = false;
@@ -40,10 +40,10 @@ function AppShellInner({
       data-ui="arena"
       data-mobile-pane={mobilePane}
       data-sidebar-collapsed={sidebarCollapsed ? "true" : undefined}
-      data-nav-collapsed={rail && !navOpen ? "true" : undefined}
+      data-nav-state={rail ? navState : undefined}
     >
-      {rail && navOpen ? <NavSidebar /> : null}
-      {children}
+      {rail ? <NavSidebar /> : null}
+      <div className="shell-body">{children}</div>
     </div>
   );
 }

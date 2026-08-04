@@ -73,31 +73,35 @@
   background: rgba(255, 255, 255, 0.1) !important;
 }
 
-/* Arena separated card layout — desktop only. */
+/* Arena flush column layout — desktop only. */
 @media (min-width: 769px) {
   .shell[data-ui="arena"] {
-    padding: 16px !important;
-    gap: 16px !important;
+    padding: 0 !important;
+    gap: 0 !important;
     box-sizing: border-box !important;
+  }
+  .shell[data-ui="arena"] .shell-body {
+    flex: 1 !important;
+    display: flex !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
   }
   .shell[data-ui="arena"] .app-nav,
   .shell[data-ui="arena"] .sidebar,
   .shell[data-ui="arena"] .chat-pane,
   .shell[data-ui="arena"] .details-panel {
-    border-radius: 16px !important;
-    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    border-radius: 0 !important;
+    border: none !important;
     overflow: hidden !important;
     min-height: 0 !important;
-    box-shadow:
-      0 8px 32px rgba(0, 0, 0, 0.35),
-      0 0 0 1px rgba(255, 255, 255, 0.04) inset !important;
+    box-shadow: none !important;
   }
   .shell[data-ui="arena"] .app-nav {
     background: #001529 !important;
-    border-right: none !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
   }
   .shell[data-ui="arena"] .sidebar {
-    border-right: none !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
     background: rgba(0, 0, 0, 0.3) !important;
     backdrop-filter: blur(14px) !important;
     -webkit-backdrop-filter: blur(14px) !important;
