@@ -1,25 +1,25 @@
 :root,
 [data-theme="dark"],
 [data-theme="light"] {
-  /* ChatBook-style dark navy */
-  --bg: #060d18;
-  --bg-chat: #0a1220;
-  --bg-panel: #0c1829;
-  --bg-panel-2: rgba(255, 255, 255, 0.04);
-  --bg-hover: rgba(255, 255, 255, 0.06);
-  --bg-active: rgba(24, 128, 240, 0.22);
-  --accent: #3b9eff;
-  --accent-hover: #5eb0ff;
-  --btn: #1880f0;
-  --btn-hover: #1670d8;
+  /* ChatBook-style dark navy (slightly brightened) */
+  --bg: #0c1628;
+  --bg-chat: #132038;
+  --bg-panel: #172a42;
+  --bg-panel-2: rgba(255, 255, 255, 0.06);
+  --bg-hover: rgba(255, 255, 255, 0.08);
+  --bg-active: rgba(24, 128, 240, 0.26);
+  --accent: #4aa8ff;
+  --accent-hover: #6bb8ff;
+  --btn: #1e8ef5;
+  --btn-hover: #1880f0;
   --text: #ffffff;
-  --text-dim: rgba(255, 255, 255, 0.65);
-  --text-faint: rgba(255, 255, 255, 0.4);
-  --bubble-in: #1880f0;
-  --bubble-out: #152a45;
+  --text-dim: rgba(255, 255, 255, 0.72);
+  --text-faint: rgba(255, 255, 255, 0.48);
+  --bubble-in: #1e8ef5;
+  --bubble-out: #1e3a5c;
   --danger: #fb7185;
   --ok: #4ade80;
-  --border: rgba(255, 255, 255, 0.08);
+  --border: rgba(255, 255, 255, 0.1);
   --radius: 16px;
   --scrollbar: rgba(255, 255, 255, 0.18);
   --drop-accent: #3b9eff;
@@ -6485,7 +6485,7 @@ html:has(.dl-page) body {
 
 /* ========== ChatBook-style shell ========== */
 .shell[data-ui="arena"] {
-  background: #060d18;
+  background: #0c1628;
   color: #fff;
   box-sizing: border-box;
 }
@@ -6536,21 +6536,21 @@ html:has(.dl-page) body {
 }
 
 .shell[data-ui="arena"] .sidebar {
-  background: #0c1829;
+  background: #172a42;
   border-right: none;
   color: #fff;
 }
 .shell[data-ui="arena"] .sidebar-header {
-  background: #0c1829;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  background: #172a42;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   padding: 16px;
 }
 .shell[data-ui="arena"] .conv-list {
   padding: 8px;
 }
 .shell[data-ui="arena"] .search-wrap {
-  background: #0f1e32;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: #1a3250;
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 12px;
 }
 .shell[data-ui="arena"] .search-wrap input.search-input:not([type="checkbox"]):not([type="radio"]),
@@ -6590,18 +6590,18 @@ html:has(.dl-page) body {
 
 .shell[data-ui="arena"] .chat-pane {
   flex: 1;
-  background: #0a1220;
+  background: #132038;
 }
 .shell[data-ui="arena"] .details-panel {
   border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   overflow: hidden;
   min-height: 0;
-  background: #0c1829;
+  background: #172a42;
 }
 .shell[data-ui="arena"] .chat-header {
-  background: #0a1220;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  background: #132038;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   color: #fff;
 }
 .shell[data-ui="arena"] .chat-header .title {
@@ -6658,14 +6658,14 @@ html:has(.dl-page) body {
 }
 
 .shell[data-ui="arena"] .msg-row:not(.mine) .bubble {
-  background: #1880f0 !important;
+  background: #1e8ef5 !important;
   border: none;
   border-radius: 16px !important;
   color: #fff;
 }
 .shell[data-ui="arena"] .msg-row.mine .bubble {
-  background: #152a45 !important;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: #1e3a5c !important;
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 16px !important;
   color: rgba(255, 255, 255, 0.92);
 }
@@ -6687,12 +6687,12 @@ html:has(.dl-page) body {
 }
 
 .shell[data-ui="arena"] .composer {
-  background: #0a1220;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  background: #132038;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 .shell[data-ui="arena"] .composer-box {
-  background: #0f1e32;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: #1a3250;
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 14px;
 }
 .shell[data-ui="arena"] .composer-input,
@@ -6726,22 +6726,22 @@ html:has(.dl-page) body {
 .shell[data-ui="arena"] .popup-menu,
 .shell[data-ui="arena"] .ctx-menu,
 .shell[data-ui="arena"] .mention-menu {
-  background: #0c1829;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #172a42;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   color: #fff;
 }
 
 body:has(.shell[data-ui="arena"]),
 body:has(.auth-wrap) {
-  background: #060d18;
+  background: #0c1628;
   background-attachment: fixed;
 }
 .auth-wrap {
   background: transparent;
 }
 .auth-card {
-  background: #0c1829 !important;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  background: #172a42 !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
   border-radius: 16px;
   color: #fff;
 }

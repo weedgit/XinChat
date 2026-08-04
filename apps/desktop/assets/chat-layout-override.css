@@ -6,37 +6,37 @@
 :root,
 [data-theme="dark"],
 [data-theme="light"] {
-  --bg: #060d18 !important;
-  --bg-chat: #0a1220 !important;
-  --bg-panel: #0c1829 !important;
-  --bg-panel-2: rgba(255, 255, 255, 0.04) !important;
-  --bg-hover: rgba(255, 255, 255, 0.06) !important;
-  --bg-active: rgba(24, 128, 240, 0.22) !important;
-  --accent: #3b9eff !important;
-  --accent-hover: #5eb0ff !important;
-  --btn: #1880f0 !important;
-  --btn-hover: #1670d8 !important;
+  --bg: #0c1628 !important;
+  --bg-chat: #132038 !important;
+  --bg-panel: #172a42 !important;
+  --bg-panel-2: rgba(255, 255, 255, 0.06) !important;
+  --bg-hover: rgba(255, 255, 255, 0.08) !important;
+  --bg-active: rgba(24, 128, 240, 0.26) !important;
+  --accent: #4aa8ff !important;
+  --accent-hover: #6bb8ff !important;
+  --btn: #1e8ef5 !important;
+  --btn-hover: #1880f0 !important;
   --text: #ffffff !important;
-  --text-dim: rgba(255, 255, 255, 0.65) !important;
-  --text-faint: rgba(255, 255, 255, 0.4) !important;
-  --bubble-in: #1880f0 !important;
-  --bubble-out: #152a45 !important;
-  --border: rgba(255, 255, 255, 0.08) !important;
+  --text-dim: rgba(255, 255, 255, 0.72) !important;
+  --text-faint: rgba(255, 255, 255, 0.48) !important;
+  --bubble-in: #1e8ef5 !important;
+  --bubble-out: #1e3a5c !important;
+  --border: rgba(255, 255, 255, 0.1) !important;
   --radius: 16px !important;
 }
 
 .btn {
-  background: #1880f0 !important;
+  background: #1e8ef5 !important;
   color: #fff !important;
   border-radius: 10px !important;
   border: none !important;
 }
 .btn:hover:not(:disabled) {
-  background: #1670d8 !important;
+  background: #1880f0 !important;
 }
 .btn-ghost {
   background: transparent !important;
-  color: #3b9eff !important;
+  color: #4aa8ff !important;
 }
 
 .chat-pane > .chat-header,
@@ -59,11 +59,11 @@
 }
 
 .shell[data-ui="arena"] .msg-row.mine .bubble {
-  background: #152a45 !important;
-  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  background: #1e3a5c !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
 }
 .shell[data-ui="arena"] .msg-row:not(.mine) .bubble {
-  background: #1880f0 !important;
+  background: #1e8ef5 !important;
   border: none !important;
 }
 
@@ -73,7 +73,7 @@
     padding: 0 !important;
     gap: 0 !important;
     box-sizing: border-box !important;
-    background: #060d18 !important;
+    background: #0c1628 !important;
   }
   .shell[data-ui="arena"] .shell-body {
     flex: 1 !important;
@@ -97,21 +97,21 @@
   .shell[data-ui="arena"] .chat-pane,
   .shell[data-ui="arena"] .details-panel {
     border-radius: 16px !important;
-    border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
     overflow: hidden !important;
     min-height: 0 !important;
     box-shadow: none !important;
   }
   .shell[data-ui="arena"] .sidebar {
     border-right: none !important;
-    background: #0c1829 !important;
+    background: #172a42 !important;
   }
   .shell[data-ui="arena"] .chat-pane {
     flex: 1 !important;
-    background: #0a1220 !important;
+    background: #132038 !important;
   }
   .shell[data-ui="arena"] .details-panel {
-    background: #0c1829 !important;
+    background: #172a42 !important;
   }
   /* Figma message alignment in desktop Electron shell. */
   .shell[data-ui="arena"] .msg-row:not(.mine) {
@@ -121,9 +121,9 @@
     justify-content: flex-end !important;
   }
   .shell[data-ui="arena"] .msg-row:not(.mine) .bubble {
-    background: #1880f0 !important;
+    background: #1e8ef5 !important;
   }
   .shell[data-ui="arena"] .msg-row.mine .bubble {
-    background: #152a45 !important;
+    background: #1e3a5c !important;
   }
 }
