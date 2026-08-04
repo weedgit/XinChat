@@ -1,42 +1,42 @@
 /**
- * Desktop chat layout override — GameChat Arena tokens.
+ * Desktop chat layout override — ChatBook-style dark navy tokens.
  * Keep in sync with apps/web/src/app/globals.css.
  */
 
 :root,
 [data-theme="dark"],
 [data-theme="light"] {
-  --bg: #312e81 !important;
-  --bg-chat: transparent !important;
-  --bg-panel: rgba(0, 0, 0, 0.32) !important;
-  --bg-panel-2: rgba(255, 255, 255, 0.06) !important;
-  --bg-hover: rgba(255, 255, 255, 0.08) !important;
-  --bg-active: rgba(168, 85, 247, 0.28) !important;
-  --accent: #a78bfa !important;
-  --accent-hover: #c4b5fd !important;
-  --btn: #8b5cf6 !important;
-  --btn-hover: #7c3aed !important;
+  --bg: #060d18 !important;
+  --bg-chat: #0a1220 !important;
+  --bg-panel: #0c1829 !important;
+  --bg-panel-2: rgba(255, 255, 255, 0.04) !important;
+  --bg-hover: rgba(255, 255, 255, 0.06) !important;
+  --bg-active: rgba(24, 128, 240, 0.22) !important;
+  --accent: #3b9eff !important;
+  --accent-hover: #5eb0ff !important;
+  --btn: #1880f0 !important;
+  --btn-hover: #1670d8 !important;
   --text: #ffffff !important;
-  --text-dim: rgba(255, 255, 255, 0.72) !important;
-  --text-faint: rgba(255, 255, 255, 0.45) !important;
-  --bubble-in: rgba(255, 255, 255, 0.1) !important;
-  --bubble-out: #7c3aed !important;
-  --border: rgba(255, 255, 255, 0.12) !important;
+  --text-dim: rgba(255, 255, 255, 0.65) !important;
+  --text-faint: rgba(255, 255, 255, 0.4) !important;
+  --bubble-in: #1880f0 !important;
+  --bubble-out: #152a45 !important;
+  --border: rgba(255, 255, 255, 0.08) !important;
   --radius: 16px !important;
 }
 
 .btn {
-  background: linear-gradient(90deg, #a855f7, #3b82f6) !important;
+  background: #1880f0 !important;
   color: #fff !important;
   border-radius: 10px !important;
   border: none !important;
 }
 .btn:hover:not(:disabled) {
-  background: linear-gradient(90deg, #9333ea, #2563eb) !important;
+  background: #1670d8 !important;
 }
 .btn-ghost {
   background: transparent !important;
-  color: #c4b5fd !important;
+  color: #3b9eff !important;
 }
 
 .chat-pane > .chat-header,
@@ -49,13 +49,6 @@
   width: 100% !important;
   margin-left: 0 !important;
   margin-right: 0 !important;
-  box-sizing: border-box !important;
-}
-
-.msg-scroll > * {
-  width: 100% !important;
-  max-width: none !important;
-  box-sizing: border-box !important;
 }
 
 .composer-box,
@@ -66,11 +59,12 @@
 }
 
 .shell[data-ui="arena"] .msg-row.mine .bubble {
-  background: linear-gradient(90deg, #a855f7, #3b82f6) !important;
-  border: none !important;
+  background: #152a45 !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
 }
 .shell[data-ui="arena"] .msg-row:not(.mine) .bubble {
-  background: rgba(255, 255, 255, 0.1) !important;
+  background: #1880f0 !important;
+  border: none !important;
 }
 
 /* Arena layout — nav flush; gaps between list | chat | details. */
@@ -79,6 +73,7 @@
     padding: 0 !important;
     gap: 0 !important;
     box-sizing: border-box !important;
+    background: #060d18 !important;
   }
   .shell[data-ui="arena"] .shell-body {
     flex: 1 !important;
@@ -102,29 +97,21 @@
   .shell[data-ui="arena"] .chat-pane,
   .shell[data-ui="arena"] .details-panel {
     border-radius: 16px !important;
-    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    border: 1px solid rgba(255, 255, 255, 0.06) !important;
     overflow: hidden !important;
     min-height: 0 !important;
-    box-shadow:
-      0 8px 32px rgba(0, 0, 0, 0.35),
-      0 0 0 1px rgba(255, 255, 255, 0.04) inset !important;
+    box-shadow: none !important;
   }
   .shell[data-ui="arena"] .sidebar {
     border-right: none !important;
-    background: rgba(0, 0, 0, 0.3) !important;
-    backdrop-filter: blur(14px) !important;
-    -webkit-backdrop-filter: blur(14px) !important;
+    background: #0c1829 !important;
   }
   .shell[data-ui="arena"] .chat-pane {
     flex: 1 !important;
-    background: rgba(0, 0, 0, 0.3) !important;
-    backdrop-filter: blur(14px) !important;
-    -webkit-backdrop-filter: blur(14px) !important;
+    background: #0a1220 !important;
   }
   .shell[data-ui="arena"] .details-panel {
-    background: rgba(0, 0, 0, 0.3) !important;
-    backdrop-filter: blur(14px) !important;
-    -webkit-backdrop-filter: blur(14px) !important;
+    background: #0c1829 !important;
   }
   /* Figma message alignment in desktop Electron shell. */
   .shell[data-ui="arena"] .msg-row:not(.mine) {
@@ -134,9 +121,9 @@
     justify-content: flex-end !important;
   }
   .shell[data-ui="arena"] .msg-row:not(.mine) .bubble {
-    background: rgba(255, 255, 255, 0.1) !important;
+    background: #1880f0 !important;
   }
   .shell[data-ui="arena"] .msg-row.mine .bubble {
-    background: linear-gradient(90deg, #a855f7, #3b82f6) !important;
+    background: #152a45 !important;
   }
 }
