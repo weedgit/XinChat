@@ -44,7 +44,6 @@ import {
 } from "@/lib/types";
 import { useTheme } from "@/lib/theme";
 import { useLocale } from "@/lib/locale";
-import { MenubarShowButton } from "@/components/NavSidebar";
 import { useNavShell } from "@/lib/navShell";
 import {
   localizeChatLabel,
@@ -2873,7 +2872,6 @@ export default function ChatPageInner() {
       ) : null}
       <aside className="sidebar">
         <div className="sidebar-header">
-          <MenubarShowButton />
           <div className="search-wrap">
             <MenuIcon
               d="M11 5a6 6 0 1 0 0 12 6 6 0 0 0 0-12z M21 21l-4.3-4.3"

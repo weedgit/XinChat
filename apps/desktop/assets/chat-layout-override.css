@@ -85,14 +85,14 @@
     display: flex !important;
     min-width: 0 !important;
     min-height: 0 !important;
-    gap: 16px !important;
-    padding: 16px 16px 16px 0 !important;
+    gap: 8px !important;
+    padding: 8px 8px 8px 0 !important;
     box-sizing: border-box !important;
   }
   .shell[data-ui="arena"] .app-nav {
     border-radius: 0 !important;
     border: none !important;
-    overflow: hidden !important;
+    overflow: visible !important;
     min-height: 0 !important;
     box-shadow: none !important;
     background: #001529 !important;

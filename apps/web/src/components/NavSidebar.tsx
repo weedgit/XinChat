@@ -46,7 +46,8 @@ const ICONS = {
   copy: "M9 9h10v12H9z M5 15V3h10",
   select: "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z M8.5 12l2.5 2.5 4.5-4.5",
   menu: "M3 6h18 M3 12h18 M3 18h18",
-  sidebarToggle: "M3 5h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3V5z M17 5h4v14h-4",
+  chevronLeft: "M15 18l-6-6 6-6",
+  chevronRight: "M9 18l6-6-6-6",
 };
 
 const MAIN_LINKS = [
@@ -56,33 +57,12 @@ const MAIN_LINKS = [
   { href: "/settings", labelKey: "menu.settings" as const, icon: ICONS.settings, match: (p: string) => p.startsWith("/settings") },
 ];
 
-export function MenubarShowButton({ className }: { className?: string }) {
-  const { navExpanded, toggleNav, pendingFriendCount } = useNavShell();
-  const { t } = useLocale();
-
-  return (
-    <button
-      type="button"
-      className={["icon-btn menubar-show-button", navExpanded ? "active" : "", className]
-        .filter(Boolean)
-        .join(" ")}
-      title={navExpanded ? t("nav.hideMenu") : t("nav.showMenu")}
-      aria-label={navExpanded ? t("nav.hideMenu") : t("nav.showMenu")}
-      aria-expanded={navExpanded}
-      onClick={toggleNav}
-    >
-      <NavIcon d={ICONS.sidebarToggle} />
-      {!navExpanded && pendingFriendCount > 0 ? <span className="menu-pending-dot" aria-hidden /> : null}
-    </button>
-  );
-}
-
 export default function NavSidebar() {
   const pathname = usePathname();
   const router = useRouter();
   const { t, locale, setLocale, labelLocale } = useLocale();
   const { me, refreshMe } = useMe();
-  const { pendingFriendCount, navState } = useNavShell();
+  const { pendingFriendCount, navState, navExpanded, toggleNav } = useNavShell();
   const [menuCopiedField, setMenuCopiedField] = useState<"username" | "phone" | null>(null);
   const [myStatus, setMyStatus] = useState<"online" | "away" | "dnd" | "offline">("online");
   const { noteManualStatusChange } = useDesktopIdleStatus(myStatus, setMyStatus);
@@ -125,6 +105,17 @@ export default function NavSidebar() {
 
   return (
     <aside className="app-nav" data-state={navState} aria-label={t("nav.menu")}>
+      <button
+        type="button"
+        className="app-nav-toggle"
+        title={navExpanded ? t("nav.hideMenu") : t("nav.showMenu")}
+        aria-label={navExpanded ? t("nav.hideMenu") : t("nav.showMenu")}
+        aria-expanded={navExpanded}
+        onClick={toggleNav}
+      >
+        <NavIcon d={navExpanded ? ICONS.chevronLeft : ICONS.chevronRight} />
+        {!navExpanded && pendingFriendCount > 0 ? <span className="menu-pending-dot" aria-hidden /> : null}
+      </button>
       <div className="app-nav-header">
         <div className="app-nav-brand">
           <img src="/icons/icon-192.png" alt="" width={28} height={28} className="app-nav-logo" />

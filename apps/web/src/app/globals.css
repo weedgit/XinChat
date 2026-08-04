@@ -811,11 +811,40 @@ select:focus {
   display: flex;
   flex-direction: column;
   padding: 18px 14px 14px;
-  overflow: hidden;
+  overflow: visible;
+  position: relative;
   transition:
     width 0.2s ease,
     min-width 0.2s ease,
     padding 0.2s ease;
+}
+.app-nav-toggle {
+  position: absolute;
+  top: 50%;
+  right: -14px;
+  z-index: 3;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: #0a2540;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.app-nav-toggle:hover {
+  background: #123a5c;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+.app-nav-toggle .menu-pending-dot {
+  position: absolute;
+  top: 2px;
+  right: 2px;
 }
 .app-nav[data-state="collapsed"] {
   width: 56px;
@@ -1027,23 +1056,12 @@ select:focus {
 .app-nav-logout {
   color: rgba(255, 255, 255, 0.9);
 }
-.menubar-show-button {
-  position: relative;
-  flex: none;
-}
-.menubar-show-button.active {
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
-}
-.app-nav-open-btn {
-  flex: none;
-}
 
 @media (max-width: 768px) {
   .app-nav {
     display: none !important;
   }
-  .app-nav-open-btn {
+  .app-nav-toggle {
     display: none !important;
   }
 }
@@ -6478,14 +6496,14 @@ html:has(.dl-page) body {
     gap: 0;
   }
   .shell[data-ui="arena"] .shell-body {
-    gap: 16px;
-    padding: 16px 16px 16px 0;
+    gap: 8px;
+    padding: 8px 8px 8px 0;
     box-sizing: border-box;
   }
   .shell[data-ui="arena"] .app-nav {
     border-radius: 0;
     border: none;
-    overflow: hidden;
+    overflow: visible;
     min-height: 0;
     box-shadow: none;
     background: #001529;
